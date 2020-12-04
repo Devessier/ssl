@@ -1,0 +1,5 @@
+$@: nom de la cible
+$<: nom de la première dépendance
+$ˆ: liste des dépendances
+$?: liste des dépendances plus récentes que la cible
+$*: nom d’un fichier sans son suffixe.
