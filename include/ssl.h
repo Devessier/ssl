@@ -6,8 +6,11 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/04 11:20:34 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/08 16:37:36 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SSL_H
+# define SSL_H
 
+#endif

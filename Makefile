@@ -6,16 +6,16 @@
 #    By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:01:17 by bdevessi          #+#    #+#              #
-#    Updated: 2020/12/08 03:48:25 by bdevessi         ###   ########.fr        #
+#    Updated: 2020/12/08 18:41:20 by bdevessi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = ft_ssl
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -Iinclude
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -Iinclude -g
 OBJDIR = obj
 TESTS_OBJDIR = test_obj
 
@@ -56,7 +56,5 @@ $(TESTS_OBJDIR)/main.o: test/main.cpp
 
 test: $(TESTS_OBJS) $(OBJS_FOR_TESTS) $(TESTS_OBJDIR)/main.o
 	$(CXX) $(CXXFLAGS) -Ivendor/catch -o $(TESTS_BIN) $^
-
-	./$(TESTS_BIN)
 
 .PHONY: clean fclean re proto test
