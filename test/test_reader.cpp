@@ -1,18 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test_reader.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/06 13:24:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/08 02:41:37 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/08 03:42:13 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "catch.hpp"
+extern "C" {
+	#include "reader.h"
+}
 
-int	main(void)
+SCENARIO("Power off tests", "[power_button]")
 {
-	printf("lol");
+	GIVEN("the power is off")
+	{
+		WHEN("nothing happens")
+		{
+			THEN("the power is still off")
+			{
+				REQUIRE(lol() == 1);
+			}
+		}
+
+		WHEN("nothing happens")
+		{
+			THEN("the power is still off")
+			{
+				REQUIRE(lol() == 0);
+			}
+		}
+	}
 }

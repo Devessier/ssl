@@ -1,18 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/06 13:24:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/08 02:40:56 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/08 03:47:34 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-int	main(void)
-{
-	printf("lol");
-}
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch.hpp"

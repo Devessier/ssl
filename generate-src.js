@@ -49,7 +49,7 @@ function outputList(list) {
 }
 
 function app() {
-    const list = [...generateSourcesList('.')]
+    const list = [...generateSourcesList('srcs')]
     const stringifiedList = stringifyList(list)
 
     outputList(stringifiedList)

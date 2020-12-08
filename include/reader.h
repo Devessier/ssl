@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   reader.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/06 13:24:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/08 02:08:41 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/08 03:29:06 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef READER_H
+# define READER_H
 
-int	main(void)
-{
-	printf("lol");
-}
+int		lol(void);
+
+#endif
