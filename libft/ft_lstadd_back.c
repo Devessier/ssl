@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/14 10:14:38 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/14 10:22:15 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+void	ft_lstadd_back(t_list **alst, t_list *new)
+{
+	t_list	*tmp;
 
-#endif
+	if (!alst)
+		return ;
+	if (!*alst)
+		return ((void)(*alst = new));
+	tmp = *alst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}

@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/12 10:45:39 by bdevessi          #+#    #+#             */
+/*   Updated: 2019/02/21 11:24:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
+#include <string.h>
+#include <unistd.h>
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+void	ft_putstr_fd(char const *s, int fd)
+{
+	const size_t	len = ft_strlen(s);
 
-#endif
+	write(fd, s, len);
+}

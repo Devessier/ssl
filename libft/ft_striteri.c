@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/09 11:30:14 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/14 12:16:59 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	unsigned int	i;
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
-
-#endif
+	i = 0;
+	if (s && f)
+		while (*s)
+			f(i++, s++);
+}

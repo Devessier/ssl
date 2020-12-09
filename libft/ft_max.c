@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2019/02/22 12:25:43 by bdevessi          #+#    #+#             */
+/*   Updated: 2019/02/22 12:28:31 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include <string.h>
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
-
-#endif
+ssize_t	ft_max(ssize_t a, ssize_t b)
+{
+	return ((a > b) ? a : b);
+}

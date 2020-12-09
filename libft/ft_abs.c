@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2019/01/25 13:54:13 by bdevessi          #+#    #+#             */
+/*   Updated: 2019/01/25 13:55:04 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
-
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
-
-#endif
+int	ft_abs(int n)
+{
+	return (n > 0 ? n : -n);
+}

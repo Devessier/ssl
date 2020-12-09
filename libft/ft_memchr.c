@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <bdevessi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/08 22:35:50 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/08 22:42:32 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	unsigned char	*p;
 
-#endif
+	p = (unsigned char *)s;
+	while (n--)
+		if (*p++ == (unsigned char)c)
+			return (p - 1);
+	return (NULL);
+}

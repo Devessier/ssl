@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/07 11:26:17 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/16 11:14:04 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+char	*ft_strndup(const char *s1, size_t n)
+{
+	char	*tmp;
+	char	*dest;
 
-#endif
+	if (!(dest = (char *)malloc(sizeof(char) * (n + 1))))
+		return (NULL);
+	tmp = dest;
+	while (n-- && *s1)
+		*dest++ = *s1++;
+	*dest = '\0';
+	return (tmp);
+}

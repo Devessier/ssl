@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:30:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/08 18:57:28 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/09 01:05:09 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ TEST_CASE( "Parses a boolean flag and sets its value to true" ) {
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( p_flag == true );
 }
@@ -61,8 +65,12 @@ TEST_CASE( "Parses an empty input and does not argument value to true" ) {
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( p_flag == false );
 }
@@ -104,8 +112,12 @@ TEST_CASE( "Parses several boolean flags and sets their values" ) {
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( flag1 == true );
 	REQUIRE( flag2 == true );
@@ -148,8 +160,12 @@ TEST_CASE( "Parses several boolean flags with some missing and sets their values
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( flag1 == true );
 	REQUIRE( flag2 == false );
@@ -178,8 +194,12 @@ TEST_CASE( "Parses a string flag and sets its value to true" ) {
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( strcmp(p_flag, "test") == 0 );
 }
@@ -222,8 +242,12 @@ TEST_CASE( "Parses several string flags with some missing and sets their values"
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( strcmp(flag1, "test1") == 0 );
 	REQUIRE( flag2 == NULL );
@@ -283,8 +307,12 @@ TEST_CASE( "Parses boolean and string flags and sets their values" ) {
 			0
 		}
 	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
 
-	parse_args(args, argc, argv);
+	parse_args(&ctx, argc, argv);
 
 	REQUIRE( strcmp(flag1, "test1") == 0 );
 	REQUIRE( flag2 == NULL );

@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/08 16:31:18 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/08 23:16:05 by Devessier        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+{
+	void	*tmp;
 
-#endif
+	if ((tmp = ft_memchr(src, c, n)) != NULL)
+		return (ft_memcpy(dst, src, tmp - src + 1) + (tmp - src + 1));
+	ft_memcpy(dst, src, n);
+	return (NULL);
+}

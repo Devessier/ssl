@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.h                                             :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2018/11/07 13:02:12 by bdevessi          #+#    #+#             */
+/*   Updated: 2018/11/07 13:16:35 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGS_H
-# define ARGS_H
-# include "ssl.h"
+#include "libft.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+char	*ft_strncpy(char *dst, const char *src, size_t len)
+{
+	char	*tmp;
 
-#endif
+	tmp = dst;
+	while (len--)
+		*tmp++ = *src ? *src++ : '\0';
+	return (dst);
+}
