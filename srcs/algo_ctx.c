@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.h                                            :+:      :+:    :+:   */
+/*   algo_ctx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 16:35:08 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 18:09:51 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/10 17:35:32 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/10 18:44:45 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef USAGE_H
-# define USAGE_H
-# include "ssl.h"
+#include <unistd.h>
+#include "ssl.h"
+#include "md5.h"
 
-typedef struct	s_algo_type_desc
+t_arg	*get_algo_arguments(t_algo algo)
 {
-	t_algo_type	type;
-	char		*name;
-}				t_algo_type_desc;
-
-void			print_usage(void);
-void			print_unavailable_command_usage(const char *invalid_command);
-
-#endif
+	if (algo == ALGO_MD5)
+		return (g_md5_arguments);
+	return (NULL);
+}

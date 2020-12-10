@@ -6,9 +6,11 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 16:59:03 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 19:03:57 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
 
 #include <unistd.h>
 #include <stdbool.h>
@@ -16,14 +18,30 @@
 #include "ssl.h"
 #include "md5.h"
 #include "sha256.h"
+#include "algo_ctx.h"
 
-t_algo_desc			g_algorithms[] = {
-	{ ALGO_MD5, "md5", md5_cmd, ALGO_DIGEST },
-	{ ALGO_SHA256, "sha256", sha256_cmd, ALGO_DIGEST },
-	{ 0, NULL, NULL, ALGO_TYPE_NONE }
+t_algo_desc				g_algorithms[] = {
+	{
+		.algorithm = ALGO_MD5,
+		.name = "md5",
+		.type = ALGO_DIGEST,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_SHA256,
+		.name = "sha256",
+		.type = ALGO_DIGEST,
+		.arguments = NULL
+	},
+	{
+		.algorithm = 0,
+		.name = NULL,
+		.type = ALGO_TYPE_NONE,
+		.arguments = NULL
+	},
 };
 
-t_algo				algo_name_to_algo(const char *algo_name)
+t_algo					algo_name_to_algo(const char *algo_name)
 {
 	t_algo_desc		*algo_desc;
 
@@ -31,34 +49,42 @@ t_algo				algo_name_to_algo(const char *algo_name)
 	while (algo_desc->name != NULL)
 	{
 		if (ft_strcmp(algo_desc->name, algo_name) == 0)
-			return (algo_desc->algo);
+			return (algo_desc->algorithm);
 		algo_desc++;
 	}
 	return (ALGO_INVALID);
 }
 
-static t_algo_desc	*get_algo_desc(t_algo algo)
+static t_algo_desc		*get_algo_desc(t_algo algo)
 {
 	t_algo_desc		*algo_desc;
 
 	algo_desc = g_algorithms;
 	while (algo_desc->name != NULL)
 	{
-		if (algo_desc->algo == algo)
+		if (algo_desc->algorithm == algo)
 			return (algo_desc);
 		algo_desc++;
 	}
 	return (NULL);
 }
 
-t_context			create_cmd(t_algo algo)
+static void				bind_args_to_algo_context(t_context *ctx)
+{
+	if (ctx->algo == ALGO_MD5)
+		bind_md5_args(ctx);
+}
+
+t_context				create_cmd(t_algo algo)
 {
 	const t_algo_desc	*algo_desc = get_algo_desc(algo);
+	t_context			ctx;
 
-	return ((t_context) {
+	ctx = (t_context) {
 		.algo = algo,
 		.algo_name = algo_desc->name,
-		.cmd = algo_desc->cmd,
-		.args = NULL,
-	});
+		.args = get_algo_arguments(algo),
+	};
+	bind_args_to_algo_context((t_context *)&ctx);
+	return (ctx);
 }

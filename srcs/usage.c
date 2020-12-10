@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 16:28:48 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 16:59:12 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 17:14:07 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		print_available_commands_for_algo_type(t_algo_type type)
 	t_algo_desc	*desc;
 
 	desc = g_algorithms;
-	while (desc->algo != ALGO_INVALID)
+	while (desc->algorithm != ALGO_INVALID)
 	{
 		if (desc->type == type)
 			ft_putf_fd(STDERR_FILENO, "%s\n", desc->name);

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:11 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:01:05 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:21:41 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define ARGS_H
 # include "ssl.h"
 
-ssize_t			parse_args(t_context *ctx, int argc, const char **argv);
+ssize_t			parse_args(t_context *ctx, int argc, char **argv);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 16:58:32 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 18:21:19 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 #include <stdbool.h>
 #include "usage.h"
 #include "args.h"
+#include "ssl.h"
 
 int	main(int argc, char **argv)
 {
-	const char	*command_name = argv[1];
+	const char	*command_name = *(++argv);
 	t_algo		algo;
 	t_context	ctx;
+	ssize_t		parsed_args;
 
-	if (argc == 1)
+	if (--argc == 0)
 	{
 		print_usage();
 		return (1);
@@ -34,6 +36,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	ctx = create_cmd(algo);
-	ctx.cmd(&ctx);
+	if ((parsed_args = parse_args(&ctx, ++argc, ++argv)) == -1)
+		return (1);
+	// ctx.cmd(&ctx);
 	return (0);
 }
