@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:08:57 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 12:34:32 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 enum			e_arg_type
 {
 	ARG_END = 1,
+
 	ARG_BOOLEAN,
 	ARG_STRING
 };
@@ -28,35 +29,43 @@ typedef struct	s_arg
 	char				*description;
 }				t_arg;
 
-
 typedef enum	e_algo
 {
+	ALGO_INVALID = 0,
+
 	ALGO_MD5,
 	ALGO_SHA256
 }				t_algo;
+
+t_algo			algo_name_to_algo(char *algo_name);
+
+typedef struct	s_context
+{
+	t_algo		algo;
+	char		*algo_name;
+	void		(*cmd)(struct s_context *ctx);
+
+	t_arg		*args;
+}				t_context;
+
+t_context		create_cmd(t_algo algo);
+
+typedef void	(*t_algo_cmd)(t_context *ctx);
 
 typedef struct	s_algo_desc
 {
 	t_algo		algo;
 	char		*name;
+	t_algo_cmd	cmd;
 }				t_algo_desc;
-
-char			*get_algo_name(t_algo algo);
-
-typedef struct	s_context
-{
-	t_algo		algo;
-
-	t_arg		*args;
-}				t_context;
 
 typedef enum	e_error
 {
-	E_SUCCESS					= 0,
+	E_SUCCESS = 0,
 
-	E_INVALID_ARG_STRING_VALUE	= 1,
-	E_INVALID_ARG_TYPE			= 2,
-	E_INVALID_ARG				= 3
+	E_INVALID_ARG_STRING_VALUE,
+	E_INVALID_ARG_TYPE,
+	E_INVALID_ARG
 }				t_error;
 
 #endif

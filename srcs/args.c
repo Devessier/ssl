@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:16:41 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 12:09:26 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
 #include "ssl.h"
 #include "libft.h"
 
-void		log_err(t_context *ctx, t_error err, char invalid_option)
+static void		log_err(t_context *ctx, t_error err, char invalid_option)
 {
-	const char	*command_name = get_algo_name(ctx->algo);
+	const char	*command_name = ctx->algo_name;
 
 	if (err == E_INVALID_ARG_STRING_VALUE)
-		ft_putf("%s: option requires an argument -- %c\n", command_name, invalid_option);
+		ft_putf("%s: option requires an argument -- %c\n"
+			, command_name, invalid_option);
 	else if (err == E_INVALID_ARG)
 		ft_putf("%s: illegal option -- %c\n", command_name, invalid_option);
 }
 
-t_error		get_arg_value(const t_arg *arg, const char *argv[], int *index) {
+static t_error	get_arg_value(const t_arg *arg, const char *argv[], int *index)
+{
 	char	*string_arg_value;
 
 	string_arg_value = NULL;
@@ -45,7 +47,8 @@ t_error		get_arg_value(const t_arg *arg, const char *argv[], int *index) {
 	return E_SUCCESS;
 }
 
-t_error		parse_short_arg(const t_arg args[], const char *argv[], int *index) {
+static t_error	parse_short_arg(const t_arg args[], const char *argv[], int *index)
+{
 	const char			short_arg = argv[*index][1];
 	int					arg_index;
 	t_arg				*arg;
@@ -64,7 +67,8 @@ t_error		parse_short_arg(const t_arg args[], const char *argv[], int *index) {
 	return E_INVALID_ARG;
 }
 
-ssize_t	parse_args(t_context *ctx, int argc, const char **argv) {
+ssize_t		parse_args(t_context *ctx, int argc, const char **argv)
+{
 	int			index;
 	char		*arg;
 	t_error		err;

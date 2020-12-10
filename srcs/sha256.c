@@ -1,39 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sha256.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 12:10:05 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/10 11:38:05 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/10 11:41:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include "args.h"
+#include "ssl.h"
 
-int	main(int argc, char **argv)
+void	sha256_cmd(t_context *ctx)
 {
-	t_algo		algo;
-	t_context	ctx;
-
-	if (argc == 1)
-	{
-		// show ft_ssl usage
-		return 1;
-	}
-
-	algo = algo_name_to_algo(argv[1]);
-	if (algo == ALGO_INVALID)
-	{
-		// Invalid algorithm
-		return 1;
-	}
-
-	ctx = create_cmd(algo);
-
-	ctx.cmd(&ctx);
+	printf("algo name: %s\n", ctx->algo_name);
 }
