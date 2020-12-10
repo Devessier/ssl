@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:30:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 16:23:13 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 19:13:20 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ TEST_CASE( "Parses a boolean flag and sets its value to true" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( p_flag == true );
 }
@@ -72,7 +72,7 @@ TEST_CASE( "Parses an empty input and does not argument value to true" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( p_flag == false );
 }
@@ -120,7 +120,7 @@ TEST_CASE( "Parses several boolean flags and sets their values" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( flag1 == true );
 	REQUIRE( flag2 == true );
@@ -169,7 +169,7 @@ TEST_CASE( "Parses several boolean flags with some missing and sets their values
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( flag1 == true );
 	REQUIRE( flag2 == false );
@@ -204,7 +204,7 @@ TEST_CASE( "Parses a string flag and sets its value to true" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( strcmp(p_flag, "test") == 0 );
 }
@@ -253,7 +253,7 @@ TEST_CASE( "Parses several string flags with some missing and sets their values"
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( strcmp(flag1, "test1") == 0 );
 	REQUIRE( flag2 == NULL );
@@ -319,7 +319,7 @@ TEST_CASE( "Parses boolean and string flags and sets their values" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( strcmp(flag1, "test1") == 0 );
 	REQUIRE( flag2 == NULL );
@@ -367,7 +367,7 @@ TEST_CASE( "Parses a string flag, sets its value to true and call a function jus
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( strcmp(p_flag, "test") == 0 );
 	REQUIRE( exec_after_fn_inc == 1 );
@@ -402,7 +402,7 @@ TEST_CASE( "Parses no flags and ensure exec_after has not been called" ) {
 		.args = (t_arg *)args
 	};
 
-	parse_args(&ctx, argc, argv);
+	parse_args(&ctx, argc, (char **)argv);
 
 	REQUIRE( p_flag == NULL );
 	REQUIRE( exec_after_fn_inc == 0 );

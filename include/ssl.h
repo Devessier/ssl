@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 19:00:07 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 19:11:48 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,20 @@ typedef struct		s_md5_context
 	char		*string;
 }					t_md5_context;
 
+typedef struct		s_sha256_context
+{
+	bool		print;
+	bool		quiet;
+	bool		reverse;
+	char		*string;
+}					t_sha256_context;
+
 struct s_context;
 
 typedef union		u_algo_context
 {
-	t_md5_context	md5;
+	t_md5_context		md5;
+	t_sha256_context	sha256;
 }					t_algo_context;
 
 enum				e_arg_type

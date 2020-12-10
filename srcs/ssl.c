@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 19:03:57 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 19:11:04 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void				bind_args_to_algo_context(t_context *ctx)
 {
 	if (ctx->algo == ALGO_MD5)
 		bind_md5_args(ctx);
+	else if (ctx->algo == ALGO_SHA256)
+		bind_sha256_args(ctx);
 }
 
 t_context				create_cmd(t_algo algo)
