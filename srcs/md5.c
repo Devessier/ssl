@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:36:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 18:53:32 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 20:19:15 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ t_arg	g_md5_arguments[] = {
 		.type = ARG_STRING,
 		.name = "s",
 		.description = "print the sum of the given string"
+	},
+	{
+		.type = ARG_END
 	}
 };
 

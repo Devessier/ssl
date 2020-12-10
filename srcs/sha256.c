@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:38:05 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 19:11:20 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 20:19:21 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ t_arg	g_sha256_arguments[] = {
 		.type = ARG_STRING,
 		.name = "s",
 		.description = "print the sum of the given string"
+	},
+	{
+		.type = ARG_END
 	}
 };
 
