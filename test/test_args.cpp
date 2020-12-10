@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:30:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 16:00:16 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:23:13 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,3 +327,84 @@ TEST_CASE( "Parses boolean and string flags and sets their values" ) {
 	REQUIRE( flag4 == true );
 	REQUIRE( flag5 == false );
 }
+
+int	exec_after_fn_inc;
+
+void		exec_after_fn(t_context *ctx) {
+	(void)ctx;
+
+	exec_after_fn_inc++;
+}
+
+TEST_CASE( "Parses a string flag, sets its value to true and call a function just after having parsed it" ) {
+	exec_after_fn_inc = 0;
+
+	const int			argc = 2;
+	const char			*argv[] = {
+		"-p",
+		"test",
+		0
+	};
+	char				*p_flag = NULL;
+	const t_arg			args[] = {
+		{
+			.type = ARG_STRING,
+			.name = (char *)"p",
+			.value = &p_flag,
+			.description = (char *)"prints to stdout",
+			.exec_after = exec_after_fn
+		},
+		{
+			ARG_END,
+			0,
+			0,
+			0,
+			NULL
+		}
+	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
+
+	parse_args(&ctx, argc, argv);
+
+	REQUIRE( strcmp(p_flag, "test") == 0 );
+	REQUIRE( exec_after_fn_inc == 1 );
+}
+
+TEST_CASE( "Parses no flags and ensure exec_after has not been called" ) {
+	exec_after_fn_inc = 0;
+
+	const int			argc = 0;
+	const char			*argv[] = {
+		0
+	};
+	char				*p_flag = NULL;
+	const t_arg			args[] = {
+		{
+			.type = ARG_STRING,
+			.name = (char *)"p",
+			.value = &p_flag,
+			.description = (char *)"prints to stdout",
+			.exec_after = exec_after_fn
+		},
+		{
+			ARG_END,
+			0,
+			0,
+			0,
+			NULL
+		}
+	};
+	t_context		ctx = {
+		.algo = ALGO_MD5,
+		.args = (t_arg *)args
+	};
+
+	parse_args(&ctx, argc, argv);
+
+	REQUIRE( p_flag == NULL );
+	REQUIRE( exec_after_fn_inc == 0 );
+}
+
