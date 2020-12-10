@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 12:09:26 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 15:41:45 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static t_error	get_arg_value(const t_arg *arg, const char *argv[], int *index)
 	return E_SUCCESS;
 }
 
-static t_error	parse_short_arg(const t_arg args[], const char *argv[], int *index)
+static t_error	parse_arg(const t_arg args[], const char *argv[], int *index)
 {
-	const char			short_arg = argv[*index][1];
+	const char			*arg_str = argv[*index] + 1;
 	int					arg_index;
 	t_arg				*arg;
 
@@ -58,7 +58,7 @@ static t_error	parse_short_arg(const t_arg args[], const char *argv[], int *inde
 	while (arg->type != ARG_END) {
 		arg = (t_arg *)&args[arg_index];
 
-		if (arg->name == short_arg)
+		if (ft_strcmp(arg->name, arg_str) == 0)
 			return get_arg_value(arg, argv, index);
 
 		arg_index++;
@@ -89,7 +89,7 @@ ssize_t		parse_args(t_context *ctx, int argc, const char **argv)
 			return -1;
 		}
 
-		if ((err = parse_short_arg(ctx->args, argv, &index)) != E_SUCCESS)
+		if ((err = parse_arg(ctx->args, argv, &index)) != E_SUCCESS)
 		{
 			log_err(ctx, err, *arg);
 			return -1;

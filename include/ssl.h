@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 12:34:32 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 15:40:00 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ enum			e_arg_type
 typedef struct	s_arg
 {
 	enum e_arg_type		type;
-	char				name;
+	char				*name;
 	void				*value;
 	char				*description;
 }				t_arg;

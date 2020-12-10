@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:30:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/09 01:05:09 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 15:43:17 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ TEST_CASE( "Parses a boolean flag and sets its value to true" ) {
 	const t_arg			args[] = {
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'p',
+			.name = (char *)"p",
 			.value = &p_flag,
 			.description = (char *)"prints to stdout",
 		},
@@ -54,7 +54,7 @@ TEST_CASE( "Parses an empty input and does not argument value to true" ) {
 	const t_arg			args[] = {
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'p',
+			.name = (char *)"p",
 			.value = &p_flag,
 			.description = (char *)"prints to stdout",
 		},
@@ -89,19 +89,19 @@ TEST_CASE( "Parses several boolean flags and sets their values" ) {
 	const t_arg			args[] = {
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'a',
+			.name = (char *)"a",
 			.value = &flag1,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'b',
+			.name = (char *)"b",
 			.value = &flag2,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'c',
+			.name = (char *)"c",
 			.value = &flag3,
 			.description = (char *)"prints to stdout",
 		},
@@ -137,19 +137,19 @@ TEST_CASE( "Parses several boolean flags with some missing and sets their values
 	const t_arg			args[] = {
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'a',
+			.name = (char *)"a",
 			.value = &flag1,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'b',
+			.name = (char *)"b",
 			.value = &flag2,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'c',
+			.name = (char *)"c",
 			.value = &flag3,
 			.description = (char *)"prints to stdout",
 		},
@@ -183,7 +183,7 @@ TEST_CASE( "Parses a string flag and sets its value to true" ) {
 	const t_arg			args[] = {
 		{
 			.type = ARG_STRING,
-			.name = 'p',
+			.name = (char *)"p",
 			.value = &p_flag,
 			.description = (char *)"prints to stdout",
 		},
@@ -219,19 +219,19 @@ TEST_CASE( "Parses several string flags with some missing and sets their values"
 	const t_arg			args[] = {
 		{
 			.type = ARG_STRING,
-			.name = 'a',
+			.name = (char *)"a",
 			.value = &flag1,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_STRING,
-			.name = 'b',
+			.name = (char *)"b",
 			.value = &flag2,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_STRING,
-			.name = 'c',
+			.name = (char *)"c",
 			.value = &flag3,
 			.description = (char *)"prints to stdout",
 		},
@@ -272,31 +272,31 @@ TEST_CASE( "Parses boolean and string flags and sets their values" ) {
 	const t_arg			args[] = {
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'w',
+			.name = (char *)"w",
 			.value = &flag4,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_STRING,
-			.name = 'a',
+			.name = (char *)"a",
 			.value = &flag1,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_STRING,
-			.name = 'b',
+			.name = (char *)"b",
 			.value = &flag2,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_BOOLEAN,
-			.name = 'x',
+			.name = (char *)"x",
 			.value = &flag5,
 			.description = (char *)"prints to stdout",
 		},
 		{
 			.type = ARG_STRING,
-			.name = 'c',
+			.name = (char *)"c",
 			.value = &flag3,
 			.description = (char *)"prints to stdout",
 		},
