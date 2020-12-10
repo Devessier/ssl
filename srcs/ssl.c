@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 12:41:26 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:59:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 #include "md5.h"
 #include "sha256.h"
 
-static t_algo_desc	g_algo_descs[] = {
-	{ ALGO_MD5, "md5", md5_cmd },
-	{ ALGO_SHA256, "sha256", sha256_cmd },
-	{ 0, NULL, NULL }
+t_algo_desc			g_algorithms[] = {
+	{ ALGO_MD5, "md5", md5_cmd, ALGO_DIGEST },
+	{ ALGO_SHA256, "sha256", sha256_cmd, ALGO_DIGEST },
+	{ 0, NULL, NULL, ALGO_TYPE_NONE }
 };
 
-t_algo				algo_name_to_algo(char *algo_name)
+t_algo				algo_name_to_algo(const char *algo_name)
 {
 	t_algo_desc		*algo_desc;
 
-	algo_desc = g_algo_descs;
+	algo_desc = g_algorithms;
 	while (algo_desc->name != NULL)
 	{
 		if (ft_strcmp(algo_desc->name, algo_name) == 0)
@@ -41,7 +41,7 @@ static t_algo_desc	*get_algo_desc(t_algo algo)
 {
 	t_algo_desc		*algo_desc;
 
-	algo_desc = g_algo_descs;
+	algo_desc = g_algorithms;
 	while (algo_desc->name != NULL)
 	{
 		if (algo_desc->algo == algo)

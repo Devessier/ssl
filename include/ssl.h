@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 15:50:39 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:58:57 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum	e_algo
 	ALGO_SHA256
 }				t_algo;
 
-t_algo			algo_name_to_algo(char *algo_name);
+t_algo			algo_name_to_algo(const char *algo_name);
 
 typedef struct	s_context
 {
@@ -56,11 +56,21 @@ t_context		create_cmd(t_algo algo);
 
 typedef void	(*t_algo_cmd)(t_context *ctx);
 
+typedef enum	e_algo_type
+{
+	ALGO_TYPE_NONE = 1,
+
+	ALGO_STANDARD,
+	ALGO_DIGEST,
+	ALGO_CIPHER
+}				t_algo_type;
+
 typedef struct	s_algo_desc
 {
-	t_algo		algo;
-	char		*name;
-	t_algo_cmd	cmd;
+	t_algo			algo;
+	char			*name;
+	t_algo_cmd		cmd;
+	t_algo_type		type;
 }				t_algo_desc;
 
 typedef enum	e_error
@@ -71,5 +81,7 @@ typedef enum	e_error
 	E_INVALID_ARG_TYPE,
 	E_INVALID_ARG
 }				t_error;
+
+extern t_algo_desc		g_algorithms[];
 
 #endif
