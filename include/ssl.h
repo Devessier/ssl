@@ -6,12 +6,14 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 15:40:00 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 15:50:39 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SSL_H
 # define SSL_H
+
+struct s_context;
 
 enum			e_arg_type
 {
@@ -27,6 +29,8 @@ typedef struct	s_arg
 	char				*name;
 	void				*value;
 	char				*description;
+
+	void				(*exec_after)(struct s_context* ctx);
 }				t_arg;
 
 typedef enum	e_algo

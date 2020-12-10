@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:30:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 15:43:17 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:00:16 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ TEST_CASE( "Parses a boolean flag and sets its value to true" ) {
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -62,7 +63,8 @@ TEST_CASE( "Parses an empty input and does not argument value to true" ) {
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -109,7 +111,8 @@ TEST_CASE( "Parses several boolean flags and sets their values" ) {
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -157,7 +160,8 @@ TEST_CASE( "Parses several boolean flags with some missing and sets their values
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -191,7 +195,8 @@ TEST_CASE( "Parses a string flag and sets its value to true" ) {
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -239,7 +244,8 @@ TEST_CASE( "Parses several string flags with some missing and sets their values"
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {
@@ -304,7 +310,8 @@ TEST_CASE( "Parses boolean and string flags and sets their values" ) {
 			ARG_END,
 			0,
 			0,
-			0
+			0,
+			NULL
 		}
 	};
 	t_context		ctx = {

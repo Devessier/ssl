@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 15:41:45 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 16:02:31 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,36 @@ static t_error	get_arg_value(const t_arg *arg, const char *argv[], int *index)
 	else if (arg->type == ARG_STRING)
 	{
 		if ((string_arg_value = (char *)argv[++*(index)]) == NULL)
-			return E_INVALID_ARG_STRING_VALUE;
-
+			return (E_INVALID_ARG_STRING_VALUE);
 		*(char **)arg->value = string_arg_value;
 	}
 	else
-		return E_INVALID_ARG_TYPE;
-
-	return E_SUCCESS;
+		return (E_INVALID_ARG_TYPE);
+	return (E_SUCCESS);
 }
 
-static t_error	parse_arg(const t_arg args[], const char *argv[], int *index)
+static t_error	parse_arg(t_context *ctx, const char *argv[], int *index)
 {
 	const char			*arg_str = argv[*index] + 1;
-	int					arg_index;
 	t_arg				*arg;
+	t_error				get_arg_value_r;
 
-	arg_index = 0;
-	arg = (t_arg *)args;
-	while (arg->type != ARG_END) {
-		arg = (t_arg *)&args[arg_index];
-
+	arg = ctx->args;
+	while (arg->type != ARG_END)
+	{
 		if (ft_strcmp(arg->name, arg_str) == 0)
-			return get_arg_value(arg, argv, index);
-
-		arg_index++;
+		{
+			get_arg_value_r = get_arg_value(arg, argv, index);
+			if (arg->exec_after != NULL)
+				arg->exec_after(ctx);
+			return (get_arg_value_r);
+		}
+		arg++;
 	}
-
-	return E_INVALID_ARG;
+	return (E_INVALID_ARG);
 }
 
-ssize_t		parse_args(t_context *ctx, int argc, const char **argv)
+ssize_t			parse_args(t_context *ctx, int argc, const char **argv)
 {
 	int			index;
 	char		*arg;
@@ -77,26 +76,21 @@ ssize_t		parse_args(t_context *ctx, int argc, const char **argv)
 	while (index < argc)
 	{
 		arg = (char *)argv[index];
-
 		if (arg == NULL || *(arg++) != '-')
-			break;
+			break ;
 		if (*arg == '-')
 		{
 			if (*(++arg) == '\0')
-				break;
-
+				break ;
 			log_err(ctx, err, *arg);
-			return -1;
+			return (-1);
 		}
-
-		if ((err = parse_arg(ctx->args, argv, &index)) != E_SUCCESS)
+		if ((err = parse_arg(ctx, argv, &index)) != E_SUCCESS)
 		{
 			log_err(ctx, err, *arg);
-			return -1;
+			return (-1);
 		}
-
 		index++;
 	}
-
-	return index;
+	return (index);
 }
