@@ -6,8 +6,106 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/04 11:20:34 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/10 19:11:48 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SSL_H
+# define SSL_H
+# include <stdbool.h>
 
+typedef struct		s_md5_context
+{
+	bool		print;
+	bool		quiet;
+	bool		reverse;
+	char		*string;
+}					t_md5_context;
+
+typedef struct		s_sha256_context
+{
+	bool		print;
+	bool		quiet;
+	bool		reverse;
+	char		*string;
+}					t_sha256_context;
+
+struct s_context;
+
+typedef union		u_algo_context
+{
+	t_md5_context		md5;
+	t_sha256_context	sha256;
+}					t_algo_context;
+
+enum				e_arg_type
+{
+	ARG_END = 1,
+
+	ARG_BOOLEAN,
+	ARG_STRING
+};
+
+typedef struct		s_arg
+{
+	enum e_arg_type		type;
+	char				*name;
+	void				*value;
+	char				*description;
+
+	void				(*exec_after)(struct s_context* ctx);
+}					t_arg;
+
+typedef enum		e_algo
+{
+	ALGO_INVALID = 0,
+
+	ALGO_MD5,
+	ALGO_SHA256
+}					t_algo;
+
+t_algo				algo_name_to_algo(const char *algo_name);
+
+typedef struct		s_context
+{
+	t_algo			algo;
+	char			*algo_name;
+	void			(*cmd)(struct s_context *ctx);
+
+	t_arg			*args;
+	t_algo_context	algo_ctx;
+}					t_context;
+
+t_context			create_cmd(t_algo algo);
+
+typedef void		(*t_algo_cmd)(t_context *ctx);
+
+typedef enum		e_algo_type
+{
+	ALGO_TYPE_NONE = 1,
+
+	ALGO_STANDARD,
+	ALGO_DIGEST,
+	ALGO_CIPHER
+}					t_algo_type;
+
+typedef struct		s_algo_desc
+{
+	t_algo			algorithm;
+	char			*name;
+	t_algo_type		type;
+	t_arg			*arguments;
+}					t_algo_desc;
+
+typedef enum		e_error
+{
+	E_SUCCESS = 0,
+
+	E_INVALID_ARG_STRING_VALUE,
+	E_INVALID_ARG_TYPE,
+	E_INVALID_ARG
+}					t_error;
+
+extern t_algo_desc	g_algorithms[];
+
+#endif

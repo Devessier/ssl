@@ -1,38 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_reader.cpp                                    :+:      :+:    :+:   */
+/*   algo_ctx.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 02:41:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/08 03:42:13 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/10 17:40:57 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/10 18:09:35 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "catch.hpp"
-extern "C" {
-	#include "reader.h"
-}
+#ifndef ALGO_CTX_H
+# define ALGO_CTX_H
+# include "ssl.h"
 
-SCENARIO("Power off tests", "[power_button]")
-{
-	GIVEN("the power is off")
-	{
-		WHEN("nothing happens")
-		{
-			THEN("the power is still off")
-			{
-				REQUIRE(lol() == 1);
-			}
-		}
+t_arg	*get_algo_arguments(t_algo algo);
 
-		WHEN("nothing happens")
-		{
-			THEN("the power is still off")
-			{
-				REQUIRE(lol() == 0);
-			}
-		}
-	}
-}
+#endif
