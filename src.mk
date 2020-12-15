@@ -1,7 +1,9 @@
 SRCS = srcs/algo_ctx.c
+SRCS += srcs/algo_rotate.c
 SRCS += srcs/args.c
 SRCS += srcs/main.c
 SRCS += srcs/md5.c
+SRCS += srcs/md5_algo.c
 SRCS += srcs/reader.c
 SRCS += srcs/sha256.c
 SRCS += srcs/ssl.c

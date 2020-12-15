@@ -6,5 +6,8 @@
     "files.insertFinalNewline": true,
 
     "42header.username": "bdevessi",
-    "42header.email": "baptiste@devessier.fr"
+    "42header.email": "baptiste@devessier.fr",
+    "files.associations": {
+        "cstdio": "cpp"
+    }
 }

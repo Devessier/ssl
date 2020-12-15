@@ -6,13 +6,13 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:36:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 20:19:15 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/15 20:54:20 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
+#include "libft.h"
 #include "ssl.h"
+#include "reader.h"
 #include "md5.h"
 
 t_arg	g_md5_arguments[] = {
@@ -53,5 +53,9 @@ void	bind_md5_args(t_context *ctx)
 
 void	md5_cmd(t_context *ctx)
 {
-	printf("algo name: %s\n", ctx->algo_name);
+	(void)ctx;
+	const char			buff[] = "salut petit !";
+	const t_reader		reader = create_reader_buffer((char *)buff, ft_strlen(buff));
+
+	md5_algo((t_reader *)&reader);
 }
