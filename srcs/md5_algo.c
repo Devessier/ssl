@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/16 01:23:57 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/16 01:43:48 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_md5_algo_context			md5_init(void)
 }
 
 /*
-Combine bytes into words in little endian.
+** Transforms big endian words in little endian.
 */
 static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[16])
 {
@@ -195,6 +195,9 @@ static void					md5_transform(t_md5_algo_context *ctx)
 	ctx->states[3] += tmp_states[3];
 }
 
+/*
+** Append padding bits and append length.
+*/
 static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 {
 	ssize_t	index;
@@ -206,7 +209,7 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 		while (index < 56)
 			ctx->buffer[index++] = 0;
 	}
-	else if (ctx->buffer_length >= 56)
+	else
 	{
 		ctx->buffer[index++] = 0x80;
 		while (index < 64)
