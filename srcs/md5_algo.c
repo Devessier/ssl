@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/15 20:50:04 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/16 01:06:00 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "reader.h"
 #include "md5.h"
 #include "algo_rotate.h"
+#include "hexa.h"
 
 static uint32_t				g_md5_constants[] = {
 	7, 12, 17, 22, 7, 12, 17, 22,
@@ -249,7 +250,7 @@ static void					md5_print(uint8_t hash[16])
 
 	index = 0;
 	while (index < 16)
-		printf("%02x", hash[index++]);
+		print_hexa_num(STDERR_FILENO, hash[index++]);
 }
 
 void						md5_algo(t_reader *reader)
