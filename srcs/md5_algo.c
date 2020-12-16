@@ -6,11 +6,9 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/16 01:06:00 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/16 01:23:57 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 #include <stdint.h>
 #include "libft.h"
@@ -100,26 +98,6 @@ static uint32_t				g_md5_constants_sin[] = {
 	0xeb86d391,
 };
 
-static inline uint32_t		F(uint32_t x, uint32_t y, uint32_t z)
-{
-	return (((x) & (y)) | ((~(x)) & (z)));
-}
-
-static inline uint32_t		G(uint32_t x, uint32_t y, uint32_t z)
-{
-	return (((x) & (z)) | ((y) & (~(z))));
-}
-
-static inline uint32_t		H(uint32_t x, uint32_t y, uint32_t z)
-{
-	return ((x) ^ (y) ^ (z));
-}
-
-static inline uint32_t		I(uint32_t x, uint32_t y, uint32_t z)
-{
-	return ((y) ^ ((x) | (~(z))));
-}
-
 t_md5_algo_context			md5_init(void)
 {
 	return ((t_md5_algo_context) {
@@ -171,7 +149,7 @@ static void					md5_transform(t_md5_algo_context *ctx)
 	uint32_t	words[16];
 	size_t		index;
 	uint32_t	f;
-	uint32_t	g;
+	uint32_t	word_index;
 	uint32_t	tmp;
 
 	tmp_states[0] = ctx->states[0];
@@ -184,29 +162,29 @@ static void					md5_transform(t_md5_algo_context *ctx)
 	{
 		if (0 <= index && index <= 15)
 		{
-			f = F(tmp_states[1], tmp_states[2], tmp_states[3]);
-			g = index;
+			f = (tmp_states[1] & tmp_states[2]) | (~tmp_states[1] & tmp_states[3]);
+			word_index = index;
 		}
 		else if (16 <= index && index <= 31)
 		{
-			f = G(tmp_states[1], tmp_states[2], tmp_states[3]);
-			g = (5 * index + 1) % 16;
+			f = (tmp_states[1] & tmp_states[3]) | (tmp_states[2] & ~tmp_states[3]);
+			word_index = (5 * index + 1) % 16;
 		}
 		else if (32 <= index && index <= 47)
 		{
-			f = H(tmp_states[1], tmp_states[2], tmp_states[3]);
-			g = (3 * index + 5) % 16;
+			f = tmp_states[1] ^ tmp_states[2] ^ tmp_states[3];
+			word_index = (3 * index + 5) % 16;
 		}
 		else
 		{
-			f = I(tmp_states[1], tmp_states[2], tmp_states[3]);
-			g = (7 * index) % 16;
+			f = tmp_states[2] ^ (tmp_states[1] | ~tmp_states[3]);
+			word_index = (7 * index) % 16;
 		}
 		tmp = tmp_states[3];
 		tmp_states[3] = tmp_states[2];
 		tmp_states[2] = tmp_states[1];
 		tmp_states[1] = rotl32((tmp_states[0] + f + g_md5_constants_sin[index]
-			+ words[g]), g_md5_constants[index]) + tmp_states[1];
+			+ words[word_index]), g_md5_constants[index]) + tmp_states[1];
 		tmp_states[0] = tmp;
 		index++;
 	}
