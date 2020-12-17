@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/ft_ssl",
-			"args": ["md5", "-s", "lol"],
+			"args": ["md5", "-s", "first", "-r", "-s", "lol", "-r", "-s", "lel"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

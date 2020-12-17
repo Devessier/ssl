@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256.h                                           :+:      :+:    :+:   */
+/*   digest.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 13:09:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/17 13:05:46 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/17 16:31:42 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA256_H
-# define SHA256_H
+#ifndef DIGEST_H
+# define DIGEST_H
 # include "ssl.h"
 
-void			bind_sha256_args(t_context *ctx);
-void			sha256_cmd(t_context *ctx);
+typedef enum	e_digest_exec_origin
+{
+	DIGEST_EXEC_ORIGIN_STDIN = 1,
+	DIGEST_EXEC_ORIGIN_STRING,
+	DIGEST_EXEC_ORIGIN_FILE
+}				t_digest_exec_origin;
+
+extern t_arg	g_digest_arguments[];
 
 #endif

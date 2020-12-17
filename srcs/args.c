@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 18:58:46 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 12:23:55 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ ssize_t			parse_args(t_context *ctx, int argc, char **argv)
 		}
 		index++;
 	}
+	ctx->remaining_args = &argv[index];
 	return (index);
 }

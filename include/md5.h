@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:39:01 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/15 19:12:28 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 16:27:49 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define MD5_H
 # include <stdint.h>
 # include "ssl.h"
-# define MD5_BUFFER_SIZE (64)
+# include "reader.h"
+# define MD5_BUFFER_SIZE 64
+# define MD5_HASH_SIZE 16
 
 typedef struct	s_md5_algo_context
 {
@@ -27,9 +29,7 @@ typedef struct	s_md5_algo_context
 }				t_md5_algo_context;
 
 void			bind_md5_args(t_context *ctx);
-void			md5_cmd(t_context *ctx);
-extern t_arg	g_md5_arguments[];
 
-void			md5_algo(t_reader *reader);
+void			md5_algo(t_reader *reader, uint8_t hash[MD5_HASH_SIZE]);
 
 #endif

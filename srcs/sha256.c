@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:38:05 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 20:19:21 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 13:10:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,12 @@
 #include "ssl.h"
 #include "sha256.h"
 
-t_arg	g_sha256_arguments[] = {
-	{
-		.type = ARG_BOOLEAN,
-		.name = "p",
-		.description = "echo STDIN to STDOUT and append the checksum to STDOUT"
-	},
-	{
-		.type = ARG_BOOLEAN,
-		.name = "q",
-		.description = "quiet mode"
-	},
-	{
-		.type = ARG_BOOLEAN,
-		.name = "r",
-		.description = "reverse the format of the output"
-	},
-	{
-		.type = ARG_STRING,
-		.name = "s",
-		.description = "print the sum of the given string"
-	},
-	{
-		.type = ARG_END
-	}
-};
-
 void	bind_sha256_args(t_context *ctx)
 {
-	ctx->args[0].value = &ctx->algo_ctx.sha256.print;
-	ctx->args[1].value = &ctx->algo_ctx.sha256.quiet;
-	ctx->args[2].value = &ctx->algo_ctx.sha256.reverse;
-	ctx->args[3].value = &ctx->algo_ctx.sha256.string;
+	ctx->args[0].value = &ctx->algo_ctx.digest.print;
+	ctx->args[1].value = &ctx->algo_ctx.digest.quiet;
+	ctx->args[2].value = &ctx->algo_ctx.digest.reverse;
+	ctx->args[3].value = &ctx->algo_ctx.digest.string;
 	ctx->args[3].exec_after = sha256_cmd;
 	ctx->cmd = sha256_cmd;
 }

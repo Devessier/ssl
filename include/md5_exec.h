@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256.h                                           :+:      :+:    :+:   */
+/*   md5_exec.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 13:09:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/17 16:42:38 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/17 16:46:04 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA256_H
-# define SHA256_H
+#ifndef MD5_EXEC_H
+# define MD5_EXEC_H
 # include "ssl.h"
+# include "reader.h"
+# include "digest.h"
 
-void			bind_sha256_args(t_context *ctx);
-void			sha256_cmd(t_context *ctx);
+void	md5_algo_exec(t_context *ctx, t_reader *reader, t_digest_exec_origin origin);
 
 #endif

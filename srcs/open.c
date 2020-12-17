@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256.h                                           :+:      :+:    :+:   */
+/*   open.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 13:09:50 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/17 12:49:33 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/17 12:53:34 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA256_H
-# define SHA256_H
-# include "ssl.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include "libft.h"
+#include "ssl.h"
 
-void			bind_sha256_args(t_context *ctx);
-void			sha256_cmd(t_context *ctx);
+int		open_file(t_context *ctx, char *file)
+{
+	const int	fd = open(file, O_RDONLY);
+	char		*err;
 
-#endif
+	if (fd != -1)
+		return (fd);
+	err = strerror(errno);
+	ft_putf_fd(STDERR_FILENO, "ft_ssl: %s: %s: %s\n", ctx->algo_name, file, err);
+	return (-1);
+}

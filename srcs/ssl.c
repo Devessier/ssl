@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 19:11:04 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 12:20:34 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,15 @@ static void				bind_args_to_algo_context(t_context *ctx)
 		bind_sha256_args(ctx);
 }
 
-t_context				create_cmd(t_algo algo)
+void					init_cmd(t_context *ctx, t_algo algo)
 {
 	const t_algo_desc	*algo_desc = get_algo_desc(algo);
-	t_context			ctx;
 
-	ctx = (t_context) {
+	*ctx = (t_context) {
 		.algo = algo,
 		.algo_name = algo_desc->name,
 		.args = get_algo_arguments(algo),
+		.remaining_args = NULL,
 	};
-	bind_args_to_algo_context((t_context *)&ctx);
-	return (ctx);
+	bind_args_to_algo_context(ctx);
 }

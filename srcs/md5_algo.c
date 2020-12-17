@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/16 01:43:48 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 20:21:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "reader.h"
 #include "md5.h"
 #include "algo_rotate.h"
-#include "hexa.h"
 
 static uint32_t				g_md5_constants[] = {
 	7, 12, 17, 22, 7, 12, 17, 22,
@@ -113,7 +112,7 @@ t_md5_algo_context			md5_init(void)
 /*
 ** Transforms big endian words in little endian.
 */
-static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[16])
+static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[MD5_HASH_SIZE])
 {
 	size_t		index;
 
@@ -128,7 +127,7 @@ static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[16])
 	}
 }
 
-static void					md5_encode_output_le(t_md5_algo_context *ctx, uint8_t hash[16])
+static void					md5_encode_output_le(t_md5_algo_context *ctx, uint8_t hash[MD5_HASH_SIZE])
 {
 	size_t		index;
 
@@ -146,7 +145,7 @@ static void					md5_encode_output_le(t_md5_algo_context *ctx, uint8_t hash[16])
 static void					md5_transform(t_md5_algo_context *ctx)
 {
 	uint32_t	tmp_states[4];
-	uint32_t	words[16];
+	uint32_t	words[MD5_HASH_SIZE];
 	size_t		index;
 	uint32_t	f;
 	uint32_t	word_index;
@@ -225,32 +224,28 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 	md5_encode_output_le(ctx, hash);
 }
 
-static void					md5_print(uint8_t hash[16])
-{
-	size_t	index;
-
-	index = 0;
-	while (index < 16)
-		print_hexa_num(STDERR_FILENO, hash[index++]);
-}
-
-void						md5_algo(t_reader *reader)
+void						md5_algo(t_reader *reader, uint8_t hash[MD5_HASH_SIZE])
 {
 	t_md5_algo_context	algo_ctx;
 	ssize_t				buffer_length;
-	uint8_t				hash[16];
 
 	algo_ctx = md5_init();
 	while ((buffer_length = reader_read(reader, (char *)(algo_ctx.buffer
 		+ algo_ctx.buffer_length), MD5_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)
 	{
+		if (reader->type == READER_TYPE_FD && reader->ctx.fd.auto_print == true)
+		{
+			write(STDOUT_FILENO, algo_ctx.buffer + algo_ctx.buffer_length,
+				MD5_BUFFER_SIZE - algo_ctx.buffer_length);
+		}
 		if ((algo_ctx.buffer_length += buffer_length) == MD5_BUFFER_SIZE)
 		{
 			md5_transform(&algo_ctx);
 			algo_ctx.binary_length += 512;
 			algo_ctx.buffer_length = 0;
 		}
+		if (reader->finished == true)
+			break ;
 	}
 	md5_final(&algo_ctx, hash);
-	md5_print(hash);
 }
