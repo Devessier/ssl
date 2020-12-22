@@ -6,7 +6,7 @@
 #    By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:01:17 by bdevessi          #+#    #+#              #
-#    Updated: 2020/12/17 11:50:33 by bdevessi         ###   ########.fr        #
+#    Updated: 2020/12/22 16:05:11 by bdevessi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ TESTS_OBJS = $(patsubst test/test_%.cpp, $(TESTS_OBJDIR)/test_%.o, $(TESTS))
 OBJS_FOR_TESTS = $(patsubst test/test_%.cpp, $(OBJDIR)/%.o, $(TESTS))
 OBJS_WITHOUT_MAIN = $(filter-out $(OBJDIR)/main.o, $(OBJS))
 
-$(TESTS_OBJDIR)/test_%.o: test/test_%.cpp srcs/%.c Makefile
+$(TESTS_OBJDIR)/%.o: test/%.cpp $(SRCS) Makefile
 	$(CXX) $(CXXFLAGS) -Ivendor/catch -c $< -o $@
 
 $(TESTS_OBJDIR)/main.o: test/main.cpp
