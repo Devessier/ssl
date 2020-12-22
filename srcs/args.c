@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 12:41:06 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:26:22 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ ssize_t			parse_args(t_context *ctx, int argc, char **argv)
 			break ;
 		if (*arg == '-')
 		{
-			if (*(++arg) == '\0')
+			if (*arg == '\0')
 				break ;
-			return (log_err(ctx, err, arg));
+			return (log_err(ctx, E_INVALID_ARG, arg));
 		}
 		if ((err = parse_arg(ctx, argv, &index)) != E_SUCCESS)
 			return (log_err(ctx, err, arg));
