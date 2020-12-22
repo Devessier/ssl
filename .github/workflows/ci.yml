@@ -9,4 +9,4 @@ jobs:
         steps:
         - uses: actions/checkout@master
         - name: Test
-        uses: skx/github-action-tester@master
+          uses: skx/github-action-tester@master
