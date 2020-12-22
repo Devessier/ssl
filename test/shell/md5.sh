@@ -4,7 +4,7 @@ testMD5InvalidArgument() {
 	command="./ft_ssl md5 -invalid_argument"
 	read -d '' usage << EOF
 ft_ssl: md5: illegal option -- invalid_argument$
-usage: ft_ssl md5 [-pqr] [-s string] [files ...]$
+usage: ft_ssl md5 [-p] [-q] [-r] [-s string] [files ...]$
 EOF
 
 	assertEquals 'invalid usage' "${usage}" "$(${command} 2>&1 > /dev/null | cat -e)"
@@ -17,7 +17,7 @@ testMD5InvalidDoubleDash() {
 	command="./ft_ssl md5 --a"
 	read -d '' usage << EOF
 ft_ssl: md5: illegal option -- -a$
-usage: ft_ssl md5 [-pqr] [-s string] [files ...]$
+usage: ft_ssl md5 [-p] [-q] [-r] [-s string] [files ...]$
 EOF
 
 	assertEquals 'invalid usage' "${usage}" "$(${command} 2>&1 > /dev/null | cat -e)"
@@ -53,16 +53,7 @@ testMD5BasicStringHashingInReverseMode() {
 	assertEquals "${official_result}" "${hash_result}"
 }
 
-testMD5BasicStringHashingInReverseAndQuietModesWithShortNotation() {
-	string_to_hash="1"
-
-	hash_result="$(./ft_ssl md5 -rq -s $string_to_hash)"
-	official_result='c4ca4238a0b923820dcc509a6f75849b'
-
-	assertEquals "${official_result}" "${hash_result}"
-}
-
-testMD5BasicStringHashingInReverseAndQuietModesWithLongNotation() {
+testMD5BasicStringHashingInReverseAndQuietModes() {
 	string_to_hash="1"
 
 	hash_result="$(./ft_ssl md5 -r -q -s $string_to_hash)"
