@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 19:11:48 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:28:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,19 @@
 # define SSL_H
 # include <stdbool.h>
 
-typedef struct		s_md5_context
-{
-	bool		print;
-	bool		quiet;
-	bool		reverse;
-	char		*string;
-}					t_md5_context;
-
-typedef struct		s_sha256_context
-{
-	bool		print;
-	bool		quiet;
-	bool		reverse;
-	char		*string;
-}					t_sha256_context;
-
 struct s_context;
+
+typedef struct		s_digest_context
+{
+	bool		print;
+	bool		quiet;
+	bool		reverse;
+	char		*string;
+}					t_digest_context;
 
 typedef union		u_algo_context
 {
-	t_md5_context		md5;
-	t_sha256_context	sha256;
+	t_digest_context	digest;
 }					t_algo_context;
 
 enum				e_arg_type
@@ -71,12 +62,14 @@ typedef struct		s_context
 	t_algo			algo;
 	char			*algo_name;
 	void			(*cmd)(struct s_context *ctx);
+	void			(*usage)(struct s_context *ctx);
 
 	t_arg			*args;
+	char			**remaining_args;
 	t_algo_context	algo_ctx;
 }					t_context;
 
-t_context			create_cmd(t_algo algo);
+void				init_cmd(t_context *ctx, t_algo algo);
 
 typedef void		(*t_algo_cmd)(t_context *ctx);
 

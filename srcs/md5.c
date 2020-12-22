@@ -6,52 +6,70 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:36:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 20:19:15 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:47:11 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
+#include "libft.h"
 #include "ssl.h"
+#include "reader.h"
 #include "md5.h"
+#include "md5_exec.h"
+#include "open.h"
 
-t_arg	g_md5_arguments[] = {
-	{
-		.type = ARG_BOOLEAN,
-		.name = "p",
-		.description = "echo STDIN to STDOUT and append the checksum to STDOUT"
-	},
-	{
-		.type = ARG_BOOLEAN,
-		.name = "q",
-		.description = "quiet mode"
-	},
-	{
-		.type = ARG_BOOLEAN,
-		.name = "r",
-		.description = "reverse the format of the output"
-	},
-	{
-		.type = ARG_STRING,
-		.name = "s",
-		.description = "print the sum of the given string"
-	},
-	{
-		.type = ARG_END
-	}
-};
-
-void	bind_md5_args(t_context *ctx)
+static void		md5_stdin_cmd(t_context *ctx)
 {
-	ctx->args[0].value = &ctx->algo_ctx.md5.print;
-	ctx->args[1].value = &ctx->algo_ctx.md5.quiet;
-	ctx->args[2].value = &ctx->algo_ctx.md5.reverse;
-	ctx->args[3].value = &ctx->algo_ctx.md5.string;
-	ctx->args[3].exec_after = md5_cmd;
-	ctx->cmd = md5_cmd;
+	const bool		auto_print = ctx->algo_ctx.digest.print;
+	const t_reader	rd = create_reader_fd(STDIN_FILENO, "stdin", auto_print);
+
+	md5_algo_exec(ctx, (t_reader *)&rd, DIGEST_EXEC_ORIGIN_STDIN);
 }
 
-void	md5_cmd(t_context *ctx)
+static void		md5_string_cmd(t_context *ctx)
 {
-	printf("algo name: %s\n", ctx->algo_name);
+	const char		*string_arg = ctx->algo_ctx.digest.string;
+	const size_t	length = ft_strlen(string_arg);
+	const t_reader	rd = create_reader_buffer((char *)string_arg, length);
+
+	md5_algo_exec(ctx, (t_reader *)&rd, DIGEST_EXEC_ORIGIN_STRING);
+}
+
+static bool		md5_cmd_should_read_stdin(t_context *ctx)
+{
+	return (ctx->algo_ctx.digest.string == NULL
+		&& ctx->algo_ctx.digest.print == false
+		&& (ctx->remaining_args == NULL || *ctx->remaining_args == NULL));
+}
+
+static void		md5_cmd(t_context *ctx)
+{
+	const bool	read_stdin = md5_cmd_should_read_stdin(ctx);
+	t_reader	reader;
+	int			fd;
+	char		*file;
+
+	if (read_stdin)
+	{
+		md5_stdin_cmd(ctx);
+		return ;
+	}
+	while ((file = *(ctx->remaining_args++)) != NULL)
+	{
+		if ((fd = open_file(ctx, file)) == -1)
+			continue ;
+		reader = create_reader_fd(fd, file, false);
+		md5_algo_exec(ctx, &reader, DIGEST_EXEC_ORIGIN_FILE);
+		close(fd);
+	}
+}
+
+void			bind_md5_args(t_context *ctx)
+{
+	ctx->args[0].value = &ctx->algo_ctx.digest.print;
+	ctx->args[0].exec_after = md5_stdin_cmd;
+	ctx->args[1].value = &ctx->algo_ctx.digest.quiet;
+	ctx->args[2].value = &ctx->algo_ctx.digest.reverse;
+	ctx->args[3].value = &ctx->algo_ctx.digest.string;
+	ctx->args[3].exec_after = md5_string_cmd;
+	ctx->cmd = md5_cmd;
 }

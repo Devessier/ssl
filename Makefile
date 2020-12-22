@@ -6,7 +6,7 @@
 #    By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:01:17 by bdevessi          #+#    #+#              #
-#    Updated: 2020/12/10 18:28:52 by bdevessi         ###   ########.fr        #
+#    Updated: 2020/12/22 16:05:11 by bdevessi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,6 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -Ilibft/includes -Iinclude -g
 OBJDIR = obj
 TESTS_OBJDIR = test_obj
-
-UNITY_ROOT = ./unity
 
 include src.mk
 
@@ -52,7 +50,7 @@ TESTS_OBJS = $(patsubst test/test_%.cpp, $(TESTS_OBJDIR)/test_%.o, $(TESTS))
 OBJS_FOR_TESTS = $(patsubst test/test_%.cpp, $(OBJDIR)/%.o, $(TESTS))
 OBJS_WITHOUT_MAIN = $(filter-out $(OBJDIR)/main.o, $(OBJS))
 
-$(TESTS_OBJDIR)/test_%.o: test/test_%.cpp srcs/%.c Makefile
+$(TESTS_OBJDIR)/%.o: test/%.cpp $(SRCS) Makefile
 	$(CXX) $(CXXFLAGS) -Ivendor/catch -c $< -o $@
 
 $(TESTS_OBJDIR)/main.o: test/main.cpp

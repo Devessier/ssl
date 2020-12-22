@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_min.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/21 11:13:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2019/02/21 11:15:25 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:29:53 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <unistd.h>
 
 ssize_t	ft_min(ssize_t a, ssize_t b)
 {

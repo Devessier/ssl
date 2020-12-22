@@ -6,22 +6,32 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:03:25 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/11 11:40:25 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:28:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <unistd.h>
 #include "libft.h"
 #include "reader.h"
 
+/*
+** Reads from a file descriptor.
+** If the file descriptor represents STDIN and `read` returned a zero value,
+** we set the reader as finished.
+*/
+
 static ssize_t		reader_read_fd(t_reader *reader)
 {
+	const int	fd = reader->ctx.fd.fd;
 	ssize_t		nbytes;
 
-	if ((nbytes = read(reader->ctx.fd.fd, reader->buffer, BUFF_SIZE)) == -1)
+	if ((nbytes = read(fd, reader->buffer, BUFF_SIZE)) == -1)
 		return (-1);
 	reader->index = 0;
 	reader->length = nbytes;
+	if (nbytes == 0 && fd == STDIN_FILENO)
+		reader->finished = true;
 	return (nbytes);
 }
 
@@ -40,13 +50,16 @@ static ssize_t		reader_read_buffer(t_reader *reader)
 	return (to_copy);
 }
 
-t_reader			create_reader_fd(int fd)
+t_reader			create_reader_fd(int fd, char *filename, bool auto_print)
 {
 	return ((t_reader) {
 		.index = 0,
 		.length = 0,
 		.type = READER_TYPE_FD,
 		.ctx.fd.fd = fd,
+		.ctx.fd.filename = filename,
+		.ctx.fd.auto_print = auto_print,
+		.finished = false,
 		.fill = reader_read_fd,
 	});
 }
@@ -60,6 +73,7 @@ t_reader			create_reader_buffer(char *buffer, size_t buffer_length)
 		.ctx.buffer.data = buffer,
 		.ctx.buffer.data_length = buffer_length,
 		.ctx.buffer.cursor = 0,
+		.finished = false,
 		.fill = reader_read_buffer,
 	});
 }
@@ -77,7 +91,7 @@ ssize_t				reader_read(t_reader *reader, char *dest, size_t length)
 		copied += remaining;
 		ft_memcpy(dest, reader->buffer + reader->index, remaining);
 		if ((ret = reader->fill(reader)) <= 0)
-			return (ret < 0 ? ret : copied);
+			return (ret < 0 ? ret : (ssize_t)copied);
 		dest += remaining;
 		length -= remaining;
 		remaining = reader->length - reader->index;

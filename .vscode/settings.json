@@ -6,5 +6,19 @@
     "files.insertFinalNewline": true,
 
     "42header.username": "bdevessi",
-    "42header.email": "baptiste@devessier.fr"
+    "42header.email": "baptiste@devessier.fr",
+    "files.associations": {
+        "cstdio": "cpp",
+        "*.tcc": "c",
+        "exception": "c",
+        "memory_resource": "c",
+        "fstream": "c",
+        "iosfwd": "c",
+        "new": "c",
+        "ostream": "c",
+        "shared_mutex": "c",
+        "sstream": "c",
+        "stop_token": "c",
+        "streambuf": "c"
+    }
 }

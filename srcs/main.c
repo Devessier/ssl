@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 18:21:19 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/17 20:15:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	main(int argc, char **argv)
 		print_unavailable_command_usage(command_name);
 		return (1);
 	}
-	ctx = create_cmd(algo);
+	init_cmd(&ctx, algo);
 	if ((parsed_args = parse_args(&ctx, ++argc, ++argv)) == -1)
 		return (1);
-	// ctx.cmd(&ctx);
+	ctx.cmd(&ctx);
 	return (0);
 }
