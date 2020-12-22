@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 20:21:03 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:38:38 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ t_md5_algo_context			md5_init(void)
 /*
 ** Transforms big endian words in little endian.
 */
-static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[MD5_HASH_SIZE])
+
+static void					md5_decode_input_le(t_md5_algo_context *ctx
+	, uint32_t words[MD5_HASH_SIZE])
 {
 	size_t		index;
 
@@ -127,7 +129,8 @@ static void					md5_decode_input_le(t_md5_algo_context *ctx, uint32_t words[MD5_
 	}
 }
 
-static void					md5_encode_output_le(t_md5_algo_context *ctx, uint8_t hash[MD5_HASH_SIZE])
+static void					md5_encode_output_le(t_md5_algo_context *ctx
+	, uint8_t hash[MD5_HASH_SIZE])
 {
 	size_t		index;
 
@@ -187,7 +190,6 @@ static void					md5_transform(t_md5_algo_context *ctx)
 		tmp_states[0] = tmp;
 		index++;
 	}
-
 	ctx->states[0] += tmp_states[0];
 	ctx->states[1] += tmp_states[1];
 	ctx->states[2] += tmp_states[2];
@@ -197,6 +199,7 @@ static void					md5_transform(t_md5_algo_context *ctx)
 /*
 ** Append padding bits and append length.
 */
+
 static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 {
 	ssize_t	index;
@@ -224,14 +227,16 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 	md5_encode_output_le(ctx, hash);
 }
 
-void						md5_algo(t_reader *reader, uint8_t hash[MD5_HASH_SIZE])
+void						md5_algo(t_reader *reader
+	, uint8_t hash[MD5_HASH_SIZE])
 {
 	t_md5_algo_context	algo_ctx;
 	ssize_t				buffer_length;
 
 	algo_ctx = md5_init();
-	while ((buffer_length = reader_read(reader, (char *)(algo_ctx.buffer
-		+ algo_ctx.buffer_length), MD5_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)
+	while ((buffer_length = reader_read(reader
+		, (char *)(algo_ctx.buffer + algo_ctx.buffer_length)
+		, MD5_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)
 	{
 		if (reader->type == READER_TYPE_FD && reader->ctx.fd.auto_print == true)
 		{

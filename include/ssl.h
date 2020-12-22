@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 12:33:07 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:28:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SSL_H
 # include <stdbool.h>
 
-struct				s_context;
+struct s_context;
 
 typedef struct		s_digest_context
 {

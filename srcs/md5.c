@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:36:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 19:34:18 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:47:11 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@
 static void		md5_stdin_cmd(t_context *ctx)
 {
 	const bool		auto_print = ctx->algo_ctx.digest.print;
-	const t_reader	stdin_reader = create_reader_fd(STDIN_FILENO, "stdin", auto_print);
+	const t_reader	rd = create_reader_fd(STDIN_FILENO, "stdin", auto_print);
 
-	md5_algo_exec(ctx, (t_reader *)&stdin_reader, DIGEST_EXEC_ORIGIN_STDIN);
+	md5_algo_exec(ctx, (t_reader *)&rd, DIGEST_EXEC_ORIGIN_STDIN);
 }
 
 static void		md5_string_cmd(t_context *ctx)
 {
 	const char		*string_arg = ctx->algo_ctx.digest.string;
-	const size_t	string_len = ft_strlen(string_arg);
-	t_reader		reader;
+	const size_t	length = ft_strlen(string_arg);
+	const t_reader	rd = create_reader_buffer((char *)string_arg, length);
 
-	reader = create_reader_buffer((char *)string_arg, string_len);
-	md5_algo_exec(ctx, &reader, DIGEST_EXEC_ORIGIN_STRING);
+	md5_algo_exec(ctx, (t_reader *)&rd, DIGEST_EXEC_ORIGIN_STRING);
 }
 
 static bool		md5_cmd_should_read_stdin(t_context *ctx)

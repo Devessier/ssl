@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 16:25:06 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 17:03:58 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:40:23 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "md5.h"
 #include "hexa.h"
 
-static void					md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
+static void		md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
 {
 	size_t	index;
 
@@ -27,7 +27,8 @@ static void					md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
 		print_hexa_num(STDOUT_FILENO, hash[index++]);
 }
 
-void	md5_algo_exec(t_context *ctx, t_reader *reader, t_digest_exec_origin origin)
+void			md5_algo_exec(t_context *ctx
+	, t_reader *reader, t_digest_exec_origin origin)
 {
 	const bool	reverse_mode = ctx->algo_ctx.digest.reverse;
 	uint8_t		hash[MD5_HASH_SIZE];

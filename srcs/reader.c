@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:03:25 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 20:11:49 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:43:08 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 ** If the file descriptor represents STDIN and `read` returned a zero value,
 ** we set the reader as finished.
 */
+
 static ssize_t		reader_read_fd(t_reader *reader)
 {
 	const int	fd = reader->ctx.fd.fd;
