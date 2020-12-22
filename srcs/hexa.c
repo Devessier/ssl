@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 00:27:36 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 20:02:49 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/18 10:46:24 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void		print_hexa_num(int fd, uint8_t num)
 {
 	const char	hexa_lookup_table[] = "0123456789abcdef";
-	char		buffer[2] = { 0 };
+	char		buffer[2];
 	ssize_t		hex_length;
 
 	hex_length = 2;
