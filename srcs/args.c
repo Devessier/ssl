@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 12:23:55 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 12:41:06 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@
 #include "ssl.h"
 #include "libft.h"
 
-static void		log_err(t_context *ctx, t_error err, char invalid_option)
+static int		log_err(t_context *ctx, t_error err, char *invalid_option)
 {
 	const char	*command_name = ctx->algo_name;
 
 	if (err == E_INVALID_ARG_STRING_VALUE)
-		ft_putf("%s: option requires an argument -- %c\n"
+		ft_putf_fd(STDERR_FILENO
+			, "ft_ssl: %s: option requires an argument -- %s\n"
 			, command_name, invalid_option);
 	else if (err == E_INVALID_ARG)
-		ft_putf("%s: illegal option -- %c\n", command_name, invalid_option);
+		ft_putf_fd(STDERR_FILENO
+			, "ft_ssl: %s: illegal option -- %s\n"
+			, command_name, invalid_option);
+	ctx->usage(ctx);
+	return (-1);
 }
 
 static t_error	get_arg_value(const t_arg *arg, char *argv[], int *index)
@@ -82,14 +87,10 @@ ssize_t			parse_args(t_context *ctx, int argc, char **argv)
 		{
 			if (*(++arg) == '\0')
 				break ;
-			log_err(ctx, err, *arg);
-			return (-1);
+			return (log_err(ctx, err, arg));
 		}
 		if ((err = parse_arg(ctx, argv, &index)) != E_SUCCESS)
-		{
-			log_err(ctx, err, *arg);
-			return (-1);
-		}
+			return (log_err(ctx, err, arg));
 		index++;
 	}
 	ctx->remaining_args = &argv[index];

@@ -6,10 +6,11 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 13:05:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 13:06:28 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 13:02:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ssl.h"
 
 t_arg	g_digest_arguments[] = {
@@ -37,3 +38,10 @@ t_arg	g_digest_arguments[] = {
 		.type = ARG_END
 	}
 };
+
+void	log_digest_command_usage(t_context *ctx)
+{
+	ft_putf_fd(STDERR_FILENO
+		, "usage: ft_ssl %s [-pqr] [-s string] [files ...]\n"
+		, ctx->algo_name);
+}

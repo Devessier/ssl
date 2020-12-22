@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 13:09:11 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 12:33:07 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct		s_context
 	t_algo			algo;
 	char			*algo_name;
 	void			(*cmd)(struct s_context *ctx);
+	void			(*usage)(struct s_context *ctx);
 
 	t_arg			*args;
 	char			**remaining_args;

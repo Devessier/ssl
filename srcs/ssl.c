@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 12:20:34 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 12:36:33 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void					init_cmd(t_context *ctx, t_algo algo)
 	*ctx = (t_context) {
 		.algo = algo,
 		.algo_name = algo_desc->name,
+		.usage = get_algo_usage(algo),
 		.args = get_algo_arguments(algo),
 		.remaining_args = NULL,
 	};
