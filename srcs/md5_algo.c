@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 17:19:19 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 17:43:14 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,8 @@ void						md5_algo(t_reader *reader
 		, MD5_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)
 	{
 		if (reader->type == READER_TYPE_FD && reader->ctx.fd.auto_print == true)
-		{
 			write(STDOUT_FILENO, algo_ctx.buffer + algo_ctx.buffer_length,
-				MD5_BUFFER_SIZE - algo_ctx.buffer_length);
-		}
+				buffer_length);
 		if ((algo_ctx.buffer_length += buffer_length) == MD5_BUFFER_SIZE)
 		{
 			md5_transform(&algo_ctx);
