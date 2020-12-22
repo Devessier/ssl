@@ -1,7 +1,5 @@
-name: Test SSL project
-
 on: pull_request
-name: Pull Request
+name: Test SSL project
 jobs:
     test:
         name: Run tests
