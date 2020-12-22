@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 testMD5InvalidArgument() {
 	command="./ft_ssl md5 -invalid_argument"

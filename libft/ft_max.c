@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 12:25:43 by bdevessi          #+#    #+#             */
-/*   Updated: 2019/02/22 12:28:31 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:30:10 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <unistd.h>
 
 ssize_t	ft_max(ssize_t a, ssize_t b)
 {

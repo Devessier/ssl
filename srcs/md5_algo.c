@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 17:43:14 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:27:59 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ static void					md5_transform(t_md5_algo_context *ctx)
 	index = 0;
 	while (index < 64)
 	{
-		if (0 <= index && index <= 15)
+		if (index <= 15)
 		{
 			f = (tmp_states[1] & tmp_states[2]) | (~tmp_states[1] & tmp_states[3]);
 			word_index = index;

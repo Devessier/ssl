@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_positive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 12:28:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2019/02/22 12:29:27 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:30:27 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <unistd.h>
 
 ssize_t	ft_positive(ssize_t a, ssize_t b)
 {

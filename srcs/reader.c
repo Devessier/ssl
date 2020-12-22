@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:03:25 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:43:08 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 19:28:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ ssize_t				reader_read(t_reader *reader, char *dest, size_t length)
 		copied += remaining;
 		ft_memcpy(dest, reader->buffer + reader->index, remaining);
 		if ((ret = reader->fill(reader)) <= 0)
-			return (ret < 0 ? ret : copied);
+			return (ret < 0 ? ret : (ssize_t)copied);
 		dest += remaining;
 		length -= remaining;
 		remaining = reader->length - reader->index;

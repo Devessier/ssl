@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 testBinaryExists() {
 	assertTrue 'ft_ssl bin does not exist or can not be executed' "[ -x ./ft_ssl ]"
