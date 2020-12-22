@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 13:05:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 13:02:56 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 15:21:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ t_arg	g_digest_arguments[] = {
 void	log_digest_command_usage(t_context *ctx)
 {
 	ft_putf_fd(STDERR_FILENO
-		, "usage: ft_ssl %s [-pqr] [-s string] [files ...]\n"
+		, "usage: ft_ssl %s [-p] [-q] [-r] [-s string] [files ...]\n"
 		, ctx->algo_name);
 }
