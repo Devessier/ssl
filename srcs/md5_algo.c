@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:38:38 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 17:19:19 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,19 @@ static void					md5_transform(t_md5_algo_context *ctx)
 
 /*
 ** Append padding bits and append length.
+** Buffer length is at most equal to 64 and MD5 operates on 64 uint8_t.
+**
+** If the buffer length is lower than 56 we add a single "1" bit (which is "Ox80" in little endian)
+** and then append 0 bits until we have a buffer length of 56.
+**
+** If the buffer is greater or equal to 56 we apply the same process but until we reach a buffer length of 64,
+** we apply a transformation, and finally we clear the md5 context buffer.
+**
+** We increment the binary length by the buffer length multiplied by 8 because each entry
+** in the buffer is an uint8_t.
+** We break down the binary length, encode it in little endian and save it in the buffer.
+** We launch a last transformation.
+** We decode the buffer into big endian and save it into the hash array.
 */
 
 static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
@@ -222,7 +235,7 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 	ctx->binary_length += ctx->buffer_length * 8;
 	index = 55;
 	while (++index < 64)
-		ctx->buffer[index] = ctx->binary_length >> ((index - 56) * 8);
+		ctx->buffer[index] = (ctx->binary_length >> ((index - 56) * 8)) & 0x000000ff;
 	md5_transform(ctx);
 	md5_encode_output_le(ctx, hash);
 }
