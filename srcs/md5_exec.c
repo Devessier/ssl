@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 16:25:06 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 17:27:34 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/22 23:56:08 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ static void		md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
 		print_hexa_num(STDOUT_FILENO, hash[index++]);
 }
 
-static bool		should_apply_reverse_mode(t_context *ctx, t_digest_exec_origin origin)
+static bool		should_apply_reverse_mode(t_context *ctx
+	, t_digest_exec_origin origin)
 {
-	return ctx->algo_ctx.digest.reverse == true
+	return (ctx->algo_ctx.digest.reverse == true
 		&& (origin == DIGEST_EXEC_ORIGIN_FILE
-			|| origin == DIGEST_EXEC_ORIGIN_STRING);
+			|| origin == DIGEST_EXEC_ORIGIN_STRING));
 }
 
 void			md5_algo_exec(t_context *ctx

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 19:27:59 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/23 00:01:39 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "reader.h"
 #include "md5.h"
+#include "md5_algo_utils.h"
 #include "algo_rotate.h"
 
 static uint32_t				g_md5_constants[] = {
@@ -97,118 +98,47 @@ static uint32_t				g_md5_constants_sin[] = {
 	0xeb86d391,
 };
 
-t_md5_algo_context			md5_init(void)
-{
-	return ((t_md5_algo_context) {
-		.buffer_length = 0,
-		.states[0] = 0x67452301,
-		.states[1] = 0xefcdab89,
-		.states[2] = 0x98badcfe,
-		.states[3] = 0x10325476,
-		.binary_length = 0,
-	});
-}
-
-/*
-** Transforms big endian words in little endian.
-*/
-
-static void					md5_decode_input_le(t_md5_algo_context *ctx
-	, uint32_t words[MD5_HASH_SIZE])
-{
-	size_t		index;
-
-	index = 0;
-	while (index < 16)
-	{
-		words[index] = ctx->buffer[index * 4]
-			| (ctx->buffer[index * 4 + 1] << 8)
-			| (ctx->buffer[index * 4 + 2] << 16)
-			| (ctx->buffer[index * 4 + 3] << 24);
-		index++;
-	}
-}
-
-static void					md5_encode_output_le(t_md5_algo_context *ctx
-	, uint8_t hash[MD5_HASH_SIZE])
-{
-	size_t		index;
-
-	index = 0;
-	while (index < 4)
-	{
-		hash[index] = (ctx->states[0] >> (index * 8)) & 0x000000ff;
-		hash[index + 4] = (ctx->states[1] >> (index * 8)) & 0x000000ff;
-		hash[index + 8] = (ctx->states[2] >> (index * 8)) & 0x000000ff;
-		hash[index + 12] = (ctx->states[3] >> (index * 8)) & 0x000000ff;
-		index++;
-	}
-}
-
 static void					md5_transform(t_md5_algo_context *ctx)
 {
-	uint32_t	tmp_states[4];
-	uint32_t	words[MD5_HASH_SIZE];
-	size_t		index;
-	uint32_t	f;
-	uint32_t	word_index;
-	uint32_t	tmp;
+	t_md5_states	states;
+	uint32_t		words[MD5_HASH_SIZE];
+	size_t			index;
+	uint32_t		tmp;
 
-	tmp_states[0] = ctx->states[0];
-	tmp_states[1] = ctx->states[1];
-	tmp_states[2] = ctx->states[2];
-	tmp_states[3] = ctx->states[3];
+	states = ctx->states;
 	md5_decode_input_le(ctx, words);
 	index = 0;
 	while (index < 64)
 	{
-		if (index <= 15)
-		{
-			f = (tmp_states[1] & tmp_states[2]) | (~tmp_states[1] & tmp_states[3]);
-			word_index = index;
-		}
-		else if (16 <= index && index <= 31)
-		{
-			f = (tmp_states[1] & tmp_states[3]) | (tmp_states[2] & ~tmp_states[3]);
-			word_index = (5 * index + 1) % 16;
-		}
-		else if (32 <= index && index <= 47)
-		{
-			f = tmp_states[1] ^ tmp_states[2] ^ tmp_states[3];
-			word_index = (3 * index + 5) % 16;
-		}
-		else
-		{
-			f = tmp_states[2] ^ (tmp_states[1] | ~tmp_states[3]);
-			word_index = (7 * index) % 16;
-		}
-		tmp = tmp_states[3];
-		tmp_states[3] = tmp_states[2];
-		tmp_states[2] = tmp_states[1];
-		tmp_states[1] = rotl32((tmp_states[0] + f + g_md5_constants_sin[index]
-			+ words[word_index]), g_md5_constants[index]) + tmp_states[1];
-		tmp_states[0] = tmp;
+		md5_transform_permute(ctx, &states, index);
+		tmp = states.d;
+		states.d = states.c;
+		states.c = states.b;
+		states.b = rotl32((states.a + ctx->permutation
+			+ g_md5_constants_sin[index] + words[ctx->word_index])
+			, g_md5_constants[index]) + states.b;
+		states.a = tmp;
 		index++;
 	}
-	ctx->states[0] += tmp_states[0];
-	ctx->states[1] += tmp_states[1];
-	ctx->states[2] += tmp_states[2];
-	ctx->states[3] += tmp_states[3];
+	add_md5_states(&ctx->states, states);
 }
 
 /*
 ** Append padding bits and append length.
 ** Buffer length is at most equal to 64 and MD5 operates on 64 uint8_t.
 **
-** If the buffer length is lower than 56 we add a single "1" bit (which is "Ox80" in little endian)
-** and then append 0 bits until we have a buffer length of 56.
+** If the buffer length is lower than 56 we add
+** a single "1" bit (which is "Ox80" in little endian) and then append
+** 0 bits until we have a buffer length of 56.
 **
-** If the buffer is greater or equal to 56 we apply the same process but until we reach a buffer length of 64,
-** we apply a transformation, and finally we clear the md5 context buffer.
+** If the buffer is greater or equal to 56 we apply the same process
+** but until we reach a buffer length of 64, we apply a transformation,
+** and finally we clear the md5 context buffer.
 **
-** We increment the binary length by the buffer length multiplied by 8 because each entry
-** in the buffer is an uint8_t.
-** We break down the binary length, encode it in little endian and save it in the buffer.
+** We increment the binary length by the buffer length multiplied
+** by 8 because each entry in the buffer is an uint8_t.
+** We break down the binary length, encode it in little endian
+** and save it in the buffer.
 ** We launch a last transformation.
 ** We decode the buffer into big endian and save it into the hash array.
 */
@@ -235,7 +165,8 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 	ctx->binary_length += ctx->buffer_length * 8;
 	index = 55;
 	while (++index < 64)
-		ctx->buffer[index] = (ctx->binary_length >> ((index - 56) * 8)) & 0x000000ff;
+		ctx->buffer[index] = (ctx->binary_length >> ((index - 56) * 8))
+			& 0x000000ff;
 	md5_transform(ctx);
 	md5_encode_output_le(ctx, hash);
 }
