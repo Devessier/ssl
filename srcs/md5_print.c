@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 16:25:06 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 13:08:33 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/24 15:39:17 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "ssl.h"
 #include "hexa.h"
 
-void		md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
+void		md5_hash_print(t_context *ctx)
 {
+	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.md5.hash;
 	size_t	index;
 
 	index = 0;

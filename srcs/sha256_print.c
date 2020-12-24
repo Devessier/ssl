@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5_print.h                                        :+:      :+:    :+:   */
+/*   sha256_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/24 13:09:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 15:40:18 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/24 15:41:05 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/24 15:42:41 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MD5_PRINT_H
-# define MD5_PRINT_H
-# include "ssl.h"
+#include <stdint.h>
+#include "ssl.h"
+#include "hexa.h"
 
-void	md5_hash_print(t_context *ctx);
+void	sha256_hash_print(t_context *ctx)
+{
+	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.sha256.hash;
+	size_t	index;
 
-#endif
+	index = 0;
+	while (index < SHA256_HASH_SIZE)
+		print_hexa_num(STDOUT_FILENO, hash[index++]);
+}

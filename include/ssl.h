@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 14:13:21 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/24 17:52:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include "reader.h"
 # define MD5_HASH_SIZE 16
+# define SHA256_HASH_SIZE 32
 
 struct s_context;
 
@@ -26,7 +27,7 @@ typedef struct		s_digest_context_md5
 
 typedef struct		s_digest_context_sha256
 {
-	uint8_t		hash[MD5_HASH_SIZE];
+	uint8_t		hash[SHA256_HASH_SIZE];
 }					t_digest_context_sha256;
 
 typedef union		u_digest_context_algo

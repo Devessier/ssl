@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   digest_print.c                                     :+:      :+:    :+:   */
+/*   sha256_algo.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/24 13:07:24 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 13:09:55 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/24 15:34:55 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/24 15:36:41 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ssl.h"
-#include "md5_print.h"
+#ifndef SHA256_ALGO_H
+# define SHA256_ALGO_H
+# include "ssl.h"
+# include "reader.h"
 
-void	digest_print(t_context *ctx)
-{
-	if (ctx->algo == ALGO_MD5)
-		md5_hash_print(ctx->algo_ctx.digest.algo_ctx.md5.hash);
-}
+void	sha256_algo(t_context *ctx, t_reader *reader);
+
+#endif
