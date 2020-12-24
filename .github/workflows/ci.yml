@@ -1,10 +1,19 @@
+name: Test and check style
+
 on: pull_request
-name: Test SSL project
 jobs:
-    test:
+    tests:
         name: Run tests
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@master
-        - name: Test
-          uses: skx/github-action-tester@master
+        - uses: skx/github-action-tester@master
+
+    style:
+        runs-on: ubuntu-latest
+        name: norminette
+        steps:
+        - uses: actions/checkout@v2
+        - uses: alexandregv/norminette-action@v2
+          with:
+            flags: 'srcs/* include/* libft/*.c libft/includes/libft.h'
