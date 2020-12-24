@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5_exec.c                                         :+:      :+:    :+:   */
+/*   digest_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 16:25:06 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 23:56:08 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/24 12:30:01 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/24 14:12:15 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
 #include "libft.h"
 #include "ssl.h"
 #include "reader.h"
 #include "digest.h"
 #include "md5.h"
-#include "hexa.h"
-
-static void		md5_hash_print(uint8_t hash[MD5_HASH_SIZE])
-{
-	size_t	index;
-
-	index = 0;
-	while (index < MD5_HASH_SIZE)
-		print_hexa_num(STDOUT_FILENO, hash[index++]);
-}
 
 static bool		should_apply_reverse_mode(t_context *ctx
 	, t_digest_exec_origin origin)
@@ -35,27 +24,28 @@ static bool		should_apply_reverse_mode(t_context *ctx
 			|| origin == DIGEST_EXEC_ORIGIN_STRING));
 }
 
-void			md5_algo_exec(t_context *ctx
+void			digest_algo_exec(t_context *ctx
 	, t_reader *reader, t_digest_exec_origin origin)
 {
 	const bool	reverse_mode = should_apply_reverse_mode(ctx, origin);
-	uint8_t		hash[MD5_HASH_SIZE];
 
-	md5_algo(reader, hash);
+	ctx->algo_ctx.digest.algo_fn(ctx, reader);
 	if (reverse_mode == true)
-		md5_hash_print(hash);
+		ctx->algo_ctx.digest.print_fn(ctx);
 	if (ctx->algo_ctx.digest.quiet == false)
 	{
 		if (origin == DIGEST_EXEC_ORIGIN_STRING && reverse_mode == false)
-			ft_putf("MD5 (\"%s\") = ", reader->ctx.buffer.data);
+			ft_putf("%s (\"%s\") = ", ctx->algo_name_capital
+				, reader->ctx.buffer.data);
 		else if (origin == DIGEST_EXEC_ORIGIN_STRING && reverse_mode == true)
 			ft_putf(" \"%s\"", reader->ctx.buffer.data);
 		else if (origin == DIGEST_EXEC_ORIGIN_FILE && reverse_mode == false)
-			ft_putf("MD5 (%s) = ", reader->ctx.fd.filename);
+			ft_putf("%s (%s) = ", ctx->algo_name_capital
+				, reader->ctx.fd.filename);
 		else if (origin == DIGEST_EXEC_ORIGIN_FILE && reverse_mode == true)
 			ft_putf(" %s", reader->ctx.fd.filename);
 	}
 	if (reverse_mode == false)
-		md5_hash_print(hash);
+		ctx->algo_ctx.digest.print_fn(ctx);
 	ft_putchar('\n');
 }

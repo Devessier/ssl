@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 10:45:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/23 00:01:39 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/24 14:08:55 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,13 +171,14 @@ static void					md5_final(t_md5_algo_context *ctx, uint8_t hash[4])
 	md5_encode_output_le(ctx, hash);
 }
 
-void						md5_algo(t_reader *reader
-	, uint8_t hash[MD5_HASH_SIZE])
+void						md5_algo(t_context *ctx, t_reader *reader)
 {
 	t_md5_algo_context	algo_ctx;
 	ssize_t				buffer_length;
+	uint8_t				*hash;
 
 	algo_ctx = md5_init();
+	hash = ctx->algo_ctx.digest.algo_ctx.md5.hash;
 	while ((buffer_length = reader_read(reader
 		, (char *)(algo_ctx.buffer + algo_ctx.buffer_length)
 		, MD5_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)

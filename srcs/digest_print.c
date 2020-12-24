@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5_exec.h                                         :+:      :+:    :+:   */
+/*   digest_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 16:42:38 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:42:52 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/24 13:07:24 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/24 13:09:55 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MD5_EXEC_H
-# define MD5_EXEC_H
-# include "ssl.h"
-# include "reader.h"
-# include "digest.h"
+#include "ssl.h"
+#include "md5_print.h"
 
-void	md5_algo_exec(t_context *ctx
-	, t_reader *reader, t_digest_exec_origin origin);
-
-#endif
+void	digest_print(t_context *ctx)
+{
+	if (ctx->algo == ALGO_MD5)
+		md5_hash_print(ctx->algo_ctx.digest.algo_ctx.md5.hash);
+}

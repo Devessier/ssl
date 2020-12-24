@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_ctx.c                                         :+:      :+:    :+:   */
+/*   digest_exec.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 17:35:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 12:50:27 by bdevessi         ###   ########.fr       */
+/*   Created: 2020/12/24 12:52:19 by bdevessi          #+#    #+#             */
+/*   Updated: 2020/12/24 12:52:59 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "ssl.h"
-#include "digest.h"
-#include "md5.h"
-#include "sha256.h"
+#ifndef DIGEST_EXEC_H
+# define DIGEST_EXEC_H
+# include "ssl.h"
+# include "reader.h"
+# include "digest.h"
 
-t_arg		*get_algo_arguments(t_algo algo)
-{
-	if (algo == ALGO_MD5 || algo == ALGO_SHA256)
-		return (g_digest_arguments);
-	return (NULL);
-}
+void			digest_algo_exec(t_context *ctx
+	, t_reader *reader, t_digest_exec_origin origin);
 
-t_algo_cmd	get_algo_usage(t_algo algo)
-{
-	if (algo == ALGO_MD5 || algo == ALGO_SHA256)
-		return (digest_log_command_usage);
-	return (NULL);
-}
+#endif
