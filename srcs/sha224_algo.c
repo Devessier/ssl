@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 16:33:54 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 17:04:03 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 17:16:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,3 @@ void			sha224_algo(t_context *ctx, t_reader *reader)
 	}
 	sha224_final(&algo_ctx, hash);
 }
-
