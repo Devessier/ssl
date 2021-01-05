@@ -6,22 +6,47 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:28:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2020/12/24 17:52:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SSL_H
 # define SSL_H
 # include <stdbool.h>
+# include <stdint.h>
+# include "reader.h"
+# define MD5_HASH_SIZE 16
+# define SHA256_HASH_SIZE 32
 
 struct s_context;
 
+typedef struct		s_digest_context_md5
+{
+	uint8_t		hash[MD5_HASH_SIZE];
+}					t_digest_context_md5;
+
+typedef struct		s_digest_context_sha256
+{
+	uint8_t		hash[SHA256_HASH_SIZE];
+}					t_digest_context_sha256;
+
+typedef union		u_digest_context_algo
+{
+	t_digest_context_md5	md5;
+	t_digest_context_sha256	sha256;
+}					t_digest_context_algo;
+
 typedef struct		s_digest_context
 {
-	bool		print;
-	bool		quiet;
-	bool		reverse;
-	char		*string;
+	bool					print;
+	bool					quiet;
+	bool					reverse;
+	char					*string;
+
+	void					(*algo_fn)(struct s_context *, t_reader *);
+	void					(*print_fn)(struct s_context *);
+
+	t_digest_context_algo	algo_ctx;
 }					t_digest_context;
 
 typedef union		u_algo_context
@@ -61,6 +86,7 @@ typedef struct		s_context
 {
 	t_algo			algo;
 	char			*algo_name;
+	char			*algo_name_capital;
 	void			(*cmd)(struct s_context *ctx);
 	void			(*usage)(struct s_context *ctx);
 
@@ -86,6 +112,7 @@ typedef struct		s_algo_desc
 {
 	t_algo			algorithm;
 	char			*name;
+	char			*name_capital;
 	t_algo_type		type;
 	t_arg			*arguments;
 }					t_algo_desc;
