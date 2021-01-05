@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 13:00:05 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 16:33:37 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "libft.h"
 #include "ssl.h"
 #include "md5.h"
+#include "sha224.h"
 #include "sha256.h"
 #include "algo_ctx.h"
 
@@ -25,6 +26,13 @@ t_algo_desc				g_algorithms[] = {
 		.algorithm = ALGO_MD5,
 		.name = "md5",
 		.name_capital = "MD5",
+		.type = ALGO_DIGEST,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_SHA224,
+		.name = "sha224",
+		.name_capital = "SHA224",
 		.type = ALGO_DIGEST,
 		.arguments = NULL
 	},
@@ -77,6 +85,8 @@ static void				bind_args_to_algo_context(t_context *ctx)
 		bind_md5_args(ctx);
 	else if (ctx->algo == ALGO_SHA256)
 		bind_sha256_args(ctx);
+	else if (ctx->algo == ALGO_SHA224)
+		bind_sha224_args(ctx);
 }
 
 void					init_cmd(t_context *ctx, t_algo algo)

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 17:52:28 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 16:30:05 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include "reader.h"
 # define MD5_HASH_SIZE 16
+# define SHA224_HASH_SIZE 28
 # define SHA256_HASH_SIZE 32
 
 struct s_context;
@@ -30,10 +31,16 @@ typedef struct		s_digest_context_sha256
 	uint8_t		hash[SHA256_HASH_SIZE];
 }					t_digest_context_sha256;
 
+typedef struct		s_digest_context_sha224
+{
+	uint8_t		hash[SHA224_HASH_SIZE];
+}					t_digest_context_sha224;
+
 typedef union		u_digest_context_algo
 {
 	t_digest_context_md5	md5;
 	t_digest_context_sha256	sha256;
+	t_digest_context_sha224	sha224;
 }					t_digest_context_algo;
 
 typedef struct		s_digest_context
@@ -77,6 +84,7 @@ typedef enum		e_algo
 	ALGO_INVALID = 0,
 
 	ALGO_MD5,
+	ALGO_SHA224,
 	ALGO_SHA256
 }					t_algo;
 

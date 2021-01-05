@@ -6,18 +6,19 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:34:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 14:55:59 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 17:01:59 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ssl.h"
 #include "reader.h"
+#include "sha2.h"
 #include "sha256.h"
 #include "sha256_algo.h"
 #include "algo_rotate.h"
 
-static const uint32_t	g_k[64] = {
+const uint32_t		g_sha224_sha256_k[64] = {
 	0x428a2f98,
 	0x71374491,
 	0xb5c0fbcf,
@@ -98,7 +99,7 @@ static void		sha256_transform_main_computing(size_t index
 
 	tmp[0] = states->h + bsig1(states->e)
 		+ ch(states->e, states->f, states->g)
-		+ g_k[index] + words[index];
+		+ g_sha224_sha256_k[index] + words[index];
 	tmp[1] = bsig0(states->a) + maj(states->a, states->b, states->c);
 	states->h = states->g;
 	states->g = states->f;
