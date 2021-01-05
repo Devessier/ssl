@@ -25,6 +25,7 @@ Standard commands:$
 $
 Message Digest commands:$
 md5$
+sha224$
 sha256$
 $
 Cipher commands:$

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_ctx.c                                         :+:      :+:    :+:   */
+/*   sha224_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 17:35:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 17:07:59 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/05 17:00:25 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/05 17:00:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdint.h>
 #include "ssl.h"
-#include "digest.h"
-#include "md5.h"
-#include "sha256.h"
+#include "hexa.h"
 
-t_arg		*get_algo_arguments(t_algo algo)
+void	sha224_hash_print(t_context *ctx)
 {
-	if (algo == ALGO_MD5 || algo == ALGO_SHA256 || algo == ALGO_SHA224)
-		return (g_digest_arguments);
-	return (NULL);
-}
+	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.sha224.hash;
+	size_t			index;
 
-t_algo_cmd	get_algo_usage(t_algo algo)
-{
-	if (algo == ALGO_MD5 || algo == ALGO_SHA256 || algo == ALGO_SHA224)
-		return (digest_log_command_usage);
-	return (NULL);
+	index = 0;
+	while (index < SHA224_HASH_SIZE)
+		print_hexa_num(STDOUT_FILENO, hash[index++]);
 }

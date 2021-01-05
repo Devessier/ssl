@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 14:49:38 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 16:35:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ typedef struct	s_sha256_algo_context
 }				t_sha256_algo_context;
 
 void			bind_sha256_args(t_context *ctx);
-void			sha256_cmd(t_context *ctx);
 
 #endif
