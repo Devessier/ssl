@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 17:37:16 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 14:49:38 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "ssl.h"
 # include <stdint.h>
 # define SHA256_WORDS_COUNT 16
-# define SHA256_BUFFER_SIZE (sizeof(uint32_t) * SHA256_WORDS_COUNT)
+# define SHA256_BUFFER_SIZE 64
 
 typedef struct	s_sha256_states
 {

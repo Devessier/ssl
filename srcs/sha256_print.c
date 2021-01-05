@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:41:05 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 15:42:41 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 13:02:46 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	sha256_hash_print(t_context *ctx)
 {
 	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.sha256.hash;
-	size_t	index;
+	size_t			index;
 
 	index = 0;
 	while (index < SHA256_HASH_SIZE)

@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5_print.c                                        :+:      :+:    :+:   */
+/*   sha256_algo_logical_functions_2.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 16:25:06 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 12:51:56 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/05 12:55:38 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/05 13:01:13 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
-#include "ssl.h"
-#include "hexa.h"
+#include "algo_rotate.h"
 
-void		md5_hash_print(t_context *ctx)
+uint32_t		ssig1(uint32_t x)
 {
-	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.md5.hash;
-	size_t			index;
-
-	index = 0;
-	while (index < MD5_HASH_SIZE)
-		print_hexa_num(STDOUT_FILENO, hash[index++]);
+	return (rotr32(x, 17) ^ rotr32(x, 19) ^ (x >> 10));
 }
