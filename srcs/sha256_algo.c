@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:34:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 17:55:16 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 12:08:19 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static const uint32_t	g_k[64] = {
 	0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
 };
 
-static t_sha256_algo_context	sha256_init()
+static void		sha256_init(t_sha256_algo_context *ctx)
 {
-	return ((t_sha256_algo_context) {
+	*ctx = (t_sha256_algo_context) {
 		.buffer_length = 0,
 		.intermediate_hash[0] = 0x6a09e667,
 		.intermediate_hash[1] = 0xbb67ae85,
@@ -40,7 +40,8 @@ static t_sha256_algo_context	sha256_init()
 		.intermediate_hash[6] = 0x1f83d9ab,
 		.intermediate_hash[7] = 0x5be0cd19,
 		.binary_length = 0,
-	});
+	};
+	ft_bzero(ctx->buffer, sizeof(ctx->buffer));
 }
 
 uint32_t		ch(uint32_t x, uint32_t y, uint32_t z)
@@ -107,9 +108,10 @@ void			sha256_transform(t_sha256_algo_context *ctx)
 	index = -1;
 	while (++index < 16)
 		words[index] = ctx->buffer[index * 4] << 24
-			| ctx->buffer[index * 4 + 1] << 8
-			| ctx->buffer[index * 4 + 2] << 16
-			| ctx->buffer[index * 4 + 3] << 24;
+			| ctx->buffer[index * 4 + 1] << 16
+			| ctx->buffer[index * 4 + 2] << 8
+			| ctx->buffer[index * 4 + 3];
+	index = 15;
 	while (++index < 64)
 		words[index] = ssig1(words[index - 2]) + words[index - 7] + ssig0(words[index - 15]) + words[index - 16];
 	fill_sha256_states(&states, ctx->intermediate_hash);
@@ -137,9 +139,9 @@ static void		fill_hash(t_sha256_algo_context *ctx, uint8_t hash[SHA256_HASH_SIZE
 	index = 0;
 	while (index < 4)
 	{
-		hash[index]      = (ctx->intermediate_hash[0] >> (24 - index * 8)) & 0x000000ff;
-		hash[index + 4]  = (ctx->intermediate_hash[1] >> (24 - index * 8)) & 0x000000ff;
-		hash[index + 8]  = (ctx->intermediate_hash[2] >> (24 - index * 8)) & 0x000000ff;
+		hash[index] = (ctx->intermediate_hash[0] >> (24 - index * 8)) & 0x000000ff;
+		hash[index + 4] = (ctx->intermediate_hash[1] >> (24 - index * 8)) & 0x000000ff;
+		hash[index + 8] = (ctx->intermediate_hash[2] >> (24 - index * 8)) & 0x000000ff;
 		hash[index + 12] = (ctx->intermediate_hash[3] >> (24 - index * 8)) & 0x000000ff;
 		hash[index + 16] = (ctx->intermediate_hash[4] >> (24 - index * 8)) & 0x000000ff;
 		hash[index + 20] = (ctx->intermediate_hash[5] >> (24 - index * 8)) & 0x000000ff;
@@ -166,12 +168,12 @@ void			sha256_final(t_sha256_algo_context *ctx, uint8_t *hash)
 		while (index < 64)
 			ctx->buffer[index++] = 0;
 		sha256_transform(ctx);
-		ft_bzero(ctx->buffer, SHA256_BUFFER_SIZE);
+		ft_bzero(ctx->buffer, 56);
 	}
 	ctx->binary_length += ctx->buffer_length * 8;
 	index = 55;
 	while (++index < 64)
-		ctx->buffer[index] = (ctx->binary_length >> ((index - 56) * 8))
+		ctx->buffer[index] = (ctx->binary_length >> ((63 - index) * 8))
 			& 0x000000ff;
 	sha256_transform(ctx);
 	fill_hash(ctx, hash);
@@ -183,7 +185,7 @@ void 			sha256_algo(t_context *ctx, t_reader *reader)
 	ssize_t					buffer_length;
 	uint8_t					*hash;
 
-	algo_ctx = sha256_init();
+	sha256_init(&algo_ctx);
 	hash = ctx->algo_ctx.digest.algo_ctx.sha256.hash;
 	while ((buffer_length = reader_read(reader
 		, (char *)(algo_ctx.buffer + algo_ctx.buffer_length)
