@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha2.h                                             :+:      :+:    :+:   */
+/*   sha512_algo.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 16:37:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 17:01:15 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/07 16:43:49 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/07 20:45:14 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA2_H
-# define SHA2_H
+#ifndef SHA512_ALGO_H
+# define SHA512_ALGO_H
 # include <stdint.h>
+# include "ssl.h"
+# include "reader.h"
 
-extern const uint32_t		g_sha224_sha256_k[];
-extern const uint64_t		g_sha384_sha512_k[];
+typedef	__uint128_t	t_uint128;
+
+void				sha512_algo(t_context *ctx, t_reader *reader);
 
 #endif

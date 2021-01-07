@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 16:30:05 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/07 16:56:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define MD5_HASH_SIZE 16
 # define SHA224_HASH_SIZE 28
 # define SHA256_HASH_SIZE 32
+# define SHA512_HASH_SIZE 64
 
 struct s_context;
 
@@ -36,11 +37,17 @@ typedef struct		s_digest_context_sha224
 	uint8_t		hash[SHA224_HASH_SIZE];
 }					t_digest_context_sha224;
 
+typedef struct		s_digest_context_sha512
+{
+	uint8_t		hash[SHA512_HASH_SIZE];
+}					t_digest_context_sha512;
+
 typedef union		u_digest_context_algo
 {
 	t_digest_context_md5	md5;
 	t_digest_context_sha256	sha256;
 	t_digest_context_sha224	sha224;
+	t_digest_context_sha512	sha512;
 }					t_digest_context_algo;
 
 typedef struct		s_digest_context
@@ -85,7 +92,8 @@ typedef enum		e_algo
 
 	ALGO_MD5,
 	ALGO_SHA224,
-	ALGO_SHA256
+	ALGO_SHA256,
+	ALGO_SHA512,
 }					t_algo;
 
 t_algo				algo_name_to_algo(const char *algo_name);
