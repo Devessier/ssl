@@ -27,6 +27,7 @@ Message Digest commands:$
 md5$
 sha224$
 sha256$
+sha512$
 $
 Cipher commands:$
 EOF

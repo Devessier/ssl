@@ -1,45 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha256.h                                           :+:      :+:    :+:   */
+/*   sha512.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 11:38:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 18:49:19 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/05 17:55:16 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/07 17:05:08 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA256_H
-# define SHA256_H
+#ifndef SHA512_H
+# define SHA512_H
 # include "ssl.h"
 # include <stdint.h>
-# define SHA256_WORDS_COUNT 16
-# define SHA256_WORD_BYTES 4
-# define SHA256_BUFFER_SIZE 64
+# define SHA512_WORDS_COUNT 16
+# define SHA512_WORD_BYTES 8
+# define SHA512_BUFFER_SIZE 128
 
-typedef struct	s_sha256_states
+typedef struct	s_sha512_states
 {
-	uint32_t	a;
-	uint32_t	b;
-	uint32_t	c;
-	uint32_t	d;
-	uint32_t	e;
-	uint32_t	f;
-	uint32_t	g;
-	uint32_t	h;
-}				t_sha256_states;
+	uint64_t	a;
+	uint64_t	b;
+	uint64_t	c;
+	uint64_t	d;
+	uint64_t	e;
+	uint64_t	f;
+	uint64_t	g;
+	uint64_t	h;
+}				t_sha512_states;
 
-typedef struct	s_sha256_algo_context
+typedef struct	s_sha512_algo_context
 {
-	uint8_t			buffer[SHA256_WORDS_COUNT * SHA256_WORD_BYTES];
+	uint8_t			buffer[SHA512_WORDS_COUNT * SHA512_WORD_BYTES];
 	size_t			buffer_length;
 
-	uint32_t		intermediate_hash[8];
+	uint64_t		intermediate_hash[8];
 
 	size_t			binary_length;
-}				t_sha256_algo_context;
+}				t_sha512_algo_context;
 
-void			bind_sha256_args(t_context *ctx);
+void			bind_sha512_args(t_context *ctx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 13:30:42 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:34:00 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/05 17:59:34 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ uint32_t	rotl32(uint32_t value, unsigned int count)
 }
 
 uint32_t	rotr32(uint32_t value, unsigned int count)
+{
+	const unsigned int mask = CHAR_BIT * sizeof(value) - 1;
+
+	count &= mask;
+	return (value >> count) | (value << (-count & mask));
+}
+
+uint64_t	rotl64(uint64_t value, unsigned int count)
+{
+	const unsigned int mask = CHAR_BIT * sizeof(value) - 1;
+
+	count &= mask;
+	return (value << count) | (value >> (-count & mask));
+}
+
+uint64_t	rotr64(uint64_t value, unsigned int count)
 {
 	const unsigned int mask = CHAR_BIT * sizeof(value) - 1;
 

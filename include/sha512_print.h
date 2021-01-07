@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha2.h                                             :+:      :+:    :+:   */
+/*   sha512_print.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 16:37:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 17:01:15 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/07 16:51:36 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/07 16:51:58 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA2_H
-# define SHA2_H
-# include <stdint.h>
+#ifndef SHA512_PRINT_H
+# define SHA512_PRINT_H
+# include "ssl.h"
 
-extern const uint32_t		g_sha224_sha256_k[];
-extern const uint64_t		g_sha384_sha512_k[];
+void	sha512_hash_print(t_context *ctx);
 
 #endif

@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha2.h                                             :+:      :+:    :+:   */
+/*   sha512_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 16:37:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 17:01:15 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/07 16:52:15 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/07 16:57:04 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA2_H
-# define SHA2_H
-# include <stdint.h>
+#include <stdint.h>
+#include "ssl.h"
+#include "hexa.h"
 
-extern const uint32_t		g_sha224_sha256_k[];
-extern const uint64_t		g_sha384_sha512_k[];
+void	sha512_hash_print(t_context *ctx)
+{
+	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.sha512.hash;
+	size_t			index;
 
-#endif
+	index = 0;
+	while (index < SHA512_HASH_SIZE)
+		print_hexa_num(STDOUT_FILENO, hash[index++]);
+}

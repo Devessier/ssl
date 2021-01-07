@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha2.h                                             :+:      :+:    :+:   */
+/*   sha512_algo_logical_functions_2.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 16:37:18 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 17:01:15 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/07 23:56:09 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/08 00:00:54 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA2_H
-# define SHA2_H
-# include <stdint.h>
+#include <stdint.h>
+#include "algo_rotate.h"
 
-extern const uint32_t		g_sha224_sha256_k[];
-extern const uint64_t		g_sha384_sha512_k[];
+uint64_t		ssig0_64(uint64_t x)
+{
+	return (rotr64(x, 1) ^ rotr64(x, 8) ^ (x >> 7));
+}
 
-#endif
+uint64_t		ssig1_64(uint64_t x)
+{
+	return (rotr64(x, 19) ^ rotr64(x, 61) ^ (x >> 6));
+}

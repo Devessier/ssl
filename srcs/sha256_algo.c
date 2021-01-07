@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:34:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/05 17:01:59 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 00:00:12 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ static void		sha256_transform_main_computing(size_t index
 {
 	uint32_t		tmp[2];
 
-	tmp[0] = states->h + bsig1(states->e)
-		+ ch(states->e, states->f, states->g)
+	tmp[0] = states->h + bsig1_32(states->e)
+		+ ch_32(states->e, states->f, states->g)
 		+ g_sha224_sha256_k[index] + words[index];
-	tmp[1] = bsig0(states->a) + maj(states->a, states->b, states->c);
+	tmp[1] = bsig0_32(states->a) + maj_32(states->a, states->b, states->c);
 	states->h = states->g;
 	states->g = states->f;
 	states->f = states->e;
@@ -125,8 +125,8 @@ void			sha256_transform(t_sha256_algo_context *ctx)
 			| ctx->buffer[index * 4 + 3];
 	index = 15;
 	while (++index < 64)
-		words[index] = ssig1(words[index - 2]) + words[index - 7]
-			+ ssig0(words[index - 15]) + words[index - 16];
+		words[index] = ssig1_32(words[index - 2]) + words[index - 7]
+			+ ssig0_32(words[index - 15]) + words[index - 16];
 	fill_sha256_states(&states, ctx->intermediate_hash);
 	index = -1;
 	while (++index < 64)
