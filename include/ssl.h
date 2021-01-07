@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 16:56:28 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/07 23:57:02 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define SHA512_HASH_SIZE 64
 
 struct s_context;
+
+typedef	__uint128_t	t_uint128;
 
 typedef struct		s_digest_context_md5
 {
