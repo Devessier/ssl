@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:48:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:09:11 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 00:13:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ const uint64_t		g_sha384_sha512_k[80] = {
 	0x6c44198c4a475817
 };
 
-void			sha512_compression(size_t index, uint64_t words[80], t_sha512_states *states)
+void			sha512_compression(size_t index
+	, uint64_t words[80], t_sha512_states *states)
 {
 	uint64_t		tmp[2];
 
@@ -189,7 +190,8 @@ static void		fill_hash(t_sha512_algo_context *ctx
 	}
 }
 
-void			sha512_final(t_sha512_algo_context *ctx, uint8_t hash[SHA512_HASH_SIZE])
+void			sha512_final(t_sha512_algo_context *ctx
+	, uint8_t hash[SHA512_HASH_SIZE])
 {
 	ssize_t	index;
 
@@ -211,8 +213,8 @@ void			sha512_final(t_sha512_algo_context *ctx, uint8_t hash[SHA512_HASH_SIZE])
 	ctx->binary_length += ctx->buffer_length * 8;
 	index = 111;
 	while (++index < 128)
-		ctx->buffer[index] = ((t_uint128)ctx->binary_length >> ((127 - index) * 8))
-			& 0x000000ff;
+		ctx->buffer[index] = ((t_uint128)ctx->binary_length
+			>> ((127 - index) * 8)) & 0x000000ff;
 	sha512_transform(ctx);
 	fill_hash(ctx, hash);
 }
