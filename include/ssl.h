@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:46:32 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 01:37:13 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ struct s_context;
 
 typedef	__uint128_t	t_uint128;
 
+typedef enum		e_algo
+{
+	ALGO_INVALID = 0,
+
+	ALGO_MD5,
+	ALGO_SHA224,
+	ALGO_SHA256,
+	ALGO_SHA384,
+	ALGO_SHA512,
+	ALGO_SHA512_224,
+}					t_algo;
+
 enum				e_hash_size
 {
 	MD5_HASH_SIZE = 16,
@@ -27,6 +39,7 @@ enum				e_hash_size
 	SHA256_HASH_SIZE = 32,
 	SHA384_HASH_SIZE = 48,
 	SHA512_HASH_SIZE = 64,
+	SHA512_224_HASH_SIZE = 28,
 };
 
 typedef struct		s_digest_context_md5
@@ -53,14 +66,19 @@ typedef struct		s_digest_context_sha512
 {
 	uint8_t		hash[SHA512_HASH_SIZE];
 }					t_digest_context_sha512;
+typedef struct		s_digest_context_sha512_224
+{
+	uint8_t		hash[SHA512_224_HASH_SIZE];
+}					t_digest_context_sha512_224;
 
 typedef union		u_digest_context_algo
 {
-	t_digest_context_md5	md5;
-	t_digest_context_sha256	sha256;
-	t_digest_context_sha224	sha224;
-	t_digest_context_sha384	sha384;
-	t_digest_context_sha512	sha512;
+	t_digest_context_md5		md5;
+	t_digest_context_sha256		sha256;
+	t_digest_context_sha224		sha224;
+	t_digest_context_sha384		sha384;
+	t_digest_context_sha512		sha512;
+	t_digest_context_sha512_224	sha512_224;
 }					t_digest_context_algo;
 
 typedef struct		s_digest_context
@@ -98,17 +116,6 @@ typedef struct		s_arg
 
 	void				(*exec_after)(struct s_context* ctx);
 }					t_arg;
-
-typedef enum		e_algo
-{
-	ALGO_INVALID = 0,
-
-	ALGO_MD5,
-	ALGO_SHA224,
-	ALGO_SHA256,
-	ALGO_SHA384,
-	ALGO_SHA512,
-}					t_algo;
 
 t_algo				algo_name_to_algo(const char *algo_name);
 

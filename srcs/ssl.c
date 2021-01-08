@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 01:05:33 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 02:18:08 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "sha256.h"
 #include "sha384.h"
 #include "sha512.h"
+#include "sha512_224.h"
 #include "algo_ctx.h"
 
 t_algo_desc				g_algorithms[] = {
@@ -56,6 +57,13 @@ t_algo_desc				g_algorithms[] = {
 		.algorithm = ALGO_SHA512,
 		.name = "sha512",
 		.name_capital = "SHA512",
+		.type = ALGO_DIGEST,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_SHA512_224,
+		.name = "sha512224",
+		.name_capital = "SHA512224",
 		.type = ALGO_DIGEST,
 		.arguments = NULL
 	},
@@ -107,6 +115,8 @@ static void				bind_args_to_algo_context(t_context *ctx)
 		bind_sha512_args(ctx);
 	else if (ctx->algo == ALGO_SHA384)
 		bind_sha384_args(ctx);
+	else if (ctx->algo == ALGO_SHA512_224)
+		bind_sha512_224_args(ctx);
 }
 
 void					init_cmd(t_context *ctx, t_algo algo)
