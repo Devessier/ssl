@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha512_224_algo.c                                      :+:      :+:    :+:   */
+/*   sha512_224_algo.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 00:34:22 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 01:04:39 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/08 02:26:19 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/08 02:27:21 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ static void		sha512_224_init(t_sha512_224_algo_context *ctx)
 	};
 	ft_bzero(ctx->buffer, sizeof(ctx->buffer));
 }
+
+/*
+** We must fill 224 bits, that is, 3.5 64-bit words.
+** To do that we simply fill totally 3 64-bit words
+** and the first bits of a fourth 64-bit word.
+*/
 
 static void		fill_hash(t_sha512_224_algo_context *ctx
 	, uint8_t hash[SHA512_224_HASH_SIZE])
@@ -93,8 +99,8 @@ void			sha512_224_final(t_sha512_224_algo_context *ctx
 void			sha512_224_algo(t_context *ctx, t_reader *reader)
 {
 	t_sha512_224_algo_context	algo_ctx;
-	ssize_t					buffer_length;
-	uint8_t					*hash;
+	ssize_t						buffer_length;
+	uint8_t						*hash;
 
 	sha512_224_init(&algo_ctx);
 	hash = ctx->algo_ctx.digest.algo_ctx.sha512_224.hash;
