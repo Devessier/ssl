@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:43:49 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:08:58 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 01:05:14 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "reader.h"
 
 void		sha512_algo(t_context *ctx, t_reader *reader);
+void		sha512_transform(t_sha512_algo_context *ctx);
 
 void		sha512_init(t_sha512_algo_context *ctx);
 void		fill_sha512_states(t_sha512_states *to_fill

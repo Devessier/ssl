@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha224_algo.h                                      :+:      :+:    :+:   */
+/*   sha384_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/24 15:34:55 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:58:43 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/08 00:34:19 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/08 00:52:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA224_ALGO_H
-# define SHA224_ALGO_H
-# include "ssl.h"
-# include "reader.h"
+#include <stdint.h>
+#include "ssl.h"
+#include "hexa.h"
 
-void		sha224_algo(t_context *ctx, t_reader *reader);
+void	sha384_hash_print(t_context *ctx)
+{
+	const uint8_t	*hash = ctx->algo_ctx.digest.algo_ctx.sha384.hash;
+	size_t			index;
 
-#endif
+	index = 0;
+	while (index < SHA384_HASH_SIZE)
+		print_hexa_num(STDOUT_FILENO, hash[index++]);
+}
