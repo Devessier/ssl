@@ -98,7 +98,7 @@ testSHA384ReadsFromStdinWhenNoArgumentsAreProvided() {
 	string_to_hash='pickle rick'
 
 	hash_result=$(echo "${string_to_hash}" | ./ft_ssl sha384)
-	official_result='914a5231f5390200cb81129d6350ff61ff80a3a263d8c36b416f5225a2afcc57656775c4504bc4649070cdd1d5e2eb2a'
+	official_result='08c3f5ba57482ea5f8478d79800d6647a800f1deaeede53a5a794a151e8ee27670a2c7bd9ad6c83e468801614eac4780'
 
 	assertEquals "${official_result}" "${hash_result}"
 }
