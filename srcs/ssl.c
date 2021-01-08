@@ -6,11 +6,9 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 02:18:08 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 02:53:43 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 #include <unistd.h>
 #include <stdbool.h>
@@ -22,6 +20,7 @@
 #include "sha384.h"
 #include "sha512.h"
 #include "sha512_224.h"
+#include "sha512_256.h"
 #include "algo_ctx.h"
 
 t_algo_desc				g_algorithms[] = {
@@ -64,6 +63,13 @@ t_algo_desc				g_algorithms[] = {
 		.algorithm = ALGO_SHA512_224,
 		.name = "sha512224",
 		.name_capital = "SHA512224",
+		.type = ALGO_DIGEST,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_SHA512_256,
+		.name = "sha512256",
+		.name_capital = "SHA512256",
 		.type = ALGO_DIGEST,
 		.arguments = NULL
 	},
@@ -117,6 +123,8 @@ static void				bind_args_to_algo_context(t_context *ctx)
 		bind_sha384_args(ctx);
 	else if (ctx->algo == ALGO_SHA512_224)
 		bind_sha512_224_args(ctx);
+	else if (ctx->algo == ALGO_SHA512_256)
+		bind_sha512_256_args(ctx);
 }
 
 void					init_cmd(t_context *ctx, t_algo algo)
