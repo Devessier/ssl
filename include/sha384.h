@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sha224_algo.h                                      :+:      :+:    :+:   */
+/*   sha384.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/24 15:34:55 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:58:43 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/08 00:34:48 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/08 00:56:01 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA224_ALGO_H
-# define SHA224_ALGO_H
+#ifndef SHA384_H
+# define SHA384_H
 # include "ssl.h"
-# include "reader.h"
+# include "sha512.h"
 
-void		sha224_algo(t_context *ctx, t_reader *reader);
+typedef t_sha512_states			t_sha384_states;
+
+typedef t_sha512_algo_context	t_sha384_algo_context;
+
+void							bind_sha384_args(t_context *ctx);
 
 #endif
