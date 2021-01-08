@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 00:33:54 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:51:25 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 01:10:50 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,3 @@ void	bind_sha384_args(t_context *ctx)
 	ctx->algo_ctx.digest.print_fn = sha384_hash_print;
 	ctx->cmd = digest_cmd;
 }
-
