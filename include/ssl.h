@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 01:37:13 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/08 02:47:47 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum		e_algo
 	ALGO_SHA384,
 	ALGO_SHA512,
 	ALGO_SHA512_224,
+	ALGO_SHA512_256,
 }					t_algo;
 
 enum				e_hash_size
@@ -40,6 +41,7 @@ enum				e_hash_size
 	SHA384_HASH_SIZE = 48,
 	SHA512_HASH_SIZE = 64,
 	SHA512_224_HASH_SIZE = 28,
+	SHA512_256_HASH_SIZE = 32,
 };
 
 typedef struct		s_digest_context_md5
@@ -66,10 +68,16 @@ typedef struct		s_digest_context_sha512
 {
 	uint8_t		hash[SHA512_HASH_SIZE];
 }					t_digest_context_sha512;
+
 typedef struct		s_digest_context_sha512_224
 {
 	uint8_t		hash[SHA512_224_HASH_SIZE];
 }					t_digest_context_sha512_224;
+
+typedef struct		s_digest_context_sha512_256
+{
+	uint8_t		hash[SHA512_256_HASH_SIZE];
+}					t_digest_context_sha512_256;
 
 typedef union		u_digest_context_algo
 {
@@ -79,6 +87,7 @@ typedef union		u_digest_context_algo
 	t_digest_context_sha384		sha384;
 	t_digest_context_sha512		sha512;
 	t_digest_context_sha512_224	sha512_224;
+	t_digest_context_sha512_256	sha512_256;
 }					t_digest_context_algo;
 
 typedef struct		s_digest_context

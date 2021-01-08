@@ -30,6 +30,7 @@ sha256$
 sha384$
 sha512$
 sha512224$
+sha512256$
 $
 Cipher commands:$
 EOF
