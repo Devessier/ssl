@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   repl_parser_context.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 16:41:51 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 20:04:42 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 20:04:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "ssl.h"
-#include "repl.h"
+#include "repl_parser.h"
 
-int	main(int argc, char **argv)
+void	repl_parser_context_init(t_repl_parser_context *ctx)
 {
-	argc--;
-	argv++;
-	if (argc == 0)
-		return (repl());
-	return (ssl_exec(argc, argv));
+	*ctx = (t_repl_parser_context){
+		.state = RP_WHITESPACE,
+		.input_index = 0,
+		.temporary_index = 0,
+		.word_beginning = -1,
+		.words_count = 0,
+	};
 }

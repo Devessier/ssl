@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bdevessi <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 09:13:12 by bdevessi          #+#    #+#              #
-#    Updated: 2019/03/07 12:34:13 by bdevessi         ###   ########.fr        #
+#    Updated: 2021/01/12 19:47:11 by bdevessi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS += ft_isalpha.c
 SRCS += ft_isascii.c
 SRCS += ft_isdigit.c
 SRCS += ft_isprint.c
+SRCS += ft_isspace.c
 SRCS += ft_itoa.c
 SRCS += ft_lstadd.c
 SRCS += ft_lstadd_back.c

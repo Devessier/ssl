@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   repl.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 20:27:03 by bdevessi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <errno.h>
+#include <string.h>
+#include "libft.h"
+#include "ssl.h"
+#include "repl.h"
+#include "repl_parser.h"
+#include "reader.h"
+
+static void		repl_prompt(void)
+{
+	const char	prompt[] = "ft_ssl > ";
+
+	write(STDOUT_FILENO, prompt, sizeof(prompt));
+}
+
+static t_error	repl_fill_buffer(t_reader *rd
+	, t_repl_parser *parser)
+{
+	size_t	ret;
+	char	c;
+
+	ret = reader_read(rd, &c, 1);
+	if (ret < 0)
+	{
+		ft_putf_fd(STDERR_FILENO, "ft_ssl: repl: %s\n", strerror(errno));
+		return (E_FAILURE);
+	}
+	if (ret == 0)
+		return (E_FAILURE);
+	if (c == '\n')
+		return (E_EXECUTE);
+	parser->input[parser->input_length++] = c;
+	return (E_SUCCESS);
+}
+
+t_error			repl(void)
+{
+	const t_reader	rd = create_reader_fd(STDIN_FILENO, "stdin", false);
+	t_repl_parser	parser;
+	ssize_t			argc;
+	t_error			status;
+
+	while (true)
+	{
+		repl_parser_init(&parser);
+		repl_prompt();
+		while (parser.input_length < REPL_BUFFER_SIZE)
+			if ((status = repl_fill_buffer((t_reader *)&rd
+				, &parser)) == E_EXECUTE)
+				break ;
+			else if (status == E_FAILURE)
+				return (E_FAILURE);
+		if ((argc = repl_parser_parse(&parser)) == -1)
+		{
+			ft_putf_fd(STDERR_FILENO
+				, "ft_ssl: repl: syntax error: %s\n", parser.input);
+			return (E_FAILURE);
+		}
+		if (argc > 0)
+			ssl_exec(argc, parser.ouput);
+	}
+	return (E_SUCCESS);
+}

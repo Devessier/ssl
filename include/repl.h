@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   repl.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 16:41:51 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 16:20:53 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 19:44:40 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "ssl.h"
-#include "repl.h"
+#ifndef REPL_H
+# define REPL_H
+# include "ssl.h"
+# define REPL_BUFFER_SIZE 4096
 
-int	main(int argc, char **argv)
-{
-	argc--;
-	argv++;
-	if (argc == 0)
-		return (repl());
-	return (ssl_exec(argc, argv));
-}
+t_error			repl(void);
+
+#endif

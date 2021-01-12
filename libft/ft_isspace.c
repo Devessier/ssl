@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/04 11:23:52 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 16:41:51 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 19:46:07 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 19:46:37 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "ssl.h"
-#include "repl.h"
-
-int	main(int argc, char **argv)
+int		ft_isspace(char c)
 {
-	argc--;
-	argv++;
-	if (argc == 0)
-		return (repl());
-	return (ssl_exec(argc, argv));
+	return (c == '\t'
+		|| c == '\n'
+		|| c == '\v'
+		|| c == '\f'
+		|| c == '\r'
+		|| c == ' ');
 }
