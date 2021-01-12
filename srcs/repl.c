@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 22:49:27 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:10:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_error	repl_fill_buffer(t_reader *rd
 
 static t_error	repl_exec(t_repl_parser *parser, ssize_t argc)
 {
+	if (parser->ouput[0] == NULL)
+		return (E_SUCCESS);
 	if (ft_strcmp(parser->ouput[0], "quit") == 0
 		|| ft_strcmp(parser->ouput[0], "exit") == 0)
 		return (E_NEXT);
