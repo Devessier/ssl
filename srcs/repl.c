@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 20:27:03 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 22:49:27 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void		repl_prompt(void)
 {
 	const char	prompt[] = "ft_ssl > ";
 
-	write(STDOUT_FILENO, prompt, sizeof(prompt));
+	write(STDOUT_FILENO, prompt, sizeof(prompt) - 1);
 }
 
 static t_error	repl_fill_buffer(t_reader *rd
@@ -42,6 +42,16 @@ static t_error	repl_fill_buffer(t_reader *rd
 	if (c == '\n')
 		return (E_EXECUTE);
 	parser->input[parser->input_length++] = c;
+	return (E_SUCCESS);
+}
+
+static t_error	repl_exec(t_repl_parser *parser, ssize_t argc)
+{
+	if (ft_strcmp(parser->ouput[0], "quit") == 0
+		|| ft_strcmp(parser->ouput[0], "exit") == 0)
+		return (E_NEXT);
+	if (argc > 0)
+		ssl_exec(argc, parser->ouput);
 	return (E_SUCCESS);
 }
 
@@ -68,8 +78,8 @@ t_error			repl(void)
 				, "ft_ssl: repl: syntax error: %s\n", parser.input);
 			return (E_FAILURE);
 		}
-		if (argc > 0)
-			ssl_exec(argc, parser.ouput);
+		if (repl_exec(&parser, argc) == E_NEXT)
+			break ;
 	}
 	return (E_SUCCESS);
 }
