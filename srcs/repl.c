@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:41:02 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/13 00:12:47 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		repl_prompt(void)
 static t_error	repl_fill_buffer(t_reader *rd
 	, t_repl_parser *parser)
 {
-	size_t	ret;
+	ssize_t	ret;
 	char	c;
 
 	ret = reader_read(rd, &c, 1);
