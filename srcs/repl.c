@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:19:58 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:41:02 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_error	repl_fill_buffer(t_reader *rd
 		return (E_FAILURE);
 	}
 	if (ret == 0)
-		return (E_FAILURE);
+		return (E_EXIT);
 	if (c == '\n')
 		return (E_EXECUTE);
 	parser->input[parser->input_length++] = c;
@@ -57,6 +57,21 @@ static t_error	repl_exec(t_repl_parser *parser, ssize_t argc)
 	return (E_SUCCESS);
 }
 
+static t_error	repl_loop_fill_buffer(t_reader *rd
+	, t_repl_parser *parser)
+{
+	t_error			status;
+
+	while (parser->input_length < REPL_BUFFER_SIZE)
+		if ((status = repl_fill_buffer(rd, parser)) == E_EXECUTE)
+			break ;
+		else if (status == E_FAILURE)
+			return (E_FAILURE);
+		else if (status == E_EXIT)
+			return (E_SUCCESS);
+	return (E_EXECUTE);
+}
+
 t_error			repl(void)
 {
 	const t_reader	rd = create_reader_fd(STDIN_FILENO, "stdin", false);
@@ -68,12 +83,9 @@ t_error			repl(void)
 	{
 		repl_parser_init(&parser);
 		repl_prompt();
-		while (parser.input_length < REPL_BUFFER_SIZE)
-			if ((status = repl_fill_buffer((t_reader *)&rd
-				, &parser)) == E_EXECUTE)
-				break ;
-			else if (status == E_FAILURE)
-				return (E_FAILURE);
+		if ((status = repl_loop_fill_buffer(
+				(t_reader *)&rd, &parser)) != E_EXECUTE)
+			return (status);
 		if ((argc = repl_parser_parse(&parser)) == -1)
 		{
 			ft_putf_fd(STDERR_FILENO

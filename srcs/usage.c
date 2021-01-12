@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 16:28:48 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 17:14:07 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:29:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		print_available_commands_for_algo_type(t_algo_type type)
 	}
 }
 
-static void		print_available_commands(void)
+void			print_available_commands(void)
 {
 	const t_algo_type_desc	descs[] = {
 		{ ALGO_STANDARD, "Standard" },

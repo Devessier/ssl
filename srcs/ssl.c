@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 16:29:39 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:30:43 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,11 @@ t_error					ssl_exec(int argc, char **argv)
 	t_context	ctx;
 	ssize_t		parsed_args;
 
+	if (ft_strcmp(argv[0], "help") == 0)
+	{
+		print_available_commands();
+		return (E_SUCCESS);
+	}
 	algo = algo_name_to_algo(command_name);
 	if (algo == ALGO_INVALID)
 	{

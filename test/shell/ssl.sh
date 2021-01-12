@@ -124,10 +124,60 @@ $
 Cipher commands:$
 EOF
 
-	assertEquals "${usage}" "$(${command} 2>&1 > /dev/null | cat -e)"
+	assertEquals "${usage}" "$(${command} 2>&1 | cat -e)"
 
 	eval "$command 2> /dev/null"
 	assertEquals 1 $?
+}
+
+testSslHelp() {
+	TMP_FILE=$(mktemp)
+	cat > $TMP_FILE << EOF
+help
+EOF
+
+	read -d '' usage << EOF
+ft_ssl_>_Standard_commands:$
+$
+Message_Digest_commands:$
+md5$
+sha224$
+sha256$
+sha384$
+sha512$
+sha512224$
+sha512256$
+$
+Cipher_commands:$
+ft_ssl_>_
+EOF
+
+	assertEquals "${usage}" "$(cat ${TMP_FILE} | ./ft_ssl 2>&1 | cat -e | tr -s '[:blank:]' '_')"
+
+	rm $TMP_FILE
+}
+
+testSslHelpFromRepl() {
+	command="./ft_ssl help"
+	read -d '' usage << EOF
+Standard commands:$
+$
+Message Digest commands:$
+md5$
+sha224$
+sha256$
+sha384$
+sha512$
+sha512224$
+sha512256$
+$
+Cipher commands:$
+EOF
+
+	assertEquals "${usage}" "$(${command} 2>&1 | cat -e)"
+
+	eval "$command 2> /dev/null"
+	assertEquals 0 $?
 }
 
 . ./vendor/shunit2/shunit2

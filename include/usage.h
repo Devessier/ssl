@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 16:35:08 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/10 18:09:51 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:30:11 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct	s_algo_type_desc
 }				t_algo_type_desc;
 
 void			print_usage(void);
+void			print_available_commands(void);
 void			print_unavailable_command_usage(const char *invalid_command);
 
 #endif
