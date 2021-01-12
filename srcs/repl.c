@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 15:07:04 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:10:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:19:58 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_error			repl(void)
 		{
 			ft_putf_fd(STDERR_FILENO
 				, "ft_ssl: repl: syntax error: %s\n", parser.input);
-			return (E_FAILURE);
+			continue ;
 		}
 		if (repl_exec(&parser, argc) == E_NEXT)
 			break ;

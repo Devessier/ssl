@@ -87,6 +87,24 @@ EOF
 	rm $TMP_FILE
 }
 
+testSslReplHandleSyntaxErrorKindly() {
+	TMP_FILE=$(mktemp)
+	cat > $TMP_FILE << EOF
+md5 -s "
+md5 -s "lol"
+EOF
+
+	read -d '' replResult << EOF
+ft_ssl_>_ft_ssl:_repl:_syntax_error:_md5_-s_"$
+ft_ssl_>_MD5_("lol")_=_9cdfb439c7876e703e307864c9167a15$
+ft_ssl_>_
+EOF
+
+	assertEquals "${replResult}" "$(cat ${TMP_FILE} | ./ft_ssl 2>&1 | cat -e | tr -s '[:blank:]' '_')"
+
+	rm $TMP_FILE
+}
+
 testSslInvalidCommand() {
 	command="./ft_ssl invalid_command"
 	read -d '' usage << EOF
