@@ -6,13 +6,15 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 02:53:43 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:30:43 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdbool.h>
 #include "libft.h"
+#include "usage.h"
+#include "args.h"
 #include "ssl.h"
 #include "md5.h"
 #include "sha224.h"
@@ -140,4 +142,29 @@ void					init_cmd(t_context *ctx, t_algo algo)
 		.remaining_args = NULL,
 	};
 	bind_args_to_algo_context(ctx);
+}
+
+t_error					ssl_exec(int argc, char **argv)
+{
+	const char	*command_name = *argv;
+	t_algo		algo;
+	t_context	ctx;
+	ssize_t		parsed_args;
+
+	if (ft_strcmp(argv[0], "help") == 0)
+	{
+		print_available_commands();
+		return (E_SUCCESS);
+	}
+	algo = algo_name_to_algo(command_name);
+	if (algo == ALGO_INVALID)
+	{
+		print_unavailable_command_usage(command_name);
+		return (E_FAILURE);
+	}
+	init_cmd(&ctx, algo);
+	if ((parsed_args = parse_args(&ctx, ++argc, ++argv)) == -1)
+		return (E_FAILURE);
+	ctx.cmd(&ctx);
+	return (E_SUCCESS);
 }

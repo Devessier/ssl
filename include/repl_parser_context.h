@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.h                                            :+:      :+:    :+:   */
+/*   repl_parser_context.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 16:35:08 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:30:11 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 20:04:27 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 20:05:06 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef USAGE_H
-# define USAGE_H
-# include "ssl.h"
+#ifndef REPL_PARSER_CONTEXT_H
+# define REPL_PARSER_CONTEXT_H
+# include "repl_parser.h"
 
-typedef struct	s_algo_type_desc
-{
-	t_algo_type	type;
-	char		*name;
-}				t_algo_type_desc;
-
-void			print_usage(void);
-void			print_available_commands(void);
-void			print_unavailable_command_usage(const char *invalid_command);
+void	repl_parser_context_init(t_repl_parser_context *ctx);
 
 #endif

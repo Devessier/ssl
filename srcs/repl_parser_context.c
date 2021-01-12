@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.h                                            :+:      :+:    :+:   */
+/*   repl_parser_context.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 16:35:08 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:30:11 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 20:04:42 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 20:04:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef USAGE_H
-# define USAGE_H
-# include "ssl.h"
+#include "repl_parser.h"
 
-typedef struct	s_algo_type_desc
+void	repl_parser_context_init(t_repl_parser_context *ctx)
 {
-	t_algo_type	type;
-	char		*name;
-}				t_algo_type_desc;
-
-void			print_usage(void);
-void			print_available_commands(void);
-void			print_unavailable_command_usage(const char *invalid_command);
-
-#endif
+	*ctx = (t_repl_parser_context){
+		.state = RP_WHITESPACE,
+		.input_index = 0,
+		.temporary_index = 0,
+		.word_beginning = -1,
+		.words_count = 0,
+	};
+}

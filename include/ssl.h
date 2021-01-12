@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 02:47:47 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/01/12 23:35:36 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,19 @@ typedef struct		s_algo_desc
 typedef enum		e_error
 {
 	E_SUCCESS = 0,
+	E_FAILURE = 1,
+	E_EXIT,
 
 	E_INVALID_ARG_STRING_VALUE,
 	E_INVALID_ARG_TYPE,
-	E_INVALID_ARG
+	E_INVALID_ARG,
+
+	E_NEXT,
+	E_EXECUTE,
 }					t_error;
 
 extern t_algo_desc	g_algorithms[];
+
+t_error				ssl_exec(int argc, char **argv);
 
 #endif

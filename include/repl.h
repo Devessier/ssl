@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   usage.h                                            :+:      :+:    :+:   */
+/*   repl.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/10 16:35:08 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:30:11 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/01/12 16:20:53 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/01/12 19:44:40 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef USAGE_H
-# define USAGE_H
+#ifndef REPL_H
+# define REPL_H
 # include "ssl.h"
+# define REPL_BUFFER_SIZE 4096
 
-typedef struct	s_algo_type_desc
-{
-	t_algo_type	type;
-	char		*name;
-}				t_algo_type_desc;
-
-void			print_usage(void);
-void			print_available_commands(void);
-void			print_unavailable_command_usage(const char *invalid_command);
+t_error			repl(void);
 
 #endif
