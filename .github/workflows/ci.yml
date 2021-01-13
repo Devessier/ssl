@@ -1,4 +1,4 @@
-name: Test and check style
+name: Continuous Integration
 
 on: pull_request
 jobs:
