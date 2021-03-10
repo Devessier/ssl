@@ -77,12 +77,12 @@ testSHA512ReadsBigFileFromStdin() {
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
-	curl https://cdn.intra.42.fr/pdf/pdf/13242/en.subject.pdf 2> /dev/null > $IN_FILE
+	curl https://cdn.intra.42.fr/pdf/pdf/19603/en.subject.pdf 2> /dev/null > $IN_FILE
 
 	cat $TMP_DIR/pdf.pdf | ./ft_ssl sha512 -p | cat -e > $HASHING_RESULT_FILE
 	cat << EOF > $OFFICIAL_RESULT_FILE
 $(cat -e $TMP_DIR/pdf.pdf)
-68a37f2e8b8b98aa6e45b00b6126f4ea172b2a6dccc9c5adda8184721a2d9ad36a62a84bf34dc9a96468603f3da1df54e35ba5a1ade080fc12db7bfcc3f61df3$
+391d1816e10022df1e5fe644dc8cd82b6e7dc9c7eab925a630da3a91bfcdec01e23a0f889b74d2667b9be23abb34df4b59636312beb0a5bdd2789a1f352155ac$
 EOF
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE

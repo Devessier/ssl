@@ -77,12 +77,12 @@ testSHA224ReadsBigFileFromStdin() {
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
-	curl https://cdn.intra.42.fr/pdf/pdf/13242/en.subject.pdf 2> /dev/null > $IN_FILE
+	curl https://cdn.intra.42.fr/pdf/pdf/19603/en.subject.pdf 2> /dev/null > $IN_FILE
 
 	cat $TMP_DIR/pdf.pdf | ./ft_ssl sha224 -p | cat -e > $HASHING_RESULT_FILE
 	cat << EOF > $OFFICIAL_RESULT_FILE
 $(cat -e $TMP_DIR/pdf.pdf)
-480283ad32aa586717154c45baeaa758e00342153c27ab199071789c$
+b6d62863f1dee79cbd0656f52141bf2fcd188c9ee012196a5af38d37$
 EOF
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE

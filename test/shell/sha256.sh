@@ -77,12 +77,12 @@ testSHA256ReadsBigFileFromStdin() {
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
-	curl https://cdn.intra.42.fr/pdf/pdf/13242/en.subject.pdf 2> /dev/null > $IN_FILE
+	curl https://cdn.intra.42.fr/pdf/pdf/19603/en.subject.pdf 2> /dev/null > $IN_FILE
 
 	cat $TMP_DIR/pdf.pdf | ./ft_ssl sha256 -p | cat -e > $HASHING_RESULT_FILE
 	cat << EOF > $OFFICIAL_RESULT_FILE
 $(cat -e $TMP_DIR/pdf.pdf)
-341bab3858584b96a0098caf68af435b75534a4b48848198fa5125c879452989$
+5c446dbe5dd170b2bdf93ff0c68539bcf253eca2b7471b00ebe2466c3801d263$
 EOF
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE

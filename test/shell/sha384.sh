@@ -77,12 +77,12 @@ testSHA384ReadsBigFileFromStdin() {
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
-	curl https://cdn.intra.42.fr/pdf/pdf/13242/en.subject.pdf 2> /dev/null > $IN_FILE
+	curl https://cdn.intra.42.fr/pdf/pdf/19603/en.subject.pdf 2> /dev/null > $IN_FILE
 
 	cat $TMP_DIR/pdf.pdf | ./ft_ssl sha384 -p | cat -e > $HASHING_RESULT_FILE
 	cat << EOF > $OFFICIAL_RESULT_FILE
 $(cat -e $TMP_DIR/pdf.pdf)
-813ba4cb5a3650864a6f71a257e75587a28bbe7de2cd7ae7462316cddf341f4f0e88d06b5772c0706644a69fe8226b0a$
+41418cc6593333465d98ae93e1eec774701dd004ee1000eb7ab6403fafa31fd1f047dcd8bcc85eb8fcf8a1bbfa916262$
 EOF
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
