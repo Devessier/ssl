@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 16:20:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 15:26:22 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:39:54 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,19 @@ static t_error	get_arg_value(const t_arg *arg, char *argv[], int *index)
 	string_arg_value = NULL;
 	if (arg->type == ARG_BOOLEAN)
 		*(bool *)arg->value = true;
-	else if (arg->type == ARG_STRING)
+	else if (arg->type == ARG_STRING || arg->type == ARG_POSITIVE_INTEGER)
 	{
 		if ((string_arg_value = (char *)argv[++*(index)]) == NULL)
 			return (E_INVALID_ARG_STRING_VALUE);
-		*(char **)arg->value = string_arg_value;
+		if (arg->type == ARG_POSITIVE_INTEGER)
+		{
+			if ((*(int *)arg->value = ft_atoi(string_arg_value)) < 0)
+				return (E_INVALID_ARG);
+		}
+		else
+			*(char **)arg->value = string_arg_value;
 	}
-	else
+	else if (arg->type != ARG_NOOP)
 		return (E_INVALID_ARG_TYPE);
 	return (E_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:30:43 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:28:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "sha512.h"
 #include "sha512_224.h"
 #include "sha512_256.h"
+#include "base64.h"
 #include "algo_ctx.h"
 
 t_algo_desc				g_algorithms[] = {
@@ -31,6 +32,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "md5",
 		.name_capital = "MD5",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_md5_args,
 		.arguments = NULL
 	},
 	{
@@ -38,6 +40,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha224",
 		.name_capital = "SHA224",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha224_args,
 		.arguments = NULL
 	},
 	{
@@ -45,6 +48,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha256",
 		.name_capital = "SHA256",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha256_args,
 		.arguments = NULL
 	},
 	{
@@ -52,6 +56,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha384",
 		.name_capital = "SHA384",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha384_args,
 		.arguments = NULL
 	},
 	{
@@ -59,6 +64,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha512",
 		.name_capital = "SHA512",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha512_args,
 		.arguments = NULL
 	},
 	{
@@ -66,6 +72,7 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha512224",
 		.name_capital = "SHA512224",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha512_224_args,
 		.arguments = NULL
 	},
 	{
@@ -73,12 +80,22 @@ t_algo_desc				g_algorithms[] = {
 		.name = "sha512256",
 		.name_capital = "SHA512256",
 		.type = ALGO_DIGEST,
+		.bind_args = bind_sha512_256_args,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_BASE64,
+		.name = "base64",
+		.name_capital = "BASE64",
+		.type = ALGO_CIPHER,
+		.bind_args = bind_base64_args,
 		.arguments = NULL
 	},
 	{
 		.algorithm = 0,
 		.name = NULL,
 		.type = ALGO_TYPE_NONE,
+		.bind_args = NULL,
 		.arguments = NULL
 	},
 };
@@ -111,24 +128,6 @@ static t_algo_desc		*get_algo_desc(t_algo algo)
 	return (NULL);
 }
 
-static void				bind_args_to_algo_context(t_context *ctx)
-{
-	if (ctx->algo == ALGO_MD5)
-		bind_md5_args(ctx);
-	else if (ctx->algo == ALGO_SHA256)
-		bind_sha256_args(ctx);
-	else if (ctx->algo == ALGO_SHA224)
-		bind_sha224_args(ctx);
-	else if (ctx->algo == ALGO_SHA512)
-		bind_sha512_args(ctx);
-	else if (ctx->algo == ALGO_SHA384)
-		bind_sha384_args(ctx);
-	else if (ctx->algo == ALGO_SHA512_224)
-		bind_sha512_224_args(ctx);
-	else if (ctx->algo == ALGO_SHA512_256)
-		bind_sha512_256_args(ctx);
-}
-
 void					init_cmd(t_context *ctx, t_algo algo)
 {
 	const t_algo_desc	*algo_desc = get_algo_desc(algo);
@@ -141,7 +140,7 @@ void					init_cmd(t_context *ctx, t_algo algo)
 		.args = get_algo_arguments(algo),
 		.remaining_args = NULL,
 	};
-	bind_args_to_algo_context(ctx);
+	algo_desc->bind_args(ctx);
 }
 
 t_error					ssl_exec(int argc, char **argv)

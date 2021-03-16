@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open.c                                             :+:      :+:    :+:   */
+/*   base64.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 12:49:33 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/16 11:38:46 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/03/16 17:38:39 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/03/16 18:40:27 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
-#include "libft.h"
-#include "ssl.h"
+#ifndef BASE64
+# define BASE64
+# include "ssl.h"
 
-int		open_file(t_context *ctx, char *file)
-{
-	const int	fd = open(file, O_RDONLY);
-	char		*err;
+void			bind_base64_args(t_context *ctx);
+void			base64_log_command_usage(t_context *ctx);
+void			base64_algo(t_context *ctx);
 
-	if (fd != -1 && read(fd, NULL, 0) != -1)
-		return (fd);
-	err = strerror(errno);
-	ft_putf_fd(STDERR_FILENO
-		, "ft_ssl: %s: %s: %s\n", ctx->algo_name, file, err);
-	return (-1);
-}
+extern t_arg	g_base64_arguments[];
+
+#endif

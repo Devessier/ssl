@@ -1,6 +1,8 @@
 SRCS = srcs/algo_ctx.c
 SRCS += srcs/algo_rotate.c
 SRCS += srcs/args.c
+SRCS += srcs/base64.c
+SRCS += srcs/base64_algo.c
 SRCS += srcs/digest.c
 SRCS += srcs/digest_exec.c
 SRCS += srcs/hexa.c
