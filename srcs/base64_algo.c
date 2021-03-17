@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:37:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 10:39:51 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 12:09:47 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 #include "ssl.h"
 #include "base64.h"
-#include "reader.h"
-#include "writer.h"
-#include "open.h"
 
 static const char	g_base64_dictionary[65] = {
 	[0] = 'A',
@@ -87,85 +84,44 @@ static const char	g_base64_dictionary[65] = {
 	[BASE64_PADDING_CHAR] = '=',
 };
 
-static t_reader				base64_create_reader(t_context *ctx)
+t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
+	, size_t to_encode_length
+	, uint8_t dest[BASE64_OUTPUT_BLOCK_LENGTH])
 {
-	const char	*input_file = ctx->algo_ctx.base64.input_file;
-	int			file_fd;
-
-	if (input_file == NULL)
-		return create_reader_fd(STDIN_FILENO, "stdin", false);
-	if ((file_fd = open_read_file(ctx, (char *)input_file)) == -1)
-		return create_reader_empty();
-	return create_reader_fd(file_fd, (char *)input_file, false);
-}
-
-static t_writer				base64_create_writer(t_context *ctx)
-{
-	const char		*output_file = ctx->algo_ctx.base64.output_file;
-	const size_t	line_break = ctx->algo_ctx.base64.line_break;
-	int				file_fd;
-	char			*filename;
-
-	if (output_file == NULL)
-	{
-		file_fd = STDOUT_FILENO;
-		filename = "stdout";
-	}
-	else
-	{
-		if ((file_fd = open_write_file(ctx, (char *)output_file)) == -1)
-			return (create_writer_empty());
-		filename = (char *)output_file;
-	}
-	if (line_break == 0)
-		return (create_writer(file_fd, filename));
-	return (create_writer_breaker(file_fd, filename, line_break, "\n"));
-}
-
-void						base64_algo(t_context *ctx)
-{
-	t_reader	reader;
-	t_writer	writer;
-	char		input_block[BASE64_INPUT_BLOCK_LENGTH];
 	uint8_t		sextets[BASE64_OUTPUT_BLOCK_LENGTH];
-	ssize_t		buffer_length;
 	size_t		index;
-	char		output_chars[BASE64_OUTPUT_BLOCK_LENGTH];
 
-	reader = base64_create_reader(ctx);
-	if (reader.type == READER_TYPE_NOOP)
-		return ;
-	writer = base64_create_writer(ctx);
-	if (writer.activated == false)
-		return ;
-	while ((buffer_length = reader_read((t_reader *)&reader, (char *)&input_block, BASE64_INPUT_BLOCK_LENGTH)) > 0)
+	sextets[0] = to_encode[0] >> 2 & 0b111111;
+	if (to_encode_length == 1)
+		sextets[1] = ((to_encode[0] & 0b11) << 4);
+	else
+		sextets[1] = ((to_encode[0] & 0b11) << 4) | ((to_encode[1] >> 4) & 0b1111);
+	if (to_encode_length == 2)
+		sextets[2] = ((to_encode[1] & 0b1111) << 2);
+	else if (to_encode_length == 1)
+		sextets[2] = BASE64_PADDING_CHAR;
+	else
+		sextets[2] = ((to_encode[1] & 0b1111) << 2) | ((to_encode[2] >> 6) & 0b11);
+	if (to_encode_length == 3)
+		sextets[3] = to_encode[2] & 0b111111;
+	else
+		sextets[3] = BASE64_PADDING_CHAR;
+	index = 0;
+	while (index < BASE64_OUTPUT_BLOCK_LENGTH)
 	{
-		sextets[0] = input_block[0] >> 2 & 0b111111;
-		if (buffer_length == 1)
-			sextets[1] = ((input_block[0] & 0b11) << 4);
-		else
-			sextets[1] = ((input_block[0] & 0b11) << 4) | ((input_block[1] >> 4) & 0b1111);
-
-		if (buffer_length == 2)
-			sextets[2] = ((input_block[1] & 0b1111) << 2);
-		else if (buffer_length == 1)
-			sextets[2] = BASE64_PADDING_CHAR;
-		else
-			sextets[2] = ((input_block[1] & 0b1111) << 2) | ((input_block[2] >> 6) & 0b11);
-
-		if (buffer_length == 3)
-			sextets[3] = input_block[2] & 0b111111;
-		else
-			sextets[3] = BASE64_PADDING_CHAR;
-
-		index = 0;
-		while (index < BASE64_OUTPUT_BLOCK_LENGTH)
-		{
-			output_chars[index] = g_base64_dictionary[sextets[index]];
-			index++;
-		}
-		writer_write(&writer, output_chars, sizeof(output_chars));
+		dest[index] = g_base64_dictionary[sextets[index]];
+		index++;
 	}
-	writer_pad(&writer, '\n', 1);
-	writer_flush(&writer);
+	return (E_SUCCESS);
+}
+
+t_error				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
+	, size_t to_decode_length
+	, uint8_t dest[BASE64_INPUT_BLOCK_LENGTH])
+{
+	(void)to_decode;
+	(void)to_decode_length;
+	(void)dest;
+
+	return (E_SUCCESS);
 }
