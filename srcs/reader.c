@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:03:25 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/16 18:59:50 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 12:38:20 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,29 @@
 #include <unistd.h>
 #include "libft.h"
 #include "reader.h"
+
+static size_t		reader_copy_to_buffer(t_reader *reader
+	, char to_copy[BUFF_SIZE], size_t length)
+{
+	size_t	index;
+	size_t	copied;
+	char	character;
+
+	if (reader->skip == NULL)
+	{
+		ft_memcpy(reader->buffer, to_copy, length);
+		return (length);
+	}
+	index = 0;
+	copied = 0;
+	while (index < length)
+	{
+		character = to_copy[index];
+		if (reader->skip(character) == false)
+			reader->buffer[copied++] = character;
+	}
+	return (copied);
+}
 
 /*
 ** Reads from a file descriptor.
@@ -24,30 +47,41 @@
 static ssize_t		reader_read_fd(t_reader *reader)
 {
 	const int	fd = reader->ctx.fd.fd;
+	const bool	skip_active = reader->skip != NULL;
+	char		buffer[BUFF_SIZE];
 	ssize_t		nbytes;
+	size_t		copied;
 
-	if ((nbytes = read(fd, reader->buffer, BUFF_SIZE)) == -1)
+	if ((nbytes = read(fd
+		, skip_active ? buffer : reader->buffer
+		, BUFF_SIZE)) == -1)
 		return (-1);
+	if (skip_active)
+		copied = reader_copy_to_buffer(reader, buffer, nbytes);
+	else
+		copied = nbytes;
 	reader->index = 0;
-	reader->length = nbytes;
-	if (nbytes == 0 && fd == STDIN_FILENO)
+	reader->length = copied;
+	if (copied == 0 && fd == STDIN_FILENO)
 		reader->finished = true;
-	return (nbytes);
+	return (copied);
 }
 
 static ssize_t		reader_read_buffer(t_reader *reader)
 {
 	size_t	remaining;
 	size_t	to_copy;
+	size_t	copied;
 
 	remaining = reader->ctx.buffer.data_length - reader->ctx.buffer.cursor;
 	to_copy = remaining > BUFF_SIZE ? BUFF_SIZE : remaining;
-	ft_memcpy(reader->buffer, reader->ctx.buffer.data
-		+ reader->ctx.buffer.cursor, to_copy);
+	copied = reader_copy_to_buffer(reader
+		, reader->ctx.buffer.data + reader->ctx.buffer.cursor
+		, to_copy);
 	reader->ctx.buffer.cursor += to_copy;
 	reader->index = 0;
-	reader->length = to_copy;
-	return (to_copy);
+	reader->length = copied;
+	return (copied);
 }
 
 t_reader			create_reader_fd(int fd, char *filename, bool auto_print)
