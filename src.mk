@@ -15,7 +15,6 @@ SRCS += srcs/md5_algo_utils.c
 SRCS += srcs/md5_print.c
 SRCS += srcs/open.c
 SRCS += srcs/reader.c
-SRCS += srcs/reader_skip.c
 SRCS += srcs/repl.c
 SRCS += srcs/repl_parser.c
 SRCS += srcs/repl_parser_context.c
