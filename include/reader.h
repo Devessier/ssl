@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:08:41 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/17 19:23:39 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:59:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 enum				e_reader_type
 {
+	READER_TYPE_NOOP = 0,
 	READER_TYPE_FD = 1,
 	READER_TYPE_BUFFER
 };
@@ -56,6 +57,7 @@ typedef struct		s_reader
 
 t_reader			create_reader_fd(int fd, char *filename, bool auto_print);
 t_reader			create_reader_buffer(char *buffer, size_t buffer_length);
+t_reader			create_reader_empty();
 ssize_t				reader_read(t_reader *reader, char *dest, size_t length);
 
 #endif

@@ -6,14 +6,14 @@
 #    By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 16:01:17 by bdevessi          #+#    #+#              #
-#    Updated: 2020/12/22 16:05:11 by bdevessi         ###   ########.fr        #
+#    Updated: 2021/03/17 01:10:55 by bdevessi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = ft_ssl
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Ilibft/includes -Iinclude -g -std=c99
+CFLAGS = -Wall -Wextra -Werror -g -Ilibft/includes -Iinclude -g -std=c99
 CXX = g++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -Ilibft/includes -Iinclude -g
 OBJDIR = obj

@@ -20,6 +20,7 @@
         "sstream": "c",
         "stop_token": "c",
         "streambuf": "c",
-        "random": "c"
+        "random": "c",
+        "array": "c"
     }
 }

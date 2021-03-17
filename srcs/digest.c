@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 13:05:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/24 14:11:49 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 01:46:11 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void			digest_cmd(t_context *ctx)
 	}
 	while ((file = *(ctx->remaining_args++)) != NULL)
 	{
-		if ((fd = open_file(ctx, file)) == -1)
+		if ((fd = open_read_file(ctx, file)) == -1)
 			continue ;
 		reader = create_reader_fd(fd, file, false);
 		digest_algo_exec(ctx, &reader, DIGEST_EXEC_ORIGIN_FILE);

@@ -43,3 +43,4 @@ SRCS += srcs/sha512_algo_utils.c
 SRCS += srcs/sha512_print.c
 SRCS += srcs/ssl.c
 SRCS += srcs/usage.c
+SRCS += srcs/writer.c

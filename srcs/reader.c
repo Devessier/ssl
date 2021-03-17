@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:03:25 by bdevessi          #+#    #+#             */
-/*   Updated: 2020/12/22 19:28:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:59:50 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ t_reader			create_reader_buffer(char *buffer, size_t buffer_length)
 		.ctx.buffer.cursor = 0,
 		.finished = false,
 		.fill = reader_read_buffer,
+	});
+}
+
+t_reader			create_reader_empty()
+{
+	return ((t_reader) {
+		.type = READER_TYPE_NOOP,
 	});
 }
 
