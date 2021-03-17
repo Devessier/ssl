@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:38:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 12:54:11 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 20:03:17 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ void				base64_decode_cmd(t_context *ctx);
 t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
 	, size_t to_encode_length
 	, uint8_t dest[BASE64_OUTPUT_BLOCK_LENGTH]);
-t_error				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
-	, size_t to_decode_length
+ssize_t				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
 	, uint8_t dest[BASE64_INPUT_BLOCK_LENGTH]);
 
 extern t_arg		g_base64_arguments[];

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:37:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 12:09:47 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 20:13:49 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
 	uint8_t		sextets[BASE64_OUTPUT_BLOCK_LENGTH];
 	size_t		index;
 
-	sextets[0] = to_encode[0] >> 2 & 0b111111;
+	sextets[0] = (to_encode[0] >> 2) & 0b111111;
 	if (to_encode_length == 1)
 		sextets[1] = ((to_encode[0] & 0b11) << 4);
 	else
@@ -115,13 +115,64 @@ t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
 	return (E_SUCCESS);
 }
 
-t_error				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
-	, size_t to_decode_length
+static int8_t		base64_decode_encoded_character(uint8_t character)
+{
+	size_t	index;
+
+	index = 0;
+	while (index < sizeof(g_base64_dictionary))
+	{
+		if (g_base64_dictionary[index] == character)
+			return (index);
+		index++;
+	}
+	return (-1);
+}
+
+static	size_t		compute_block_to_decode_length(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH])
+{
+	if (to_decode[2] == '=')
+		return (2);
+	if (to_decode[3] == '=')
+		return (3);
+	return (4);
+}
+
+ssize_t				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
 	, uint8_t dest[BASE64_INPUT_BLOCK_LENGTH])
 {
-	(void)to_decode;
-	(void)to_decode_length;
-	(void)dest;
+	uint8_t			sextets[BASE64_OUTPUT_BLOCK_LENGTH];
+	size_t			index;
+	int8_t			decoded_character;
+	const size_t	input_block_length = compute_block_to_decode_length(to_decode);
 
-	return (E_SUCCESS);
+	index = 0;
+	while (index < BASE64_OUTPUT_BLOCK_LENGTH)
+	{
+		if ((decoded_character = base64_decode_encoded_character(to_decode[index])) == -1)
+			return (-1);
+		to_decode[index] = decoded_character;
+		index++;
+	}
+	sextets[0] = to_decode[0] & 0b111111;
+	if (input_block_length == 2)
+		sextets[1] = to_decode[1] & 0b110000;
+	else
+		sextets[1] = to_decode[1] & 0b111111;
+	if (input_block_length == 2)
+		sextets[2] = BASE64_PADDING_CHAR;
+	else if (input_block_length == 3)
+		sextets[2] = to_decode[2] &111100;
+	else
+		sextets[2] = to_decode[2] & 0b111111;
+	if (input_block_length == 4)
+		sextets[3] = to_decode[3] & 0b111111;
+	else
+		sextets[3] = BASE64_PADDING_CHAR;
+
+	dest[0] = ((sextets[0] & 0b111111) << 2) | ((sextets[1] & 0b110000) >> 4);
+	dest[1] = ((sextets[1] & 0b1111) << 4) | ((sextets[2] & 0b111100) >> 2);
+	dest[2] = ((sextets[2] & 0b11) << 6) | (sextets[3] & 0b111111);
+
+	return (input_block_length - 1);
 }

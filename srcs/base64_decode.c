@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:39:36 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 19:02:01 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 20:28:09 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void						base64_decode_cmd(t_context *ctx)
 	t_writer	writer;
 	uint8_t		input_block[BASE64_OUTPUT_BLOCK_LENGTH];
 	ssize_t		buffer_length;
+	ssize_t		decoded_characters_count;
 	uint8_t		output_chars[BASE64_INPUT_BLOCK_LENGTH];
 
 	reader = base64_decode_create_reader(ctx);
@@ -53,9 +54,13 @@ void						base64_decode_cmd(t_context *ctx)
 		, (char *)&input_block, BASE64_OUTPUT_BLOCK_LENGTH
 		, base64_decode_reader_skipper)) > 0)
 	{
-		ft_putf("input to decode = %c%c%c%c|\n", input_block[0], input_block[1], input_block[2], input_block[3]);
-		base64_algo_decode(input_block, buffer_length, output_chars);
-		writer_write(&writer, (char *)output_chars, sizeof(output_chars));
+		if (buffer_length != BASE64_OUTPUT_BLOCK_LENGTH
+			|| (decoded_characters_count = base64_algo_decode(input_block, output_chars)) == -1)
+		{
+			ft_putf_fd(STDERR_FILENO, "Invalid character in input stream.\n");
+			return ;
+		}
+		writer_write(&writer, (char *)output_chars, decoded_characters_count);
 	}
 	writer_pad(&writer, '\n', 1);
 	writer_flush(&writer);
