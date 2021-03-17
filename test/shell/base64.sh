@@ -13,6 +13,24 @@ EOF
 	assertEquals 'invalid exit status' 1 $?
 }
 
+testBase64EncodeAndDecodeParametersOverride() {
+	string_to_encode='Man'
+
+	hash_result=$(echo -n "${string_to_encode}" | ./ft_ssl base64 -d -e -d -e | cat -e)
+	official_result='TWFu$'
+
+	assertEquals "${official_result}" "${hash_result}"
+}
+
+# testBase64DecodeAndEncodeParametersOverride() {
+# 	string_to_encode='TWFu'
+
+# 	hash_result=$(echo -n "${string_to_encode}" | ./ft_ssl base64 -e -d -e -d -e -d | cat -e)
+# 	official_result='Man$'
+
+# 	assertEquals "${official_result}" "${hash_result}"
+# }
+
 testBase64EncodesByDefault() {
 	string_to_encode='Man'
 
