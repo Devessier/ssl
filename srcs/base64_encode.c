@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:39:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 12:41:37 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 12:55:16 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,6 @@ static t_reader				base64_encode_create_reader(t_context *ctx)
 	return create_reader_fd(file_fd, (char *)input_file, false);
 }
 
-static t_writer				base64_encode_create_writer(t_context *ctx)
-{
-	const char		*output_file = ctx->algo_ctx.base64.output_file;
-	const size_t	line_break = ctx->algo_ctx.base64.line_break;
-	int				file_fd;
-	char			*filename;
-
-	if (output_file == NULL)
-	{
-		file_fd = STDOUT_FILENO;
-		filename = "stdout";
-	}
-	else
-	{
-		if ((file_fd = open_write_file(ctx, (char *)output_file)) == -1)
-			return (create_writer_empty());
-		filename = (char *)output_file;
-	}
-	if (line_break == 0)
-		return (create_writer(file_fd, filename));
-	return (create_writer_breaker(file_fd, filename, line_break, "\n"));
-}
-
 void						base64_encode_cmd(t_context *ctx)
 {
 	t_reader	reader;
@@ -62,7 +39,8 @@ void						base64_encode_cmd(t_context *ctx)
 	reader = base64_encode_create_reader(ctx);
 	if (reader.type == READER_TYPE_NOOP)
 		return ;
-	writer = base64_encode_create_writer(ctx);
+	writer = base64_create_writer(ctx, ctx->algo_ctx.base64.output_file
+		, ctx->algo_ctx.base64.line_break);
 	if (writer.activated == false)
 		return ;
 	while ((buffer_length = reader_read(&reader
