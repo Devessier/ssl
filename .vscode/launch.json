@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/ft_ssl",
-			"args": ["base64", "-i", "${workspaceFolder}/test.txt"],
+			"args": ["base64", "-i", "${workspaceFolder}/Makefile", "-b", "10"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

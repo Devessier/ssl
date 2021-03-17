@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:37:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 01:56:50 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 10:39:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,25 @@ static t_reader				base64_create_reader(t_context *ctx)
 
 static t_writer				base64_create_writer(t_context *ctx)
 {
-	const char	*output_file = ctx->algo_ctx.base64.output_file;
-	int			file_fd;
+	const char		*output_file = ctx->algo_ctx.base64.output_file;
+	const size_t	line_break = ctx->algo_ctx.base64.line_break;
+	int				file_fd;
+	char			*filename;
 
 	if (output_file == NULL)
-		return (create_writer(STDOUT_FILENO, "stdout"));
-	if ((file_fd = open_write_file(ctx, (char *)output_file)) == -1)
-		return (create_writer_empty());
-	return (create_writer(file_fd, (char *)output_file));
+	{
+		file_fd = STDOUT_FILENO;
+		filename = "stdout";
+	}
+	else
+	{
+		if ((file_fd = open_write_file(ctx, (char *)output_file)) == -1)
+			return (create_writer_empty());
+		filename = (char *)output_file;
+	}
+	if (line_break == 0)
+		return (create_writer(file_fd, filename));
+	return (create_writer_breaker(file_fd, filename, line_break, "\n"));
 }
 
 void						base64_algo(t_context *ctx)
@@ -153,8 +164,8 @@ void						base64_algo(t_context *ctx)
 			output_chars[index] = g_base64_dictionary[sextets[index]];
 			index++;
 		}
-		writer.write((t_writer *)&writer, output_chars, sizeof(output_chars));
+		writer_write(&writer, output_chars, sizeof(output_chars));
 	}
-	writer.pad((t_writer *)&writer, '\n', 1);
-	writer.flush((t_writer *)&writer);
+	writer_pad(&writer, '\n', 1);
+	writer_flush(&writer);
 }
