@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:38:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 12:11:03 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/17 12:42:49 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 void				bind_base64_args(t_context *ctx);
 void				base64_log_command_usage(t_context *ctx);
 void				base64_cmd(t_context *ctx);
+void				base64_encode_cmd(t_context *ctx);
+void				base64_decode_cmd(t_context *ctx);
 
 t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
 	, size_t to_encode_length
