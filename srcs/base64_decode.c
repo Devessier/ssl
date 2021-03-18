@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:39:36 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 20:28:09 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/18 01:41:21 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void						base64_decode_cmd(t_context *ctx)
 	reader = base64_decode_create_reader(ctx);
 	if (reader.type == READER_TYPE_NOOP)
 		return ;
-	writer = base64_create_writer(ctx, ctx->algo_ctx.base64.output_file
-		, ctx->algo_ctx.base64.line_break);
+	writer = base64_create_writer(ctx, ctx->algo_ctx.base64.output_file, 0);
 	if (writer.activated == false)
 		return ;
 	while ((buffer_length = reader_read_skip(&reader
@@ -62,6 +61,5 @@ void						base64_decode_cmd(t_context *ctx)
 		}
 		writer_write(&writer, (char *)output_chars, decoded_characters_count);
 	}
-	writer_pad(&writer, '\n', 1);
 	writer_flush(&writer);
 }
