@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 20:04:13 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 10:41:45 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/18 01:41:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void		writer_write_internal(t_writer *writer, char *to_write, size_t leng
 	while (remaining < length)
 	{
 		ft_memcpy(writer->buffer + writer->index, to_write, remaining);
+		writer->index += remaining;
 		writer_flush(writer);
 		to_write += remaining;
 		length -= remaining;
@@ -73,7 +74,6 @@ void			writer_flush(t_writer *writer)
 	if (writer->activated == false || writer->index == 0)
 		return ;
 	write(writer->fd, writer->buffer, writer->index);
-	ft_bzero(writer->buffer, writer->index);
 	writer->index = 0;
 }
 
