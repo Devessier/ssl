@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:37:57 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 20:13:49 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/21 20:04:11 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,11 @@ t_error				base64_algo_encode(uint8_t to_encode[BASE64_INPUT_BLOCK_LENGTH]
 
 static int8_t		base64_decode_encoded_character(uint8_t character)
 {
-	size_t	index;
+	const size_t	dictionary_length = sizeof(g_base64_dictionary) / sizeof(g_base64_dictionary[0]);
+	size_t			index;
 
 	index = 0;
-	while (index < sizeof(g_base64_dictionary))
+	while (index < dictionary_length)
 	{
 		if (g_base64_dictionary[index] == character)
 			return (index);
@@ -162,7 +163,7 @@ ssize_t				base64_algo_decode(uint8_t to_decode[BASE64_OUTPUT_BLOCK_LENGTH]
 	if (input_block_length == 2)
 		sextets[2] = BASE64_PADDING_CHAR;
 	else if (input_block_length == 3)
-		sextets[2] = to_decode[2] &111100;
+		sextets[2] = to_decode[2] & 0b111100;
 	else
 		sextets[2] = to_decode[2] & 0b111111;
 	if (input_block_length == 4)
