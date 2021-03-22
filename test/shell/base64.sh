@@ -225,11 +225,10 @@ testBase64DecodesFromFile() {
 	INPUT_FILE=./test/shell/md5.sh
 	ENCODED_INPUT_FILE=./test/shell/snapshots/base64/decodes-from-file-encoded-file.txt
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
-	OFFICIAL_RESULT_FILE=./test/shell/snapshots/base64/decodes-from-file-decoded-file.txt
 
-	./ft_ssl base64 -d -i $ENCODED_INPUT_FILE | cat -e > $HASHING_RESULT_FILE
+	./ft_ssl base64 -d -i $ENCODED_INPUT_FILE > $HASHING_RESULT_FILE
 
-	diff $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
+	diff $INPUT_FILE $HASHING_RESULT_FILE
 
 	assertTrue $?
 
