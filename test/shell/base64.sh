@@ -53,10 +53,9 @@ testBase64EncodesFromFile() {
 	TMP_DIR=$(mktemp -d)
 	INPUT_FILE=./test/shell/md5.sh
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
-	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
+	OFFICIAL_RESULT_FILE=./test/shell/snapshots/base64/encodes-from-file.txt
 
 	./ft_ssl base64 -i $INPUT_FILE | cat -e > $HASHING_RESULT_FILE
-	base64 $INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
@@ -69,10 +68,9 @@ testBase64EncodesIntoFile() {
 	TMP_DIR=$(mktemp -d)
 	INPUT_FILE=./test/shell/md5.sh
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
-	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
+	OFFICIAL_RESULT_FILE=./test/shell/snapshots/base64/encodes-into-file.txt
 
 	./ft_ssl base64 -i $INPUT_FILE -o $HASHING_RESULT_FILE
-	base64 $INPUT_FILE > $OFFICIAL_RESULT_FILE
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
@@ -138,12 +136,11 @@ testBase64EncodeBigFile() {
 	TMP_DIR=$(mktemp -d)
 	IN_FILE=$TMP_DIR/pdf.pdf
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
-	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
+	OFFICIAL_RESULT_FILE=./test/shell/snapshots/base64/encode-big-file.txt
 
 	curl https://cdn.intra.42.fr/pdf/pdf/19604/en.subject.pdf 2> /dev/null > $IN_FILE
 
 	cat $IN_FILE | ./ft_ssl base64 -e | cat -e > $HASHING_RESULT_FILE
-	cat $IN_FILE | base64 | cat -e > $OFFICIAL_RESULT_FILE
 
 	cmp $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
@@ -226,14 +223,11 @@ EOF
 testBase64DecodesFromFile() {
 	TMP_DIR=$(mktemp -d)
 	INPUT_FILE=./test/shell/md5.sh
-	ENCODED_INPUT_FILE=$TMP_DIR/md5.base64
+	ENCODED_INPUT_FILE=./test/shell/snapshots/base64/decodes-from-file-encoded-file.txt
 	HASHING_RESULT_FILE=$TMP_DIR/hashing_result.txt
-	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
-
-	base64 -i $INPUT_FILE > $ENCODED_INPUT_FILE
+	OFFICIAL_RESULT_FILE=./test/shell/snapshots/base64/decodes-from-file-decoded-file.txt
 
 	./ft_ssl base64 -d -i $ENCODED_INPUT_FILE | cat -e > $HASHING_RESULT_FILE
-	base64 -d $ENCODED_INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
 
 	cmp $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
