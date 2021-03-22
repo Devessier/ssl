@@ -122,6 +122,7 @@ sha512224$
 sha512256$
 $
 Cipher commands:$
+base64$
 EOF
 
 	assertEquals "${usage}" "$(${command} 2>&1 | cat -e)"
@@ -149,6 +150,7 @@ sha512224$
 sha512256$
 $
 Cipher_commands:$
+base64$
 ft_ssl_>_
 EOF
 
@@ -172,6 +174,7 @@ sha512224$
 sha512256$
 $
 Cipher commands:$
+base64$
 EOF
 
 	assertEquals "${usage}" "$(${command} 2>&1 | cat -e)"

@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open.h                                             :+:      :+:    :+:   */
+/*   writer_close.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 12:49:31 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 01:45:52 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/03/22 13:41:34 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/03/22 13:42:40 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPEN_H
-# define OPEN_H
-# include "ssl.h"
+#include "writer.h"
 
-int		open_read_file(t_context *ctx, char *file);
-int		open_write_file(t_context *ctx, char *file);
-
-#endif
+void			writer_close(t_writer *writer)
+{
+	close(writer->fd);
+	writer->activated = false;
+}

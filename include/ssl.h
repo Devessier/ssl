@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/12 23:35:36 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:39:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef enum		e_algo
 	ALGO_SHA512,
 	ALGO_SHA512_224,
 	ALGO_SHA512_256,
+
+	ALGO_BASE64
 }					t_algo;
 
 enum				e_hash_size
@@ -103,9 +105,18 @@ typedef struct		s_digest_context
 	t_digest_context_algo	algo_ctx;
 }					t_digest_context;
 
+typedef struct		s_base64_context
+{
+	bool					is_encoding;
+	char					*input_file;
+	char					*output_file;
+	int						line_break;
+}					t_base64_context;
+
 typedef union		u_algo_context
 {
 	t_digest_context	digest;
+	t_base64_context	base64;
 }					t_algo_context;
 
 enum				e_arg_type
@@ -113,7 +124,10 @@ enum				e_arg_type
 	ARG_END = 1,
 
 	ARG_BOOLEAN,
-	ARG_STRING
+	ARG_STRING,
+	ARG_POSITIVE_INTEGER,
+
+	ARG_NOOP,
 };
 
 typedef struct		s_arg
@@ -151,7 +165,7 @@ typedef enum		e_algo_type
 
 	ALGO_STANDARD,
 	ALGO_DIGEST,
-	ALGO_CIPHER
+	ALGO_CIPHER,
 }					t_algo_type;
 
 typedef struct		s_algo_desc
@@ -161,6 +175,7 @@ typedef struct		s_algo_desc
 	char			*name_capital;
 	t_algo_type		type;
 	t_arg			*arguments;
+	void			(*bind_args)(t_context *ctx);
 }					t_algo_desc;
 
 typedef enum		e_error
