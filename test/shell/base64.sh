@@ -56,7 +56,7 @@ testBase64EncodesFromFile() {
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
 	./ft_ssl base64 -i $INPUT_FILE | cat -e > $HASHING_RESULT_FILE
-	base64 -i $INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
+	base64 $INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
@@ -72,7 +72,7 @@ testBase64EncodesIntoFile() {
 	OFFICIAL_RESULT_FILE=$TMP_DIR/official_result.txt
 
 	./ft_ssl base64 -i $INPUT_FILE -o $HASHING_RESULT_FILE
-	base64 -i $INPUT_FILE -o $OFFICIAL_RESULT_FILE
+	base64 $INPUT_FILE > $OFFICIAL_RESULT_FILE
 
 	cmp --silent $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
@@ -233,7 +233,7 @@ testBase64DecodesFromFile() {
 	base64 -i $INPUT_FILE > $ENCODED_INPUT_FILE
 
 	./ft_ssl base64 -d -i $ENCODED_INPUT_FILE | cat -e > $HASHING_RESULT_FILE
-	base64 -d -i $ENCODED_INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
+	base64 -d $ENCODED_INPUT_FILE | cat -e > $OFFICIAL_RESULT_FILE
 
 	cmp $HASHING_RESULT_FILE $OFFICIAL_RESULT_FILE
 
