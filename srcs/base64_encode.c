@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:39:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 12:55:16 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/22 13:37:03 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static t_reader				base64_encode_create_reader(t_context *ctx)
 	int			file_fd;
 
 	if (input_file == NULL)
-		return create_reader_fd(STDIN_FILENO, "stdin", false);
+		return (create_reader_fd(STDIN_FILENO, "stdin", false));
 	if ((file_fd = open_read_file(ctx, (char *)input_file)) == -1)
-		return create_reader_empty();
-	return create_reader_fd(file_fd, (char *)input_file, false);
+		return (create_reader_empty());
+	return (create_reader_fd(file_fd, (char *)input_file, false));
 }
 
 void						base64_encode_cmd(t_context *ctx)
@@ -37,7 +37,7 @@ void						base64_encode_cmd(t_context *ctx)
 	uint8_t		output_chars[BASE64_OUTPUT_BLOCK_LENGTH];
 
 	reader = base64_encode_create_reader(ctx);
-	if (reader.type == READER_TYPE_NOOP)
+	if (reader.finished == true)
 		return ;
 	writer = base64_create_writer(ctx, ctx->algo_ctx.base64.output_file
 		, ctx->algo_ctx.base64.line_break);
@@ -52,4 +52,3 @@ void						base64_encode_cmd(t_context *ctx)
 	writer_pad(&writer, '\n', 1);
 	writer_flush(&writer);
 }
-

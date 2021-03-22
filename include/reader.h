@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 02:08:41 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/17 19:00:51 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/22 13:47:45 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 enum				e_reader_type
 {
-	READER_TYPE_NOOP = 0,
 	READER_TYPE_FD = 1,
 	READER_TYPE_BUFFER
 };
@@ -61,6 +60,10 @@ t_reader			create_reader_fd(int fd, char *filename, bool auto_print);
 t_reader			create_reader_buffer(char *buffer, size_t buffer_length);
 t_reader			create_reader_empty();
 ssize_t				reader_read(t_reader *reader, char *dest, size_t length);
-ssize_t				reader_read_skip(t_reader *reader, char *dest, size_t length, t_skipper_fn skip);
+ssize_t				reader_read_skip(
+	t_reader *reader
+	, char *dest
+	, size_t length
+	, t_skipper_fn skip);
 
 #endif

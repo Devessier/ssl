@@ -21,6 +21,7 @@
         "stop_token": "c",
         "streambuf": "c",
         "random": "c",
-        "array": "c"
+        "array": "c",
+        "variant": "c"
     }
 }
