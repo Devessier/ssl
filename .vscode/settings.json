@@ -22,6 +22,10 @@
         "streambuf": "c",
         "random": "c",
         "array": "c",
-        "variant": "c"
+        "variant": "c",
+        "sha256.h": "c",
+        "sha256_algo.h": "c",
+        "hmac_sha256_algo.h": "c",
+        "hmac_sha256.h": "c"
     }
 }

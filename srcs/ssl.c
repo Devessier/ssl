@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 11:23:15 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 14:12:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "sha512.h"
 #include "sha512_224.h"
 #include "sha512_256.h"
+#include "hmac_sha256.h"
 #include "base64.h"
 #include "des.h"
 #include "algo_ctx.h"
@@ -82,6 +83,14 @@ t_algo_desc				g_algorithms[] = {
 		.name_capital = "SHA512256",
 		.type = ALGO_DIGEST,
 		.bind_args = bind_sha512_256_args,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_HMAC_SHA256,
+		.name = "hmac-sha256",
+		.name_capital = "HMAC-SHA256",
+		.type = ALGO_DIGEST,
+		.bind_args = bind_hmac_sha256_args,
 		.arguments = NULL
 	},
 	{

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 11:43:45 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 14:01:44 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef enum		e_algo
 	ALGO_SHA512,
 	ALGO_SHA512_224,
 	ALGO_SHA512_256,
+
+	ALGO_HMAC_SHA256,
 
 	ALGO_BASE64,
 	ALGO_DES,
@@ -107,6 +109,12 @@ typedef struct		s_digest_context
 	t_digest_context_algo	algo_ctx;
 }					t_digest_context;
 
+typedef struct		s_hmac_context
+{
+	char					*string;
+	char					*key;
+}					t_hmac_context;
+
 typedef struct		s_base64_context
 {
 	bool					is_encoding;
@@ -132,6 +140,7 @@ typedef struct		s_des_context
 typedef union		u_algo_context
 {
 	t_digest_context	digest;
+	t_hmac_context		hmac;
 	t_base64_context	base64;
 	t_des_context		des;
 }					t_algo_context;
