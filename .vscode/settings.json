@@ -26,6 +26,8 @@
         "sha256.h": "c",
         "sha256_algo.h": "c",
         "hmac_sha256_algo.h": "c",
-        "hmac_sha256.h": "c"
+        "hmac_sha256.h": "c",
+        "reader.h": "c",
+        "sha2.h": "c"
     }
 }

@@ -120,6 +120,7 @@ sha384$
 sha512$
 sha512224$
 sha512256$
+hmac-sha256$
 $
 Cipher commands:$
 base64$
@@ -150,6 +151,7 @@ sha384$
 sha512$
 sha512224$
 sha512256$
+hmac-sha256$
 $
 Cipher_commands:$
 base64$
@@ -176,6 +178,7 @@ sha384$
 sha512$
 sha512224$
 sha512256$
+hmac-sha256$
 $
 Cipher commands:$
 base64$
