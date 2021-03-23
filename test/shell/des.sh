@@ -4,7 +4,7 @@ testDesInvalidArgument() {
 	command="./ft_ssl des -invalid_argument"
 	read -d '' usage << EOF
 ft_ssl: des: illegal option -- invalid_argument$
-usage: ft_ssl des [-ade] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]$
+usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]$
 EOF
 
 	assertEquals 'invalid usage' "${usage}" "$(${command} 2>&1 > /dev/null | cat -e)"

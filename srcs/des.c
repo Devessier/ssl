@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 11:25:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 11:45:00 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ t_arg		g_des_arguments[] = {
 		.description = "initialization vector in hex is the next argument",
 	},
 	{
+		.type = ARG_BOOLEAN,
+		.name= "print-key-iv",
+		.description = "print key and iv",
+	},
+	{
 		.type = ARG_END
 	}
 };
@@ -76,7 +81,7 @@ static void	activate_decrypt_mode(t_context *ctx)
 
 static void		des_cmd(t_context *ctx)
 {
-	ft_putf("des cmd: %s\n", ctx->algo_name);
+	ft_putf("des cmd: %s, %d\n", ctx->algo_name, ctx->algo_ctx.des.print_key_iv);
 }
 
 void		bind_des_args(t_context *ctx)
@@ -91,6 +96,7 @@ void		bind_des_args(t_context *ctx)
 	ctx->args[6].value = &ctx->algo_ctx.des.password;
 	ctx->args[7].value = &ctx->algo_ctx.des.salt;
 	ctx->args[8].value = &ctx->algo_ctx.des.iv;
+	ctx->args[9].value = &ctx->algo_ctx.des.print_key_iv;
 	ctx->cmd = des_cmd;
 }
 
@@ -98,5 +104,5 @@ void		des_log_command_usage(t_context *ctx)
 {
 	(void)ctx;
 	ft_putf_fd(STDERR_FILENO
-		, "usage: ft_ssl des [-ade] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]\n");
+		, "usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]\n");
 }

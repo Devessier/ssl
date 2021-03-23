@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 11:12:02 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 11:43:45 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ typedef struct		s_des_context
 	char					*password;
 	char					*salt;
 	char					*iv;
+
+	bool					print_key_iv;
 }					t_des_context;
 
 typedef union		u_algo_context
