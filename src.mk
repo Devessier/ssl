@@ -18,6 +18,7 @@ SRCS += srcs/md5_algo.c
 SRCS += srcs/md5_algo_utils.c
 SRCS += srcs/md5_print.c
 SRCS += srcs/open.c
+SRCS += srcs/random_number_generator.c
 SRCS += srcs/reader.c
 SRCS += srcs/reader_read.c
 SRCS += srcs/repl.c
