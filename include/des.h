@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   random_number_generator.c                          :+:      :+:    :+:   */
+/*   des.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 10:44:47 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 11:24:39 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/03/23 11:13:16 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/03/23 11:22:15 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <unistd.h>
+#ifndef DES_H
+# define DES_H
+# include "ssl.h"
 
-ssize_t		get_random_buffer(char *dest, size_t length)
-{
-	const int	fd = open("/dev/random", O_RDONLY);
-	ssize_t		read_bytes_count;
+void			bind_des_args(t_context *ctx);
+void			des_log_command_usage(t_context *ctx);
 
-	if (fd == -1)
-		return (-1);
-	if ((read_bytes_count = read(fd, dest, length)) == -1)
-		return (-1);
-	close(fd);
-	return (read_bytes_count);
-}
+extern t_arg	g_des_arguments[];
+
+#endif

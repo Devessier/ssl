@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:17:14 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/22 13:02:17 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 11:24:12 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ static void	activate_decoding_mode(t_context *ctx)
 	ctx->algo_ctx.base64.is_encoding = false;
 }
 
+static void		base64_cmd(t_context *ctx)
+{
+	if (ctx->algo_ctx.base64.is_encoding)
+		base64_encode_cmd(ctx);
+	else
+		base64_decode_cmd(ctx);
+}
+
 void		bind_base64_args(t_context *ctx)
 {
 	ctx->algo_ctx.base64.is_encoding = true;
@@ -71,12 +79,4 @@ void		base64_log_command_usage(t_context *ctx)
 	(void)ctx;
 	ft_putf_fd(STDERR_FILENO
 		, "usage: ft_ssl base64 [-ed] [-b num] [-i in_file] [-o out_file]\n");
-}
-
-void		base64_cmd(t_context *ctx)
-{
-	if (ctx->algo_ctx.base64.is_encoding)
-		base64_encode_cmd(ctx);
-	else
-		base64_decode_cmd(ctx);
 }

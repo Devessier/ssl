@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 17:38:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/22 13:47:11 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 11:21:46 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 void				bind_base64_args(t_context *ctx);
 void				base64_log_command_usage(t_context *ctx);
-void				base64_cmd(t_context *ctx);
 t_writer			base64_create_writer(t_context *ctx
 	, char *output_file, size_t line_break);
 void				base64_encode_cmd(t_context *ctx);

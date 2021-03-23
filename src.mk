@@ -9,6 +9,7 @@ SRCS += srcs/base64_algo_encode.c
 SRCS += srcs/base64_decode.c
 SRCS += srcs/base64_encode.c
 SRCS += srcs/base64_utils.c
+SRCS += srcs/des.c
 SRCS += srcs/digest.c
 SRCS += srcs/digest_exec.c
 SRCS += srcs/hexa.c
