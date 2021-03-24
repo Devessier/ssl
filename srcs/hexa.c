@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 00:27:36 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 01:08:26 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/24 12:36:02 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,18 @@ void			print_uint64_to_hexa(int fd, uint64_t num)
 	char			buffer[HEXA_UINT64_BLOCKS] = { 0 };
 	size_t			index;
 	char			hexa_character;
+	uint64_t		mask;
+	uint64_t		shift;
 
 	index = 0;
+	shift = 60;
 	while (index < HEXA_UINT64_BLOCKS)
 	{
-		hexa_character = ft_toupper(g_hexa_lookup_table[(num >> (4 * index)) & 0xf]);
+		mask = ((uint64_t)((1 << 4) - 1)) << shift;
+		hexa_character = ft_toupper(g_hexa_lookup_table[((num & mask) >> shift) & 0xF]);
 		buffer[index] = hexa_character;
 		index++;
+		shift -= 4;
 	}
 	write(fd, buffer, sizeof(buffer));
 }
