@@ -6,15 +6,18 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 01:26:40 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/25 00:18:09 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pwd.h>
 #include "libft.h"
 #include "ssl.h"
 #include "des.h"
 #include "hexa.h"
 #include "random_number_generator.h"
+#include "des_pbkdf.h"
+#include "endianness.h"
 
 t_arg		g_des_arguments[] = {
 	{
@@ -68,6 +71,11 @@ t_arg		g_des_arguments[] = {
 		.description = "print key and iv",
 	},
 	{
+		.type = ARG_POSITIVE_INTEGER,
+		.name= "iter",
+		.description = "pbkdf2 iteration count",
+	},
+	{
 		.type = ARG_END
 	}
 };
@@ -80,6 +88,23 @@ static void	activate_encrypt_mode(t_context *ctx)
 static void	activate_decrypt_mode(t_context *ctx)
 {
 	ctx->algo_ctx.des.is_encrypting = false;
+}
+
+static t_error	des_cmd_set_password(t_context *ctx, t_des_algo_context *algo_ctx)
+{
+	const char	*password = ctx->algo_ctx.des.password;
+	char		*password_input;
+
+	if (password == NULL)
+	{
+		password_input = getpass("enter des encryption password:");
+		if (password_input[0] == '\0')
+			return (E_EMPTY_INPUT);
+		algo_ctx->password = password_input;
+	}
+	else
+		algo_ctx->password = (char *)password;
+	return (E_SUCCESS);
 }
 
 static t_error	des_cmd_set_salt(t_context *ctx, t_des_algo_context *algo_ctx)
@@ -108,18 +133,23 @@ static t_error	des_cmd_set_salt(t_context *ctx, t_des_algo_context *algo_ctx)
 		return (hexa_number.error);
 	}
 	algo_ctx->salt = hexa_number.number;
+	if (salt_length < DES_MAX_KEY_HEX_CHARACTERS)
+		algo_ctx->salt <<= ((DES_MAX_KEY_HEX_CHARACTERS - salt_length) * 4);
+	algo_ctx->salt = endianness_swap64(algo_ctx->salt);
 	return (E_SUCCESS);
 }
 
 static t_error	des_cmd_set_key(t_context *ctx, t_des_algo_context *algo_ctx)
 {
 	const char				*key = ctx->algo_ctx.des.key;
+	const size_t			iter = ctx->algo_ctx.des.iter;
 	size_t					key_length;
 	t_hexa_to_uint64_result	hexa_number;
 
 	if (key == NULL)
 	{
-		// Generate key, using or not salt argument
+		algo_ctx->key = des_pbkdf(algo_ctx->password
+			, ft_strlen(algo_ctx->password), algo_ctx->salt, iter);
 		return (E_SUCCESS);
 	}
 	key_length = ft_strlen(key);
@@ -142,12 +172,12 @@ static t_error	des_cmd_set_key(t_context *ctx, t_des_algo_context *algo_ctx)
 
 static void		des_cmd_print_salt_key_iv(t_des_algo_context *algo_ctx)
 {
-	const int	fd = STDERR_FILENO;
+	const int	fd = STDOUT_FILENO;
 
 	ft_putf_fd(fd, "salt=");
-	print_uint64_to_hexa(fd, algo_ctx->salt);
+	print_uint64_to_hexa(fd, endianness_swap64(algo_ctx->salt));
 	ft_putf_fd(fd, "\nkey=");
-	print_uint64_to_hexa(fd, algo_ctx->key);
+	print_uint64_to_hexa(fd, endianness_swap64(algo_ctx->key));
 	ft_putchar_fd('\n', fd);
 }
 
@@ -155,6 +185,11 @@ static void		des_cmd(t_context *ctx)
 {
 	t_des_algo_context	algo_ctx;
 
+	if (des_cmd_set_password(ctx, &algo_ctx) != E_SUCCESS)
+	{
+		ft_putf_fd(STDERR_FILENO, "bad password read\n");
+		return ;
+	}
 	if (des_cmd_set_salt(ctx, &algo_ctx) != E_SUCCESS)
 	{
 		ft_putf_fd(STDERR_FILENO, "invalid hex salt value\n");
@@ -171,8 +206,11 @@ static void		des_cmd(t_context *ctx)
 
 void		bind_des_args(t_context *ctx)
 {
-	ctx->args[0].value = &ctx->algo_ctx.des.base64_mode;
+	const size_t	default_iter = 1000;
+
 	ctx->algo_ctx.des.is_encrypting = true;
+	ctx->algo_ctx.des.iter = default_iter;
+	ctx->args[0].value = &ctx->algo_ctx.des.base64_mode;
 	ctx->args[1].exec_after = activate_decrypt_mode;
 	ctx->args[2].exec_after = activate_encrypt_mode;
 	ctx->args[3].value = &ctx->algo_ctx.des.input_file;
@@ -182,6 +220,7 @@ void		bind_des_args(t_context *ctx)
 	ctx->args[7].value = &ctx->algo_ctx.des.salt;
 	ctx->args[8].value = &ctx->algo_ctx.des.iv;
 	ctx->args[9].value = &ctx->algo_ctx.des.print_key_iv;
+	ctx->args[10].value = &ctx->algo_ctx.des.iter;
 	ctx->cmd = des_cmd;
 }
 
@@ -189,5 +228,5 @@ void		des_log_command_usage(t_context *ctx)
 {
 	(void)ctx;
 	ft_putf_fd(STDERR_FILENO
-		, "usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]\n");
+		, "usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv] [-iter count]\n");
 }

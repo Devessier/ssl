@@ -29,6 +29,8 @@
         "hmac_sha256.h": "c",
         "reader.h": "c",
         "sha2.h": "c",
-        "printf.h": "c"
+        "printf.h": "c",
+        "ssl.h": "c",
+        "endianness.h": "c"
     }
 }

@@ -13,6 +13,7 @@ SRCS += srcs/des.c
 SRCS += srcs/des_pbkdf.c
 SRCS += srcs/digest.c
 SRCS += srcs/digest_exec.c
+SRCS += srcs/endianness.c
 SRCS += srcs/hexa.c
 SRCS += srcs/hmac.c
 SRCS += srcs/hmac_sha256.c

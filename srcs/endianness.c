@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   random_number_generator.c                          :+:      :+:    :+:   */
+/*   endianness.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 10:44:47 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 23:14:35 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/03/24 22:52:44 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/03/24 22:58:54 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include <unistd.h>
 
-ssize_t		get_random_buffer(char *dest, size_t length)
+uint64_t	endianness_swap64(uint64_t number)
 {
-	const int	fd = open("/dev/random", O_RDONLY);
-	ssize_t		read_bytes_count;
-
-	if (fd == -1)
-		return (-1);
-	if ((read_bytes_count = read(fd, dest, length)) == -1)
-		return (-1);
-	close(fd);
-	return (read_bytes_count);
+	return (
+		((number >> 56) & 0x00000000000000FF)
+		| ((number >> 40) & 0x000000000000FF00)
+		| ((number >> 24) & 0x0000000000FF0000)
+		| ((number >> 8) & 0x00000000FF000000)
+		| ((number << 8) & 0x000000FF00000000)
+		| ((number << 24) & 0x0000FF0000000000)
+		| ((number << 40) & 0x00FF000000000000)
+		| ((number << 56) & 0xFF00000000000000)
+	);
 }

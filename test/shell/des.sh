@@ -4,7 +4,7 @@ testDesInvalidArgument() {
 	command="./ft_ssl des -invalid_argument"
 	read -d '' usage << EOF
 ft_ssl: des: illegal option -- invalid_argument$
-usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv]$
+usage: ft_ssl des [-ade] [-print-key-iv] [-i in_file] [-o out_file] [-k key] [-p password] [-s salt] [-v iv] [-iter count]$
 EOF
 
 	assertEquals 'invalid usage' "${usage}" "$(${command} 2>&1 > /dev/null | cat -e)"
@@ -15,11 +15,12 @@ EOF
 
 testDesComputesCorrectKeyFromGivenSalt() {
 	salt='F3A662D59028A7FF'
+	password='Devessier'
 
-	result=$(./ft_ssl des -e -s "${salt}" -print-key-iv | cat -e)
+	result=$(./ft_ssl des -e -s "${salt}" -print-key-iv -p "${password}" | cat -e)
 	read -d '' expected_key << EOF
 salt=F3A662D59028A7FF$
-key=5DFC6F5FAC101670$
+key=F15006A3ECAD2F0E$
 EOF
 
 	assertEquals "${expected_key}" "${result}"
@@ -27,12 +28,13 @@ EOF
 
 testDesAddsPaddingToSalt() {
 	salt='FF'
+	password='Devessier'
 
-	result=$(./ft_ssl des -e -s "${salt}" -print-key-iv 2>&1 | cat -e)
+	result=$(./ft_ssl des -e -s "${salt}" -print-key-iv -p "${password}" 2>&1 | cat -e)
 	read -d '' expected_key << EOF
 hex string is too short, padding with zero bytes to length$
 salt=FF00000000000000$
-key=CC9040549FD7AB76$
+key=17C58006A8EB2C70$
 EOF
 
 	assertEquals "${expected_key}" "${result}"
@@ -40,8 +42,9 @@ EOF
 
 testDesAddsPaddingToCutKey() {
 	key='FF'
+	password='Devessier'
 
-	result=$(./ft_ssl des -e -k "${key}" -print-key-iv 2>&1 | cat -e | grep "^[^salt]")
+	result=$(./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^salt]")
 	read -d '' expected_key << EOF
 hex string is too short, padding with zero bytes to length$
 key=FF00000000000000$

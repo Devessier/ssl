@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/23 14:01:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/25 00:07:36 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct		s_des_context
 	char					*password;
 	char					*salt;
 	char					*iv;
+	size_t					iter;
 
 	bool					print_key_iv;
 }					t_des_context;
@@ -213,6 +214,8 @@ typedef enum		e_error
 	E_INVALID_ARG_STRING_VALUE,
 	E_INVALID_ARG_TYPE,
 	E_INVALID_ARG,
+
+	E_EMPTY_INPUT,
 
 	E_NEXT,
 	E_EXECUTE,

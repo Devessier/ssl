@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   des.h                                              :+:      :+:    :+:   */
+/*   endianness.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 11:13:16 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 11:38:42 by bdevessi         ###   ########.fr       */
+/*   Created: 2021/03/24 22:59:02 by bdevessi          #+#    #+#             */
+/*   Updated: 2021/03/25 00:17:28 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DES_H
-# define DES_H
-# include "ssl.h"
-# define DES_KEY_BYTES_SIZE 8
-# define DES_MAX_KEY_HEX_CHARACTERS (DES_KEY_BYTES_SIZE * 2)
+#ifndef ENDIANNESS_H
+# define ENDIANNESS_H
+# include <unistd.h>
 
-typedef struct	s_des_algo_context
-{
-	char		*password;
-	uint64_t	salt;
-	uint64_t	key;
-}				t_des_algo_context;
-
-void			bind_des_args(t_context *ctx);
-void			des_log_command_usage(t_context *ctx);
-
-extern t_arg	g_des_arguments[];
+uint64_t	endianness_swap64(uint64_t number);
 
 #endif
