@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 00:27:36 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 12:36:02 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/29 11:58:20 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_hexa_to_uint64_result		hexa_to_uint64(const char *str, size_t length)
 	int8_t			char_integer_value;
 	size_t			index;
 
-	if (ft_strlen(str) > max_str_length)
+	if (length > max_str_length)
 		return ((t_hexa_to_uint64_result) {
 			.error = E_FAILURE,
 		});
