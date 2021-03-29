@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/25 00:18:09 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/29 11:46:58 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ static t_error	des_cmd_set_key(t_context *ctx, t_des_algo_context *algo_ctx)
 		return (hexa_number.error);
 	}
 	algo_ctx->key = hexa_number.number;
+	if (key_length < DES_MAX_KEY_HEX_CHARACTERS)
+		algo_ctx->key <<= ((DES_MAX_KEY_HEX_CHARACTERS - key_length) * 4);
+	algo_ctx->key = endianness_swap64(algo_ctx->key);
 	return (E_SUCCESS);
 }
 

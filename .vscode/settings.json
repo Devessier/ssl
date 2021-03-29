@@ -31,6 +31,7 @@
         "sha2.h": "c",
         "printf.h": "c",
         "ssl.h": "c",
-        "endianness.h": "c"
+        "endianness.h": "c",
+        "libft.h": "c"
     }
 }

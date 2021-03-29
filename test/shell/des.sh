@@ -53,4 +53,43 @@ EOF
 	assertEquals "${expected_key}" "${result}"
 }
 
+testDesTruncatesTooLongSalt() {
+	salt='75a60cc481a13abffffffff'
+	password='Devessier'
+
+	result=$(./ft_ssl des -e -s "${salt}" -print-key-iv -p "${password}" 2>&1 | cat -e)
+	read -d '' expected_key << EOF
+hex string is too long, ignoring excess$
+salt=75A60CC481A13ABF$
+key=4C8CF489EDE7C860$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesTruncatesTooLongKey() {
+	key='75a60cc481a13abffffffff'
+	password='Devessier'
+
+	result=$(./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^salt]")
+	read -d '' expected_key << EOF
+hex string is too long, ignoring excess$
+key=75A60CC481A13ABF$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesHandlesExactly16DigitsKey() {
+	key='75a60cc481a13abf'
+	password='Devessier'
+
+	result=$(./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^salt]")
+	read -d '' expected_key << EOF
+key=75A60CC481A13ABF$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
 . ./vendor/shunit2/shunit2
