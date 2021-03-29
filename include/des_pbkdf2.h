@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   des_pbkdf.h                                        :+:      :+:    :+:   */
+/*   des_pbkdf2.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 # define DES_PBKDF_H
 # include "ssl.h"
 
-uint64_t	des_pbkdf(
+uint64_t	des_pbkdf2(
 	char *password
 	, size_t password_length
 	, uint64_t salt

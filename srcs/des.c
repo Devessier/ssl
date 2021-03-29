@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/29 11:46:58 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/29 12:31:26 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "des.h"
 #include "hexa.h"
 #include "random_number_generator.h"
-#include "des_pbkdf.h"
+#include "des_pbkdf2.h"
 #include "endianness.h"
 
 t_arg		g_des_arguments[] = {
@@ -148,7 +148,7 @@ static t_error	des_cmd_set_key(t_context *ctx, t_des_algo_context *algo_ctx)
 
 	if (key == NULL)
 	{
-		algo_ctx->key = des_pbkdf(algo_ctx->password
+		algo_ctx->key = des_pbkdf2(algo_ctx->password
 			, ft_strlen(algo_ctx->password), algo_ctx->salt, iter);
 		return (E_SUCCESS);
 	}

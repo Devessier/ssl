@@ -32,6 +32,7 @@
         "printf.h": "c",
         "ssl.h": "c",
         "endianness.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "random_number_generator.h": "c"
     }
 }

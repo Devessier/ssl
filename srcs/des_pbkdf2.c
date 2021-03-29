@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   des_pbkdf.c                                        :+:      :+:    :+:   */
+/*   des_pbkdf2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:55:07 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/25 00:08:48 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/29 12:29:51 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "sha256.h"
 #include "endianness.h"
 
-uint64_t	des_pbkdf(char *password, size_t password_length, uint64_t salt, size_t iter)
+uint64_t	des_pbkdf2(char *password, size_t password_length, uint64_t salt, size_t iter)
 {
 	const uint8_t				be_block_index[] = {0x0, 0x0, 0x0, 0x1};
 	t_hmac_sha256_algo_context	ctx;
