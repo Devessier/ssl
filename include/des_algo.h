@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:23:37 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/30 20:51:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/31 01:34:22 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "ssl.h"
 # include "des.h"
 # define DES_KEY_SCHEDULE_COUNT 16
+# define DES_SBOX_COUNT 8
 
 typedef union	u_uint6
 {
