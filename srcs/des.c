@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/29 12:31:26 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/30 13:02:55 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,10 @@ static void		des_cmd(t_context *ctx)
 	}
 	if (ctx->algo_ctx.des.print_key_iv == true)
 		des_cmd_print_salt_key_iv(&algo_ctx);
+	if (ctx->algo_ctx.des.is_encrypting)
+		des_encrypt_cmd(ctx, algo_ctx);
+	else
+		;
 }
 
 void		bind_des_args(t_context *ctx)

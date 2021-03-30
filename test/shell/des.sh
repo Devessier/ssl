@@ -92,4 +92,22 @@ EOF
 	assertEquals "${expected_key}" "${result}"
 }
 
+testDesEncryptsMakefileInBinary() {
+	key='75a60cc481a13abf'
+	password='Devessier'
+
+	TMP_DIR=$(mktemp -d)
+	INPUT_FILE=./Makefile
+	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-makefile.enc
+	ENCRYPTION_RESULT_FILE=$TMP_DIR/encryption-result.enc
+
+	./ft_ssl des -e -k $key -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
+
+	diff $ENCRYPTED_FILE_SNAPSHOT $ENCRYPTION_RESULT_FILE
+
+	assertTrue $?
+
+	rm -rf $TMP_DIR
+}
+
 . ./vendor/shunit2/shunit2

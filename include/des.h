@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 11:13:16 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/24 11:38:42 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/30 11:08:53 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct	s_des_algo_context
 
 void			bind_des_args(t_context *ctx);
 void			des_log_command_usage(t_context *ctx);
+
+t_error			des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx);
 
 extern t_arg	g_des_arguments[];
 

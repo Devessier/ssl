@@ -33,6 +33,9 @@
         "ssl.h": "c",
         "endianness.h": "c",
         "libft.h": "c",
-        "random_number_generator.h": "c"
+        "random_number_generator.h": "c",
+        "writer.h": "c",
+        "des_algo.h": "c",
+        "algo_rotate.h": "c"
     }
 }
