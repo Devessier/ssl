@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:23:23 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/31 01:46:41 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/04/01 00:50:09 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "des_algo.h"
 #include "reader.h"
 #include "writer.h"
-
-#include <printf.h>
+#include "endianness.h"
 
 uint64_t	des_permute(uint64_t input_block
 	, size_t input_block_bytes_length
@@ -69,8 +68,6 @@ uint64_t	des_inv_ip(uint64_t block)
 
 	return (des_permute(block, sizeof(block), table, sizeof(table)));
 }
-
-#include <printf.h>
 
 t_uint48	des_right_block_expand(uint32_t right_block)
 {
@@ -194,11 +191,8 @@ uint32_t	des_round(uint32_t right_block, t_uint48 key)
 	uint32_t	output;
 
 	expanded_right_block = des_right_block_expand(right_block);
-	// printf("right expanded block = %llx\n", expanded_right_block.uint);
 	expanded_right_block.uint ^= key.uint;
-	// printf("xor right expanded block = %llx\n", expanded_right_block.uint);
 	output = des_round_s_box_compress(expanded_right_block);
-	// printf("sbox compress = %x\n", output);
 	output = des_round_p_permute(output);
 	return (output);
 }
@@ -212,6 +206,21 @@ static void		swap_uint32(uint32_t *a, uint32_t *b)
 	*b = tmp;
 }
 
+static uint64_t		des_padding(uint64_t block, size_t block_length)
+{
+	size_t		index;
+	uint64_t	result;
+
+	index = 0;
+	result = block >> (block_length * 8);
+	while (index < block_length)
+	{
+		result = (result << 8) | block_length;
+		index++;
+	}
+	return (result);
+}
+
 uint64_t		des_encrypt_algo(t_des_algo_context algo_ctx
 	, uint64_t block
 	, size_t block_length)
@@ -221,28 +230,22 @@ uint64_t		des_encrypt_algo(t_des_algo_context algo_ctx
 	uint32_t	right_block;
 	size_t		index;
 
+	block = endianness_swap64(block);
 	des_generate_key_schedule(key_schedule, algo_ctx.key);
 	if (block_length < sizeof(block))
-	{
-		; // pad
-	}
-	// printf("before initial permutation = %llx\n", block);
+		block = des_padding(block, sizeof(block) - block_length);
 	block = des_ip(block);
-	// printf("after initial permutation = %llx\n", block);
 	left_block = (block >> 32) & 0xffffffff;
 	right_block = block & 0xffffffff;
 	index = 0;
-	// printf("Round %zu => left block = %x, right block = %x\n", index, left_block, right_block);
 	while (index < DES_KEY_SCHEDULE_COUNT)
 	{
 		left_block ^= des_round(right_block, key_schedule[index]);
 		if (index < DES_KEY_SCHEDULE_COUNT - 1)
 			swap_uint32(&left_block, &right_block);
-		// printf("Round %zu => left block = %x, right block = %x\n", index, left_block, right_block);
 		index++;
 	}
 	block = ((uint64_t)left_block << 32) | (uint64_t)right_block;
 	block = des_inv_ip(block);
-	// printf("cipher text = %llx\n", block);
-	return (block);
+	return (endianness_swap64(block));
 }

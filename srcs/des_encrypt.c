@@ -6,11 +6,9 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:41:22 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/30 20:54:56 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/04/01 00:50:41 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 #include "ssl.h"
 #include "open.h"
@@ -54,6 +52,8 @@ static t_writer	des_encrypt_create_writer(t_context *ctx)
 	return (create_writer(file_fd, filename));
 }
 
+#include <printf.h>
+
 t_error		des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx)
 {
 	t_reader	reader;
@@ -71,11 +71,13 @@ t_error		des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx)
 		return (E_FAILURE);
 	writer_write(&writer, (char *)g_des_magic, sizeof(g_des_magic) - 1);
 	writer_write(&writer, (char *)&algo_ctx.salt, sizeof(algo_ctx.salt));
-	while ((buffer_length = reader_read(&reader, (char *)&block, sizeof(block))) > 0)
+	while ((buffer_length = reader_read(&reader, (char *)&block, sizeof(block))) == DES_KEY_BYTES_SIZE)
 	{
-		encrypted_block = des_encrypt_algo(algo_ctx, endianness_swap64(block), buffer_length);
+		encrypted_block = des_encrypt_algo(algo_ctx, block, buffer_length);
 		writer_write(&writer, (char *)&encrypted_block, sizeof(encrypted_block));
 	}
+	encrypted_block = des_encrypt_algo(algo_ctx, block, buffer_length);
+	writer_write(&writer, (char *)&encrypted_block, sizeof(encrypted_block));
 	writer_flush(&writer);
 	return (E_SUCCESS);
 }
