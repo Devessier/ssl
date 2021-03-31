@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/30 13:02:55 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/04/01 00:36:36 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ static void		des_cmd(t_context *ctx)
 
 void		bind_des_args(t_context *ctx)
 {
-	const size_t	default_iter = 1000;
+	const size_t	default_iter = 10000;
 
 	ctx->algo_ctx.des.is_encrypting = true;
 	ctx->algo_ctx.des.iter = default_iter;
