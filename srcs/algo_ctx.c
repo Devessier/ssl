@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 17:35:32 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/16 17:47:12 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 14:16:49 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include "digest.h"
 #include "md5.h"
 #include "sha256.h"
+#include "hmac.h"
 #include "base64.h"
+#include "des.h"
 
 t_arg		*get_algo_arguments(t_algo algo)
 {
@@ -24,8 +26,12 @@ t_arg		*get_algo_arguments(t_algo algo)
 		|| algo == ALGO_SHA384 || algo == ALGO_SHA512_224
 		|| algo == ALGO_SHA512_256)
 		return (g_digest_arguments);
+	if (algo == ALGO_HMAC_SHA256)
+		return (g_hmac_arguments);
 	if (algo == ALGO_BASE64)
 		return (g_base64_arguments);
+	if (algo == ALGO_DES || algo == ALGO_DES_ECB)
+		return (g_des_arguments);
 	return (NULL);
 }
 
@@ -36,7 +42,11 @@ t_algo_cmd	get_algo_usage(t_algo algo)
 		|| algo == ALGO_SHA384 || algo == ALGO_SHA512_224
 		|| algo == ALGO_SHA512_256)
 		return (digest_log_command_usage);
+	if (algo == ALGO_HMAC_SHA256)
+		return (hmac_log_command_usage);
 	if (algo == ALGO_BASE64)
 		return (base64_log_command_usage);
+	if (algo == ALGO_DES || algo == ALGO_DES_ECB)
+		return (des_log_command_usage);
 	return (NULL);
 }

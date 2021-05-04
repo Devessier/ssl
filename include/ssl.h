@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/16 18:39:44 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:32:29 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ typedef enum		e_algo
 	ALGO_SHA512_224,
 	ALGO_SHA512_256,
 
-	ALGO_BASE64
+	ALGO_HMAC_SHA256,
+
+	ALGO_BASE64,
+	ALGO_DES,
+	ALGO_DES_ECB,
 }					t_algo;
 
 enum				e_hash_size
@@ -105,6 +109,12 @@ typedef struct		s_digest_context
 	t_digest_context_algo	algo_ctx;
 }					t_digest_context;
 
+typedef struct		s_hmac_context
+{
+	char					*string;
+	char					*key;
+}					t_hmac_context;
+
 typedef struct		s_base64_context
 {
 	bool					is_encoding;
@@ -113,10 +123,27 @@ typedef struct		s_base64_context
 	int						line_break;
 }					t_base64_context;
 
+typedef struct		s_des_context
+{
+	bool					base64_mode;
+	bool					is_encrypting;
+	char					*input_file;
+	char					*output_file;
+	char					*key;
+	char					*password;
+	char					*salt;
+	char					*iv;
+	size_t					iter;
+
+	bool					print_key_iv;
+}					t_des_context;
+
 typedef union		u_algo_context
 {
 	t_digest_context	digest;
+	t_hmac_context		hmac;
 	t_base64_context	base64;
+	t_des_context		des;
 }					t_algo_context;
 
 enum				e_arg_type
@@ -188,8 +215,13 @@ typedef enum		e_error
 	E_INVALID_ARG_TYPE,
 	E_INVALID_ARG,
 
+	E_EMPTY_INPUT,
+
 	E_NEXT,
 	E_EXECUTE,
+
+	E_DES_SALT_INVALID_HEX,
+	E_DES_KEY_INVALID_HEX,
 }					t_error;
 
 extern t_algo_desc	g_algorithms[];

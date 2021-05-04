@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:34:55 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/07 23:57:22 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 16:59:59 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 void		sha256_algo(t_context *ctx, t_reader *reader);
 void		sha256_transform(t_sha256_algo_context *ctx);
+void		sha256_update(t_sha256_algo_context *ctx, uint8_t *src, size_t len);
+void		sha256_final(t_sha256_algo_context *ctx, uint8_t *hash);
 
 void		sha256_init(t_sha256_algo_context *ctx);
 void		fill_sha256_states(t_sha256_states *to_fill

@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 00:24:10 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/16 18:28:56 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 14:12:56 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 #include "sha512.h"
 #include "sha512_224.h"
 #include "sha512_256.h"
+#include "hmac_sha256.h"
 #include "base64.h"
+#include "des.h"
 #include "algo_ctx.h"
 
 t_algo_desc				g_algorithms[] = {
@@ -84,11 +86,35 @@ t_algo_desc				g_algorithms[] = {
 		.arguments = NULL
 	},
 	{
+		.algorithm = ALGO_HMAC_SHA256,
+		.name = "hmac-sha256",
+		.name_capital = "HMAC-SHA256",
+		.type = ALGO_DIGEST,
+		.bind_args = bind_hmac_sha256_args,
+		.arguments = NULL
+	},
+	{
 		.algorithm = ALGO_BASE64,
 		.name = "base64",
 		.name_capital = "BASE64",
 		.type = ALGO_CIPHER,
 		.bind_args = bind_base64_args,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_DES,
+		.name = "des",
+		.name_capital = "DES",
+		.type = ALGO_CIPHER,
+		.bind_args = bind_des_args,
+		.arguments = NULL
+	},
+	{
+		.algorithm = ALGO_DES_ECB,
+		.name = "des-ecb",
+		.name_capital = "DES-ECB",
+		.type = ALGO_CIPHER,
+		.bind_args = bind_des_args,
 		.arguments = NULL
 	},
 	{

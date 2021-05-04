@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 15:34:39 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/01/08 00:00:12 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/03/23 16:57:36 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,25 @@ static void		sha256_transform_main_computing(size_t index
 	states->a = tmp[0] + tmp[1];
 }
 
+void			sha256_update(t_sha256_algo_context *ctx, uint8_t *src, size_t len)
+{
+	size_t	remaining;
+
+	remaining = sizeof(ctx->buffer) - ctx->buffer_length;
+	while (remaining < len)
+	{
+		ft_memcpy(ctx->buffer + ctx->buffer_length, src, remaining);
+		sha256_transform(ctx);
+		ctx->binary_length += 512;
+		ctx->buffer_length = 0;
+		src += remaining;
+		len -= remaining;
+		remaining = sizeof(ctx->buffer) - ctx->buffer_length;
+	}
+	ft_memcpy(ctx->buffer + ctx->buffer_length, src, len);
+	ctx->buffer_length += len;
+}
+
 void			sha256_transform(t_sha256_algo_context *ctx)
 {
 	t_sha256_states	states;
@@ -193,24 +212,17 @@ void			sha256_final(t_sha256_algo_context *ctx, uint8_t *hash)
 void			sha256_algo(t_context *ctx, t_reader *reader)
 {
 	t_sha256_algo_context	algo_ctx;
+	uint8_t					buffer[SHA256_BUFFER_SIZE];
 	ssize_t					buffer_length;
 	uint8_t					*hash;
 
 	sha256_init(&algo_ctx);
 	hash = ctx->algo_ctx.digest.algo_ctx.sha256.hash;
-	while ((buffer_length = reader_read(reader
-		, (char *)(algo_ctx.buffer + algo_ctx.buffer_length)
-		, SHA256_BUFFER_SIZE - algo_ctx.buffer_length)) > 0)
+	while ((buffer_length = reader_read(reader, (char *)buffer, sizeof(buffer))) > 0)
 	{
 		if (reader->type == READER_TYPE_FD && reader->ctx.fd.auto_print == true)
-			write(STDOUT_FILENO, algo_ctx.buffer + algo_ctx.buffer_length,
-				buffer_length);
-		if ((algo_ctx.buffer_length += buffer_length) == SHA256_BUFFER_SIZE)
-		{
-			sha256_transform(&algo_ctx);
-			algo_ctx.binary_length += 512;
-			algo_ctx.buffer_length = 0;
-		}
+			write(STDOUT_FILENO, buffer, buffer_length);
+		sha256_update(&algo_ctx, buffer, buffer_length);
 		if (reader->finished == true)
 			break ;
 	}
