@@ -3,14 +3,24 @@ name: Continuous Integration
 on: pull_request
 jobs:
   tests:
-    name: Run tests
     strategy:
       matrix:
-        plateform: [ubuntu-latest, macos-latest]
+        platform:
+          - ubuntu-latest
+          - macos-latest
+    name: Run tests on ${{ matrix.platform }}
+
     runs-on: ${{ matrix.platform }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@master
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2
+        with:
+          path: ./obj
+          key: ${{ runner.os }}-build
 
       - name: Compile
         run: make
