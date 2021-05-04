@@ -6,14 +6,20 @@ jobs:
         name: Run tests
         runs-on: macos-latest
         steps:
-        - uses: actions/checkout@master
-        - uses: skx/github-action-tester@master
+          - name: Checkout
+            uses: actions/checkout@master
+
+          - name: Compile
+            run: make
+
+          - name: Run tests
+            run: ./test/shell/exec.sh
 
     style:
         runs-on: ubuntu-latest
         name: norminette
         steps:
-        - uses: actions/checkout@v2
-        - uses: alexandregv/norminette-action@v2
-          with:
-            flags: 'srcs/* include/* libft/*.c libft/includes/libft.h'
+          - uses: actions/checkout@v2
+          - uses: alexandregv/norminette-action@v2
+            with:
+              flags: 'srcs/* include/* libft/*.c libft/includes/libft.h'
