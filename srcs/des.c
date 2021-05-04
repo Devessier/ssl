@@ -6,11 +6,12 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/05/04 12:32:40 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 15:27:19 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pwd.h>
+#include <unistd.h>
 #include "libft.h"
 #include "ssl.h"
 #include "des.h"
