@@ -160,7 +160,7 @@ testDesEncryptsBigFileInBinary() {
 
 	curl https://cdn.intra.42.fr/pdf/pdf/19604/en.subject.pdf 2> /dev/null > $INPUT_FILE
 
-	cat $INPUT_FILE | ./ft_ssl des -e -s $salt -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
+	./ft_ssl des -e -s $salt -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
 
 	cmp $ENCRYPTION_RESULT_FILE $ENCRYPTED_FILE_SNAPSHOT
 
@@ -180,6 +180,49 @@ testDesEncryptReadsFromInputFileAndWritesToOutputFile() {
 	./ft_ssl des -e -k $key -i $INPUT_FILE -o $ENCRYPTION_RESULT_FILE
 
 	diff $ENCRYPTED_FILE_SNAPSHOT $ENCRYPTION_RESULT_FILE
+
+	assertTrue $?
+
+	rm -rf $TMP_DIR
+}
+
+testDesEncryptsIntoBase64BasicStringFromKey() {
+	key='75a60cc481a13abf'
+
+	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -a 2>&1 | cat -e)
+	read -d '' expected_key << EOF
+SZTqr66hEpA=$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesEncryptsIntoBase64BasicStringFromSaltAndPassword() {
+	salt='75a60cc481a13abf'
+	password='Devessier'
+
+	result=$(echo "test" | ./ft_ssl des -e -s "${salt}" -p "${password}" -a 2>&1 | cat -e)
+	read -d '' expected_key << EOF
+U2FsdGVkX191pgzEgaE6v2DAeJt7p1zN$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesEncryptsBigFileInBase64() {
+	salt='75a60cc481a13abf'
+	password='Devessier'
+
+	TMP_DIR=$(mktemp -d)
+	INPUT_FILE=$TMP_DIR/pdf.pdf
+	ENCRYPTION_RESULT_FILE=$TMP_DIR/hashing_result.txt
+	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-ssl-des-subject-base64.enc
+
+	curl https://cdn.intra.42.fr/pdf/pdf/19604/en.subject.pdf 2> /dev/null > $INPUT_FILE
+
+	./ft_ssl des -e -s $salt -p $password -i $INPUT_FILE -a > $ENCRYPTION_RESULT_FILE
+
+	cmp $ENCRYPTION_RESULT_FILE $ENCRYPTED_FILE_SNAPSHOT
 
 	assertTrue $?
 

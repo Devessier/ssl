@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:41:22 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/05/04 12:36:25 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 20:27:25 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_writer	des_encrypt_create_writer(t_context *ctx)
 	const char	*output_file = ctx->algo_ctx.des.output_file;
 	int			file_fd;
 	char		*filename;
+	t_writer	writer;
 
 	if (output_file == NULL)
 	{
@@ -49,7 +50,15 @@ static t_writer	des_encrypt_create_writer(t_context *ctx)
 			return (create_writer_empty());
 		filename = (char *)output_file;
 	}
-	return (create_writer(file_fd, filename));
+
+	if (ctx->algo_ctx.des.base64_mode == true)
+	{
+		writer = create_writer_breaker(file_fd, filename, 64, "\n");
+		writer_activate_base64_mode(&writer);
+	}
+	else
+		writer = create_writer(file_fd, filename);
+	return (writer);
 }
 
 #include <printf.h>
@@ -83,5 +92,11 @@ t_error		des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx)
 	encrypted_block = des_encrypt_algo(algo_ctx, block, buffer_length);
 	writer_write(&writer, (char *)&encrypted_block, sizeof(encrypted_block));
 	writer_flush(&writer);
+	if (ctx->algo_ctx.des.base64_mode == true)
+	{
+		writer_desactivate_base64_mode(&writer);
+		writer_write(&writer, "\n", 1);
+		writer_flush(&writer);
+	}
 	return (E_SUCCESS);
 }

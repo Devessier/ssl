@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 20:04:19 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/22 13:50:07 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 21:01:53 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ typedef struct			s_writer
 	char			*new_line;
 	size_t			new_line_length;
 	size_t			line_break;
+
+	bool			base64_activated;
+	char			base64_buffer[3];
+	size_t			base64_buffer_index;
 }						t_writer;
 
 t_writer				create_writer(int fd, char *filename);
@@ -36,6 +40,8 @@ t_writer				create_writer_breaker(int fd
 	, size_t line_break
 	, char *new_line);
 t_writer				create_writer_empty();
+void					writer_activate_base64_mode(t_writer *writer);
+void					writer_desactivate_base64_mode(t_writer *writer);
 
 void					writer_write(t_writer *writer
 	, char *to_write
@@ -44,6 +50,11 @@ void					writer_pad(t_writer *writer
 	, char pad_char
 	, size_t count);
 void					writer_flush(t_writer *writer);
+void					writer_flush_internal(t_writer *writer);
 void					writer_close(t_writer *writer);
+
+void			writer_write_fill_internal_buffer(t_writer *writer
+	, char *to_write
+	, size_t length);
 
 #endif
