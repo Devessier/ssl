@@ -2,24 +2,27 @@ name: Continuous Integration
 
 on: pull_request
 jobs:
-    tests:
-        name: Run tests
-        runs-on: macos-latest
-        steps:
-          - name: Checkout
-            uses: actions/checkout@master
+  tests:
+    name: Run tests
+    strategy:
+      matrix:
+        plateform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
 
-          - name: Compile
-            run: make
+      - name: Compile
+        run: make
 
-          - name: Run tests
-            run: ./test/shell/exec.sh
+      - name: Run tests
+        run: ./test/shell/exec.sh
 
-    style:
-        runs-on: ubuntu-latest
-        name: norminette
-        steps:
-          - uses: actions/checkout@v2
-          - uses: alexandregv/norminette-action@v2
-            with:
-              flags: 'srcs/* include/* libft/*.c libft/includes/libft.h'
+  style:
+    runs-on: ubuntu-latest
+    name: norminette
+    steps:
+      - uses: actions/checkout@v2
+      - uses: alexandregv/norminette-action@v2
+        with:
+          flags: 'srcs/* include/* libft/*.c libft/includes/libft.h'
