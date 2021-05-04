@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 12:41:22 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/04/01 00:50:41 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:36:25 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static t_writer	des_encrypt_create_writer(t_context *ctx)
 
 t_error		des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx)
 {
+	const bool	print_salt = ctx->algo_ctx.des.key == NULL;
 	t_reader	reader;
 	t_writer	writer;
 	uint64_t	block;
@@ -69,8 +70,11 @@ t_error		des_encrypt_cmd(t_context *ctx, t_des_algo_context algo_ctx)
 	writer = des_encrypt_create_writer(ctx);
 	if (writer.activated == false)
 		return (E_FAILURE);
-	writer_write(&writer, (char *)g_des_magic, sizeof(g_des_magic) - 1);
-	writer_write(&writer, (char *)&algo_ctx.salt, sizeof(algo_ctx.salt));
+	if (print_salt)
+	{
+		writer_write(&writer, (char *)g_des_magic, sizeof(g_des_magic) - 1);
+		writer_write(&writer, (char *)&algo_ctx.salt, sizeof(algo_ctx.salt));
+	}
 	while ((buffer_length = reader_read(&reader, (char *)&block, sizeof(block))) == DES_KEY_BYTES_SIZE)
 	{
 		encrypted_block = des_encrypt_algo(algo_ctx, block, buffer_length);

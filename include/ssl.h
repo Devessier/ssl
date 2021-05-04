@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:20:21 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/03/25 00:07:36 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:32:29 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,9 @@ typedef enum		e_error
 
 	E_NEXT,
 	E_EXECUTE,
+
+	E_DES_SALT_INVALID_HEX,
+	E_DES_KEY_INVALID_HEX,
 }					t_error;
 
 extern t_algo_desc	g_algorithms[];

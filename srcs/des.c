@@ -6,7 +6,7 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/04/01 00:36:36 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 12:32:40 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static t_error	des_cmd_set_salt(t_context *ctx, t_des_algo_context *algo_ctx)
 	if (hexa_number.error != E_SUCCESS)
 	{
 		ft_putf_fd(STDERR_FILENO, "non-hex digit\n");
-		return (hexa_number.error);
+		return (E_DES_SALT_INVALID_HEX);
 	}
 	algo_ctx->salt = hexa_number.number;
 	if (salt_length < DES_MAX_KEY_HEX_CHARACTERS)
@@ -164,7 +164,7 @@ static t_error	des_cmd_set_key(t_context *ctx, t_des_algo_context *algo_ctx)
 	if (hexa_number.error != E_SUCCESS)
 	{
 		ft_putf_fd(STDERR_FILENO, "non-hex digit\n");
-		return (hexa_number.error);
+		return (E_DES_KEY_INVALID_HEX);
 	}
 	algo_ctx->key = hexa_number.number;
 	if (key_length < DES_MAX_KEY_HEX_CHARACTERS)
@@ -184,25 +184,36 @@ static void		des_cmd_print_salt_key_iv(t_des_algo_context *algo_ctx)
 	ft_putchar_fd('\n', fd);
 }
 
+static t_error	des_generate_key_iv(t_context *ctx, t_des_algo_context *algo_ctx)
+{
+	const bool	has_not_key_arg = ctx->algo_ctx.des.key == NULL;
+	t_error		err;
+
+	if (has_not_key_arg)
+	{
+		if ((err = des_cmd_set_password(ctx, algo_ctx)) != E_SUCCESS)
+			return (err);
+		if ((err = des_cmd_set_salt(ctx, algo_ctx)) != E_SUCCESS)
+			return (err);
+	}
+	if ((err = des_cmd_set_key(ctx, algo_ctx)) != E_SUCCESS)
+		return (err);
+	return (E_SUCCESS);
+}
+
 static void		des_cmd(t_context *ctx)
 {
 	t_des_algo_context	algo_ctx;
+	t_error				key_iv_err;
 
-	if (des_cmd_set_password(ctx, &algo_ctx) != E_SUCCESS)
-	{
+	key_iv_err = des_generate_key_iv(ctx, &algo_ctx);
+	if (key_iv_err == E_EMPTY_INPUT)
 		ft_putf_fd(STDERR_FILENO, "bad password read\n");
-		return ;
-	}
-	if (des_cmd_set_salt(ctx, &algo_ctx) != E_SUCCESS)
-	{
+	else if (key_iv_err == E_DES_SALT_INVALID_HEX)
 		ft_putf_fd(STDERR_FILENO, "invalid hex salt value\n");
-		return ;
-	}
-	if (des_cmd_set_key(ctx, &algo_ctx) != E_SUCCESS)
-	{
+	else if (key_iv_err == E_DES_KEY_INVALID_HEX)
 		ft_putf_fd(STDERR_FILENO, "invalid hex key value\n");
-		return ;
-	}
+
 	if (ctx->algo_ctx.des.print_key_iv == true)
 		des_cmd_print_salt_key_iv(&algo_ctx);
 	if (ctx->algo_ctx.des.is_encrypting)

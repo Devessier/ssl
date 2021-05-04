@@ -42,9 +42,8 @@ EOF
 
 testDesAddsPaddingToCutKey() {
 	key='FF'
-	password='Devessier'
 
-	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^Salted]" | grep "^[^salt]")
+	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv 2>&1 | cat -e | head -n 3 | grep "^[^salt]")
 	read -d '' expected_key << EOF
 hex string is too short, padding with zero bytes to length$
 key=FF00000000000000$
@@ -69,9 +68,8 @@ EOF
 
 testDesTruncatesTooLongKey() {
 	key='75a60cc481a13abffffffff'
-	password='Devessier'
 
-	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^Salted]" | grep "^[^salt]")
+	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv  2>&1 | cat -e | head -n 3 | grep "^[^salt]")
 	read -d '' expected_key << EOF
 hex string is too long, ignoring excess$
 key=75A60CC481A13ABF$
@@ -82,9 +80,8 @@ EOF
 
 testDesHandlesExactly16DigitsKey() {
 	key='75a60cc481a13abf'
-	password='Devessier'
 
-	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv -p "${password}" 2>&1 | cat -e | grep "^[^Salted]" | grep "^[^salt]")
+	result=$(echo "test" | ./ft_ssl des -e -k "${key}" -print-key-iv 2>&1 | cat -e | head -n 2 | grep "^[^salt]")
 	read -d '' expected_key << EOF
 key=75A60CC481A13ABF$
 EOF
@@ -92,17 +89,58 @@ EOF
 	assertEquals "${expected_key}" "${result}"
 }
 
-testDesEncryptsMakefileInBinary() {
+testDesRejectsInvalidHexSalt() {
+	salt='lololollololsqqd'
+	password='Devessier'
+
+	result=$(echo "test" | ./ft_ssl des -e -s "${salt}" -print-key-iv -p "${password}" 2>&1 | cat -e | head -n 2)
+	read -d '' expected_key << EOF
+non-hex digit$
+invalid hex salt value$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesRejectsInvalidHexKey() {
+	key='lololollololsqqd'
+
+	result=$(echo "test" | ./ft_ssl des -e -print-key-iv -k "${key}" 2>&1 | cat -e | head -n 2)
+	read -d '' expected_key << EOF
+non-hex digit$
+invalid hex key value$
+EOF
+
+	assertEquals "${expected_key}" "${result}"
+}
+
+testDesEncryptsMakefileInBinaryFromKey() {
 	key='75a60cc481a13abf'
+
+	TMP_DIR=$(mktemp -d)
+	INPUT_FILE=./Makefile
+	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-makefile-without-salt.enc
+	ENCRYPTION_RESULT_FILE=$TMP_DIR/encryption-result.enc
+
+	./ft_ssl des -e -k $key < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
+
+	diff $ENCRYPTED_FILE_SNAPSHOT $ENCRYPTION_RESULT_FILE
+
+	assertTrue $?
+
+	rm -rf $TMP_DIR
+}
+
+testDesEncryptsMakefileInBinaryFromSaltAndPassword() {
 	salt='75a60cc481a13abf'
 	password='Devessier'
 
 	TMP_DIR=$(mktemp -d)
 	INPUT_FILE=./Makefile
-	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-makefile.enc
+	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-makefile-with-salt.enc
 	ENCRYPTION_RESULT_FILE=$TMP_DIR/encryption-result.enc
 
-	./ft_ssl des -e -s $salt -k $key -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
+	./ft_ssl des -e -s $salt -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
 
 	diff $ENCRYPTED_FILE_SNAPSHOT $ENCRYPTION_RESULT_FILE
 
@@ -125,6 +163,23 @@ testDesEncryptsBigFileInBinary() {
 	cat $INPUT_FILE | ./ft_ssl des -e -s $salt -p $password < $INPUT_FILE > $ENCRYPTION_RESULT_FILE
 
 	cmp $ENCRYPTION_RESULT_FILE $ENCRYPTED_FILE_SNAPSHOT
+
+	assertTrue $?
+
+	rm -rf $TMP_DIR
+}
+
+testDesEncryptReadsFromInputFileAndWritesToOutputFile() {
+	key='75a60cc481a13abf'
+
+	TMP_DIR=$(mktemp -d)
+	INPUT_FILE=./Makefile
+	ENCRYPTED_FILE_SNAPSHOT=./test/shell/snapshots/des/encrypted-makefile-without-salt.enc
+	ENCRYPTION_RESULT_FILE=$TMP_DIR/encryption-result.enc
+
+	./ft_ssl des -e -k $key -i $INPUT_FILE -o $ENCRYPTION_RESULT_FILE
+
+	diff $ENCRYPTED_FILE_SNAPSHOT $ENCRYPTION_RESULT_FILE
 
 	assertTrue $?
 
