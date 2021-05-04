@@ -6,12 +6,11 @@
 /*   By: bdevessi <baptiste@devessier.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 10:58:03 by bdevessi          #+#    #+#             */
-/*   Updated: 2021/05/04 15:27:19 by bdevessi         ###   ########.fr       */
+/*   Updated: 2021/05/04 15:50:21 by bdevessi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pwd.h>
-#include <unistd.h>
+#include <readpassphrase.h>
 #include "libft.h"
 #include "ssl.h"
 #include "des.h"
@@ -95,11 +94,14 @@ static t_error	des_cmd_set_password(t_context *ctx, t_des_algo_context *algo_ctx
 {
 	const char	*password = ctx->algo_ctx.des.password;
 	char		*password_input;
+	static char	entered_password[128];
 
 	if (password == NULL)
 	{
-		password_input = getpass("enter des encryption password:");
-		if (password_input[0] == '\0')
+		ft_bzero(entered_password, sizeof(entered_password));
+		password_input = readpassphrase("enter des encryption password:", entered_password
+			, sizeof(entered_password), RPP_ECHO_OFF);
+		if (password_input == NULL || password_input[0] == '\0')
 			return (E_EMPTY_INPUT);
 		algo_ctx->password = password_input;
 	}
